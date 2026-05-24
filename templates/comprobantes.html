@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% block title %}Comprobantes - Tributación 14A{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-journal-text"></i> Comprobantes</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-nuevo">
+        <i class="bi bi-plus-circle"></i> Nuevo Comprobante
+    </button>
+</div>
+
+<div id="alert-no-empresa" class="alert alert-warning d-none">
+    <i class="bi bi-exclamation-triangle"></i> Selecciona una empresa en el <a href="{{ url_for('index') }}">Dashboard</a>.
+</div>
+
+<div id="panel-comprobantes">
+    <div class="table-container">
+        <table id="tabla-comps" class="table table-sm table-striped" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Número</th>
+                    <th>Glosa</th>
+                    <th>Norma</th>
+                    <th>Líneas</th>
+                    <th>Total Debe</th>
+                    <th>Total Haber</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Nuevo Comprobante -->
+<div class="modal fade" id="modal-nuevo" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nuevo Comprobante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label>Fecha</label>
+                        <input type="date" id="comp-fecha" class="form-control" value="">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Número</label>
+                        <input type="text" id="comp-numero" class="form-control" placeholder="001">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Norma</label>
+                        <select id="comp-norma" class="form-select">
+                            <option value="CYT" selected>Contable y Tributario</option>
+                            <option value="T">Solo Tributario</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Glosa</label>
+                    <input type="text" id="comp-glosa" class="form-control" placeholder="Descripción del comprobante">
+                </div>
+
+                <h6>Líneas</h6>
+                <table class="table table-sm" id="tabla-lineas">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Cuenta</th>
+                            <th>Debe</th>
+                            <th>Haber</th>
+                            <th>Concepto</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <button type="button" class="btn btn-sm btn-outline-primary" id="btn-add-linea">
+                    <i class="bi bi-plus"></i> Agregar línea
+                </button>
+                <div class="mt-2 text-end">
+                    <strong>Total Debe: <span id="total-debe">0</span></strong> |
+                    <strong>Total Haber: <span id="total-haber">0</span></strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btn-guardar-comp">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    const emp = getEmpresa();
+    if (!emp) {
+        $('#alert-no-empresa').removeClass('d-none');
+        $('#panel-comprobantes').addClass('d-none');
+        return;
+    }
+
+    document.getElementById('comp-fecha').valueAsDate = new Date();
+    cargarComprobantes();
+    agregarLinea();
+
+    $('#btn-add-linea').on('click', agregarLinea);
+
+    $('#btn-guardar-comp').on('click', function() {
+        const lineas = [];
+        let tDebe = 0, tHaber = 0;
+        $('#tabla-lineas tbody tr').each(function() {
+            const cuenta = $(this).find('.linea-cuenta').val();
+            const debe = parseFloat($(this).find('.linea-debe').val()) || 0;
+            const haber = parseFloat($(this).find('.linea-haber').val()) || 0;
+            const concepto = $(this).find('.linea-concepto').val();
+            if (cuenta) {
+                lineas.push({cuenta, debe, haber, concepto, tipo_norma: $('#comp-norma').val()});
+                tDebe += debe;
+                tHaber += haber;
+            }
+        });
+        if (Math.abs(tDebe - tHaber) > 0.01) {
+            showToast('El comprobante no cuadra', 'error');
+            return;
+        }
+        if (lineas.length === 0) {
+            showToast('Agrega al menos una línea', 'error');
+            return;
+        }
+        const data = {
+            fecha: $('#comp-fecha').val(),
+            numero: $('#comp-numero').val(),
+            glosa: $('#comp-glosa').val(),
+            tipo_norma: $('#comp-norma').val(),
+            lineas
+        };
+        apiPost(`/api/comprobantes/${emp.rut}`, data)
+            .then(() => {
+                showToast('Comprobante guardado');
+                $('#modal-nuevo').modal('hide');
+                cargarComprobantes();
+            })
+            .catch(err => showToast('Error: ' + err, 'error'));
+    });
+
+    function cargarComprobantes() {
+        apiGet(`/api/comprobantes/${emp.rut}`).then(data => {
+            const tbody = $('#tabla-comps tbody');
+            tbody.empty();
+            data.forEach(comp => {
+                const tDebe = comp.lineas.reduce((s, l) => s + (parseFloat(l.debe) || 0), 0);
+                const tHaber = comp.lineas.reduce((s, l) => s + (parseFloat(l.haber) || 0), 0);
+                tbody.append(`
+                    <tr>
+                        <td>${comp.id}</td>
+                        <td>${comp.fecha}</td>
+                        <td>${comp.numero || ''}</td>
+                        <td>${comp.glosa || ''}</td>
+                        <td><span class="badge bg-${comp.tipo_norma === 'CYT' ? 'primary' : 'warning'}">${comp.tipo_norma}</span></td>
+                        <td>${comp.lineas.length}</td>
+                        <td>${formatNumber(tDebe)}</td>
+                        <td>${formatNumber(tHaber)}</td>
+                    </tr>
+                `);
+            });
+            $('#tabla-comps').DataTable({
+                pageLength: 10,
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' },
+                destroy: true
+            });
+        });
+    }
+
+    function agregarLinea() {
+        const idx = $('#tabla-lineas tbody tr').length + 1;
+        $('#tabla-lineas tbody').append(`
+            <tr>
+                <td><input type="text" class="form-control form-control-sm linea-cuenta" placeholder="1.01.01.01"></td>
+                <td><input type="number" class="form-control form-control-sm linea-debe" value="0" min="0"></td>
+                <td><input type="number" class="form-control form-control-sm linea-haber" value="0" min="0"></td>
+                <td><input type="text" class="form-control form-control-sm linea-concepto" placeholder="Concepto"></td>
+                <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="$(this).closest('tr').remove(); calcularTotales();"><i class="bi bi-trash"></i></button></td>
+            </tr>
+        `);
+        $('.linea-debe, .linea-haber').off('input').on('input', calcularTotales);
+    }
+
+    function calcularTotales() {
+        let td = 0, th = 0;
+        $('#tabla-lineas tbody tr').each(function() {
+            td += parseFloat($(this).find('.linea-debe').val()) || 0;
+            th += parseFloat($(this).find('.linea-haber').val()) || 0;
+        });
+        $('#total-debe').text(formatNumber(td));
+        $('#total-haber').text(formatNumber(th));
+    }
+});
+</script>
+{% endblock %}

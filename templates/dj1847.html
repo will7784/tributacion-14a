@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}DJ1847 - Tributación 14A{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-file-earmark-text"></i> Declaración Jurada 1847</h2>
+    <button id="btn-exportar" class="btn btn-success">
+        <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+    </button>
+</div>
+
+<div id="alert-no-empresa" class="alert alert-warning d-none">
+    <i class="bi bi-exclamation-triangle"></i> Selecciona una empresa en el <a href="{{ url_for('index') }}">Dashboard</a>.
+</div>
+
+<div id="panel-dj1847">
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <label>Fecha cierre</label>
+            <input type="date" id="dj-fecha" class="form-control" value="2024-12-31">
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button id="btn-generar" class="btn btn-primary w-100">
+                <i class="bi bi-calculator"></i> Generar DJ1847
+            </button>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table id="tabla-dj1847" class="table table-sm table-striped table-bordered" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>N°</th>
+                    <th>Id. Plan Cuentas</th>
+                    <th>Id. Cuenta SII</th>
+                    <th>Nombre Cuenta</th>
+                    <th class="text-end">Débitos</th>
+                    <th class="text-end">Créditos</th>
+                    <th class="text-end">Saldo Deudor</th>
+                    <th class="text-end">Saldo Acreedor</th>
+                    <th class="text-end">Activo</th>
+                    <th class="text-end">Pasivo</th>
+                    <th class="text-end">Pérdidas</th>
+                    <th class="text-end">Ganancias</th>
+                    <th>Concepto</th>
+                    <th class="text-end">Valor Tributario</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    const emp = getEmpresa();
+    if (!emp) {
+        $('#alert-no-empresa').removeClass('d-none');
+        $('#panel-dj1847').addClass('d-none');
+        return;
+    }
+
+    let table;
+
+    $('#btn-generar').on('click', function() {
+        const fecha = $('#dj-fecha').val();
+        $('#btn-generar').prop('disabled', true).html('<i class="bi bi-hourglass-split"></i> Generando...');
+
+        apiGet(`/api/dj1847/${emp.rut}?fecha=${fecha}`)
+            .then(data => {
+                const tbody = $('#tabla-dj1847 tbody');
+                tbody.empty();
+                data.filas.forEach(row => {
+                    tbody.append(`
+                        <tr>
+                            <td>${row.n}</td>
+                            <td>${row.cuenta}</td>
+                            <td>${row.cuenta_sii}</td>
+                            <td>${row.nombre}</td>
+                            <td class="text-end">${formatNumber(row.debe)}</td>
+                            <td class="text-end">${formatNumber(row.haber)}</td>
+                            <td class="text-end">${formatNumber(row.saldo_deudor)}</td>
+                            <td class="text-end">${formatNumber(row.saldo_acreedor)}</td>
+                            <td class="text-end">${formatNumber(row.activo)}</td>
+                            <td class="text-end">${formatNumber(row.pasivo)}</td>
+                            <td class="text-end">${formatNumber(row.perdida)}</td>
+                            <td class="text-end">${formatNumber(row.ganancia)}</td>
+                            <td>${row.concepto}</td>
+                            <td class="text-end">${formatNumber(row.valor_tributario)}</td>
+                        </tr>
+                    `);
+                });
+                if (table) table.destroy();
+                table = $('#tabla-dj1847').DataTable({
+                    pageLength: 50,
+                    ordering: false,
+                    language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' }
+                });
+            })
+            .catch(err => showToast('Error: ' + err, 'error'))
+            .finally(() => $('#btn-generar').prop('disabled', false).html('<i class="bi bi-calculator"></i> Generar DJ1847'));
+    });
+
+    $('#btn-exportar').on('click', function() {
+        const fecha = $('#dj-fecha').val();
+        window.open(`/api/exportar_dj1847/${emp.rut}?fecha=${fecha}`);
+    });
+});
+</script>
+{% endblock %}

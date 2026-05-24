@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Inicio - Tributación 14A{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-house"></i> Dashboard</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <i class="bi bi-building"></i> Seleccionar Empresa
+            </div>
+            <div class="card-body">
+                <div id="lista-empresas" class="list-group mb-3">
+                    <div class="text-muted">Cargando...</div>
+                </div>
+                <hr>
+                <h6 class="card-subtitle mb-2 text-muted">Crear nueva empresa</h6>
+                <form id="form-nueva-empresa">
+                    <div class="mb-2">
+                        <input type="text" class="form-control" id="new-rut" placeholder="RUT (sin puntos ni guión)" required>
+                    </div>
+                    <div class="mb-2">
+                        <input type="text" class="form-control" id="new-nombre" placeholder="Nombre o Razón Social" required>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm">
+                        <i class="bi bi-plus-circle"></i> Crear
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <i class="bi bi-info-circle"></i> Información
+            </div>
+            <div class="card-body">
+                <p>Bienvenido al sistema de Tributación 14A.</p>
+                <p>Flujo de trabajo:</p>
+                <ol>
+                    <li><strong>Crear / Seleccionar</strong> empresa</li>
+                    <li><strong>Importar</strong> libro mayor CSV/Excel</li>
+                    <li><strong>Plan de Cuentas</strong> → asignar código SII</li>
+                    <li><strong>Comprobantes</strong> → crear ajustes tributarios</li>
+                    <li><strong>Balance</strong> → verificar cuadre</li>
+                    <li><strong>Ajustes</strong> → agregar deducciones/agregados DJ1926</li>
+                    <li><strong>DJ1847 / DJ1926</strong> → exportar a Excel</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    cargarEmpresas();
+
+    $('#form-nueva-empresa').on('submit', function(e) {
+        e.preventDefault();
+        const rut = $('#new-rut').val().trim();
+        const nombre = $('#new-nombre').val().trim();
+        apiPost('/api/empresas', {rut, nombre})
+            .then(() => {
+                showToast('Empresa creada');
+                $('#new-rut').val('');
+                $('#new-nombre').val('');
+                cargarEmpresas();
+            })
+            .catch(err => showToast('Error: ' + err, 'error'));
+    });
+});
+
+function cargarEmpresas() {
+    apiGet('/api/empresas')
+        .then(data => {
+            const container = $('#lista-empresas');
+            if (data.length === 0) {
+                container.html('<div class="text-muted">No hay empresas registradas</div>');
+                return;
+            }
+            let html = '';
+            data.forEach(emp => {
+                const empActiva = getEmpresa();
+                const activa = empActiva && empActiva.rut === emp.rut;
+                html += `<a href="#" class="list-group-item list-group-item-action ${activa ? 'active' : ''}" onclick="seleccionarEmpresa('${emp.rut}', '${emp.nombre}'); return false;">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${emp.nombre}</h6>
+                        ${activa ? '<i class="bi bi-check-circle-fill"></i>' : ''}
+                    </div>
+                    <small>RUT: ${emp.rut}</small>
+                </a>`;
+            });
+            container.html(html);
+        })
+        .catch(err => {
+            $('#lista-empresas').html('<div class="text-danger">Error cargando empresas</div>');
+        });
+}
+
+function seleccionarEmpresa(rut, nombre) {
+    setEmpresa({rut, nombre});
+    showToast(`Empresa seleccionada: ${nombre}`);
+    cargarEmpresas();
+}
+</script>
+{% endblock %}

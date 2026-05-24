@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Plan Base - Tributación 14A{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-list-ol"></i> Plan Base KAME ONE</h2>
+    <button id="btn-guardar" class="btn btn-success">
+        <i class="bi bi-save"></i> Guardar cambios
+    </button>
+</div>
+
+<div class="alert alert-info">
+    <i class="bi bi-info-circle"></i> Este es el plan de cuentas base global. Se usa para homologar los planes de todos los clientes.
+    La columna <strong>Cuenta SII</strong> vincula cada cuenta con el clasificador del SII.
+</div>
+
+<div id="panel-plan">
+    <div class="table-container">
+        <div class="mb-2 d-flex gap-2">
+            <input type="text" id="filtro-plan" class="form-control form-control-sm" placeholder="Buscar cuenta o nombre..." style="max-width: 300px;">
+        </div>
+        <table id="tabla-plan" class="table table-sm table-striped table-bordered" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>Cuenta</th>
+                    <th>Nombre</th>
+                    <th>Ficha</th>
+                    <th>Docum.</th>
+                    <th>U.Neg.</th>
+                    <th>Concil.</th>
+                    <th>Estado</th>
+                    <th>Cuenta SII</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    let siiOptions = [];
+    let table;
+
+    // Cargar plan SII para dropdown
+    apiGet('/api/plan_sii').then(sii => {
+        siiOptions = sii.map(r => `${r.cuenta_sii} - ${r.nombre}`);
+        cargarPlan();
+    });
+
+    function cargarPlan() {
+        apiGet('/api/plan_base').then(data => {
+            const tbody = $('#tabla-plan tbody');
+            tbody.empty();
+            data.forEach(row => {
+                const optHtml = siiOptions.map(opt => {
+                    const val = opt.split(' - ')[0];
+                    const selected = row.cuenta_sii === val ? 'selected' : '';
+                    return `<option value="${val}" ${selected}>${opt}</option>`;
+                }).join('');
+                tbody.append(`
+                    <tr data-cuenta="${row.Cuenta}">
+                        <td>${row.Cuenta}</td>
+                        <td contenteditable="true">${row.Nombre || ''}</td>
+                        <td contenteditable="true">${row.Ficha || ''}</td>
+                        <td contenteditable="true">${row['Docum.'] || ''}</td>
+                        <td contenteditable="true">${row['Un.Neg.'] || ''}</td>
+                        <td contenteditable="true">${row.Concil || ''}</td>
+                        <td contenteditable="true">${row.Estado || ''}</td>
+                        <td>
+                            <select class="form-select form-select-sm select-sii">
+                                <option value="">-- Sin asignar --</option>
+                                ${optHtml}
+                            </select>
+                        </td>
+                    </tr>
+                `);
+            });
+
+            table = $('#tabla-plan').DataTable({
+                pageLength: 50,
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' }
+            });
+        });
+    }
+
+    $('#filtro-plan').on('keyup', function() {
+        if (table) table.search(this.value).draw();
+    });
+
+    $('#btn-guardar').on('click', function() {
+        const rows = [];
+        $('#tabla-plan tbody tr').each(function() {
+            const tr = $(this);
+            const tds = tr.find('td');
+            rows.push({
+                Cuenta: tr.data('cuenta'),
+                Nombre: tds.eq(1).text(),
+                Ficha: tds.eq(2).text(),
+                'Docum.': tds.eq(3).text(),
+                'Un.Neg.': tds.eq(4).text(),
+                Concil: tds.eq(5).text(),
+                Estado: tds.eq(6).text(),
+                cuenta_sii: tr.find('.select-sii').val()
+            });
+        });
+        apiPost('/api/plan_base', rows)
+            .then(() => showToast('Plan base guardado'))
+            .catch(err => showToast('Error: ' + err, 'error'));
+    });
+});
+</script>
+{% endblock %}

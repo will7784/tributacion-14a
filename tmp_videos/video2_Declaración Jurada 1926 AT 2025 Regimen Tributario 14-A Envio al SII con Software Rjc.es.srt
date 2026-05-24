@@ -1,0 +1,1108 @@
+1
+00:00:00,120 --> 00:00:03,600
+puedes ver nuestros cursos ya emitidos
+
+2
+00:00:02,000 --> 00:00:05,520
+en nuestro canal de YouTube
+
+3
+00:00:03,600 --> 00:00:08,480
+wwww.youtube.com
+
+4
+00:00:05,520 --> 00:00:10,440
+rjc software Aquí encontrarás nuestros
+
+5
+00:00:08,480 --> 00:00:11,519
+cursos ya emitidos anteriormente Y el
+
+6
+00:00:10,440 --> 00:00:14,240
+del día de
+
+7
+00:00:11,519 --> 00:00:16,199
+hoy además también puedes dejarnos tu
+
+8
+00:00:14,240 --> 00:00:19,520
+like Es una manera de apoyarnos para
+
+9
+00:00:16,199 --> 00:00:19,520
+seguir creando material para
+
+10
+00:00:19,560 --> 00:00:24,439
+ti Hola buenas tardes Mi nombre es Raúl
+
+11
+00:00:22,320 --> 00:00:25,960
+Cordero de rjc software Hoy les voy a
+
+12
+00:00:24,439 --> 00:00:29,119
+mostrar Cómo funciona la declaración
+
+13
+00:00:25,960 --> 00:00:31,160
+jurada 1926 para esto hemos preparado un
+
+14
+00:00:29,119 --> 00:00:34,160
+archivo Excel
+
+15
+00:00:31,160 --> 00:00:36,960
+acá tenemos Bueno un ejemplo de una
+
+16
+00:00:34,160 --> 00:00:39,960
+declaración jurada aquí tenemos bueno el
+
+17
+00:00:36,960 --> 00:00:43,879
+resultado según balance tenemos
+
+18
+00:00:39,960 --> 00:00:45,120
+agregados y tenemos deducciones y luego
+
+19
+00:00:43,879 --> 00:00:48,680
+con
+
+20
+00:00:45,120 --> 00:00:50,440
+esto resultado segú balance le sumamos
+
+21
+00:00:48,680 --> 00:00:53,199
+los agregados le restamos las
+
+22
+00:00:50,440 --> 00:00:56,079
+deducciones tenemos la renta líquida y
+
+23
+00:00:53,199 --> 00:00:58,160
+después ya viene la parte del incentivo
+
+24
+00:00:56,079 --> 00:01:02,239
+entonces lo que vamos a hacer ahora en
+
+25
+00:00:58,160 --> 00:01:05,040
+la declaración jurada es ingresar
+
+26
+00:01:02,239 --> 00:01:07,240
+Este Entonces para eso vamos
+
+27
+00:01:05,040 --> 00:01:09,320
+a dentro de nuestro sistema de
+
+28
+00:01:07,240 --> 00:01:11,119
+contabilidad ingresar a la pantalla de
+
+29
+00:01:09,320 --> 00:01:13,920
+balance y vamos a revisar el balance
+
+30
+00:01:11,119 --> 00:01:16,880
+ocho columnas vamos a seleccionar el año
+
+31
+00:01:13,920 --> 00:01:19,360
+tributario en este caso el 2024 y vamos
+
+32
+00:01:16,880 --> 00:01:21,200
+a hacer la opción de análisis contable y
+
+33
+00:01:19,360 --> 00:01:23,400
+ya tenemos nosotros preparado el balance
+
+34
+00:01:21,200 --> 00:01:24,400
+con los 15 millones el mismo monto que
+
+35
+00:01:23,400 --> 00:01:28,240
+está en el
+
+36
+00:01:24,400 --> 00:01:31,079
+Excel a continuación Vamos a ingresar a
+
+37
+00:01:28,240 --> 00:01:33,600
+la declaración jurada
+
+38
+00:01:31,079 --> 00:01:36,280
+Entonces vamos a ir de nuevo al menú a
+
+39
+00:01:33,600 --> 00:01:40,000
+la opción de formulario
+
+40
+00:01:36,280 --> 00:01:42,759
+1926 y Aquí vamos a seleccionar el año
+
+41
+00:01:40,000 --> 00:01:44,320
+2024 y vamos a bueno en este momento
+
+42
+00:01:42,759 --> 00:01:46,600
+cuando selecciono el año inmediatamente
+
+43
+00:01:44,320 --> 00:01:49,320
+se me carga el resultado según balance
+
+44
+00:01:46,600 --> 00:01:51,680
+eh pero no tengo ningún agregado ninguna
+
+45
+00:01:49,320 --> 00:01:53,439
+deducción al presionar el botón cargar
+
+46
+00:01:51,680 --> 00:01:56,520
+cuentas por defecto automáticamente me
+
+47
+00:01:53,439 --> 00:01:59,280
+va a cargar los agregados y deducciones
+
+48
+00:01:56,520 --> 00:02:00,399
+más y este ejemplo Tiene bastantes
+
+49
+00:01:59,280 --> 00:02:02,640
+agregados
+
+50
+00:02:00,399 --> 00:02:04,320
+deducciones por lo tanto hay algunos que
+
+51
+00:02:02,640 --> 00:02:05,360
+no están en nuestro sistema que nosotros
+
+52
+00:02:04,320 --> 00:02:08,520
+tenemos que
+
+53
+00:02:05,360 --> 00:02:11,160
+digitar Entonces vamos a eh De acuerdo a
+
+54
+00:02:08,520 --> 00:02:13,800
+lo a lo que tenemos hacer como una
+
+55
+00:02:11,160 --> 00:02:17,000
+comparación acá por ejemplo tengo multas
+
+56
+00:02:13,800 --> 00:02:19,840
+donaciones eh donaciones por ejemplo no
+
+57
+00:02:17,000 --> 00:02:22,120
+está tengo el pago de la Universidad del
+
+58
+00:02:19,840 --> 00:02:23,599
+hijo del socio que esto evidentemente es
+
+59
+00:02:22,120 --> 00:02:25,120
+un gasto rechazado pero que se
+
+60
+00:02:23,599 --> 00:02:27,440
+consideraría un
+
+61
+00:02:25,120 --> 00:02:29,920
+retiro entonces Bueno lo tengo que
+
+62
+00:02:27,440 --> 00:02:31,599
+agregar porque evidentemente si esto se
+
+63
+00:02:29,920 --> 00:02:34,680
+eh No está en el resultado del balance
+
+64
+00:02:31,599 --> 00:02:36,080
+tengo que sumar el el valor del del pago
+
+65
+00:02:34,680 --> 00:02:38,879
+Y luego Bueno tengo que hacer la
+
+66
+00:02:36,080 --> 00:02:41,120
+deducción como retiro pero también tengo
+
+67
+00:02:38,879 --> 00:02:43,040
+por ejemplo gastos de pagos que se
+
+68
+00:02:41,120 --> 00:02:46,080
+hicieron que no corresponden al negocio
+
+69
+00:02:43,040 --> 00:02:47,680
+que no me generan eh renta que no me
+
+70
+00:02:46,080 --> 00:02:49,200
+sirven para generar renta esos gastos
+
+71
+00:02:47,680 --> 00:02:51,400
+esos pagos que la naturaleza no
+
+72
+00:02:49,200 --> 00:02:54,519
+corresponde a la empresa Esos sí son
+
+73
+00:02:51,400 --> 00:02:56,159
+gastos rechazados no entonces bueno esos
+
+74
+00:02:54,519 --> 00:02:59,280
+tienen otras cuentas entonces también
+
+75
+00:02:56,159 --> 00:03:02,159
+los agrego como agregados y luego
+
+76
+00:02:59,280 --> 00:03:04,799
+también los los restos como
+
+77
+00:03:02,159 --> 00:03:06,640
+deducciones y tengo bueno dividendos
+
+78
+00:03:04,799 --> 00:03:09,080
+percibidos de de otra empresa que
+
+79
+00:03:06,640 --> 00:03:10,519
+evidentemente ya pagaron impuestos
+
+80
+00:03:09,080 --> 00:03:11,239
+Entonces no deben ser considerados por
+
+81
+00:03:10,519 --> 00:03:13,280
+eso
+
+82
+00:03:11,239 --> 00:03:16,640
+se esa
+
+83
+00:03:13,280 --> 00:03:17,959
+información entonces en mantenedor de
+
+84
+00:03:16,640 --> 00:03:20,799
+agregados y deducciones de la
+
+85
+00:03:17,959 --> 00:03:23,360
+declaración jurada es bueno cuando
+
+86
+00:03:20,799 --> 00:03:25,159
+presione el botón cargar cuentas por
+
+87
+00:03:23,360 --> 00:03:26,879
+defecto automáticamente se me cargaron
+
+88
+00:03:25,159 --> 00:03:29,040
+estos 10 que son los más comunes que
+
+89
+00:03:26,879 --> 00:03:31,599
+comenté Entonces presionamos el botón
+
+90
+00:03:29,040 --> 00:03:33,720
+agregar y Vamos a ingresar el primero en
+
+91
+00:03:31,599 --> 00:03:36,239
+este caso La donación del club
+
+92
+00:03:33,720 --> 00:03:38,000
+no evidentemente no está siendo
+
+93
+00:03:36,239 --> 00:03:41,239
+considerado entonces bueno lo vamos a
+
+94
+00:03:38,000 --> 00:03:44,680
+agregar luego el del formulario 22 el
+
+95
+00:03:41,239 --> 00:03:47,200
+código es el 1144 bueno si no me lo sé
+
+96
+00:03:44,680 --> 00:03:51,159
+lo puedo buscar acá sí
+
+97
+00:03:47,200 --> 00:03:53,799
+eh lo mismo la cuenta del la cuenta
+
+98
+00:03:51,159 --> 00:03:57,280
+viene siendo Esta que está
+
+99
+00:03:53,799 --> 00:04:00,200
+acá sí Si no si no me la sé la puedo
+
+100
+00:03:57,280 --> 00:04:03,840
+digitar aquí la la busco no y la
+
+101
+00:04:00,200 --> 00:04:06,000
+seleccionamos ya y aquí seleccionamos si
+
+102
+00:04:03,840 --> 00:04:10,360
+es un agregado una deducción Okay vamos
+
+103
+00:04:06,000 --> 00:04:10,360
+grabando Entonces estamos ingresando los
+
+104
+00:04:11,670 --> 00:04:18,120
+[Música]
+
+105
+00:04:13,560 --> 00:04:19,720
+agregados y deducción muy bien con eso
+
+106
+00:04:18,120 --> 00:04:21,680
+hemos terminado el ingreso de la
+
+107
+00:04:19,720 --> 00:04:25,479
+información y hemos
+
+108
+00:04:21,680 --> 00:04:28,080
+eh si voy a listado puedo revisar que
+
+109
+00:04:25,479 --> 00:04:30,400
+hemos en agregados ingresamos
+
+110
+00:04:28,080 --> 00:04:33,080
+donaciones pago que que no se acredita
+
+111
+00:04:30,400 --> 00:04:36,520
+la naturaleza el pago de la Universidad
+
+112
+00:04:33,080 --> 00:04:37,960
+del hijo la factura castigada eh Ya
+
+113
+00:04:36,520 --> 00:04:39,639
+estas serían las deduc en las
+
+114
+00:04:37,960 --> 00:04:41,919
+deducciones hemos ingresado la factura
+
+115
+00:04:39,639 --> 00:04:46,280
+castigada el pago que no se acredita la
+
+116
+00:04:41,919 --> 00:04:48,360
+naturaleza y el pago del hijo del socio
+
+117
+00:04:46,280 --> 00:04:50,960
+muy bien entonces ahora ya estamos
+
+118
+00:04:48,360 --> 00:04:54,759
+listos para volver a ingresar a nuestra
+
+119
+00:04:50,960 --> 00:04:58,199
+opción acá vamos a refrescar la
+
+120
+00:04:54,759 --> 00:05:00,199
+pantalla vamos a seleccionar el año 2024
+
+121
+00:04:58,199 --> 00:05:02,240
+e inmediatamente ya se me va a cargar el
+
+122
+00:05:00,199 --> 00:05:04,840
+formulario completo no Entonces como
+
+123
+00:05:02,240 --> 00:05:06,840
+vemos ahora tenemos todos los ems
+
+124
+00:05:04,840 --> 00:05:09,320
+necesarios para poder digitar nuestro
+
+125
+00:05:06,840 --> 00:05:12,880
+formulario bien entonces Bueno vamos a
+
+126
+00:05:09,320 --> 00:05:15,840
+ir copiando entonces en multa tenemos 49
+
+127
+00:05:12,880 --> 00:05:20,919
+213 y bueno vamos a ir copiando todo lo
+
+128
+00:05:15,840 --> 00:05:23,800
+que tenemos en el Excel y bueno Esto fue
+
+129
+00:05:20,919 --> 00:05:26,639
+multa luego tenemos Ah y esta multa fue
+
+130
+00:05:23,800 --> 00:05:30,880
+en marzo entonces seleccionamos
+
+131
+00:05:26,639 --> 00:05:32,600
+marzo ya luego tenemos La donación
+
+132
+00:05:30,880 --> 00:05:35,800
+s Me estaba equivocando lo estaba
+
+133
+00:05:32,600 --> 00:05:38,039
+copiando en la en la columna que no era
+
+134
+00:05:35,800 --> 00:05:41,479
+ya ahí está ahora sí el pago Sí y el
+
+135
+00:05:38,039 --> 00:05:44,720
+pago de la universidad no ser los 3
+
+136
+00:05:41,479 --> 00:05:48,319
+millones que este fue en
+
+137
+00:05:44,720 --> 00:05:50,600
+diciembre este fue en abril Ah y luego
+
+138
+00:05:48,319 --> 00:05:52,720
+tengo la corrección monetaria
+
+139
+00:05:50,600 --> 00:05:56,720
+No
+
+140
+00:05:52,720 --> 00:06:00,240
+aquí 124 900 es la corrección monetaria
+
+141
+00:05:56,720 --> 00:06:02,120
+de los retiros de Los Socios ya entonces
+
+142
+00:06:00,240 --> 00:06:03,440
+Bueno ya tenemos todos los agregados 6
+
+143
+00:06:02,120 --> 00:06:07,000
+millon
+
+144
+00:06:03,440 --> 00:06:08,160
+785 muy bien y ahora vamos a ingresar
+
+145
+00:06:07,000 --> 00:06:09,880
+las
+
+146
+00:06:08,160 --> 00:06:12,520
+deducciones ya
+
+147
+00:06:09,880 --> 00:06:16,400
+eh pero va sin sin reajuste así que
+
+148
+00:06:12,520 --> 00:06:20,639
+bueno le ponemos mes 12 ya después viene
+
+149
+00:06:16,400 --> 00:06:25,000
+el pago los 788 ya es el valor que está
+
+150
+00:06:20,639 --> 00:06:28,599
+acá no este está mal este que va acá y
+
+151
+00:06:25,000 --> 00:06:31,560
+este era en abril y luego elijo los 3
+
+152
+00:06:28,599 --> 00:06:31,560
+millones de elijo
+
+153
+00:06:33,360 --> 00:06:41,240
+que este erá en el mes 12 ya sí ahí sí
+
+154
+00:06:37,840 --> 00:06:43,960
+Ah y luego tengo la corrección del del
+
+155
+00:06:41,240 --> 00:06:43,960
+capital propio
+
+156
+00:06:44,720 --> 00:06:51,160
+tributario ese iría aquí aquí pongo el
+
+157
+00:06:48,919 --> 00:06:52,919
+valor del del capital propio tributario
+
+158
+00:06:51,160 --> 00:06:55,280
+y ahí tengo el
+
+159
+00:06:52,919 --> 00:06:58,000
+valor muy bien Qué es lo que hicimos
+
+160
+00:06:55,280 --> 00:07:00,440
+entonces eh una vez que digitamos los
+
+161
+00:06:58,000 --> 00:07:03,120
+valores de los agregados y una vez que
+
+162
+00:07:00,440 --> 00:07:05,840
+digitamos los valores de las
+
+163
+00:07:03,120 --> 00:07:07,879
+deducciones comparamos la información de
+
+164
+00:07:05,840 --> 00:07:10,440
+los agregados y deducciones en los
+
+165
+00:07:07,879 --> 00:07:13,120
+totales Aquí estos totales con los
+
+166
+00:07:10,440 --> 00:07:15,080
+totales que tengo acá para llegar a la
+
+167
+00:07:13,120 --> 00:07:19,759
+mismo valor de renta líquida los 14
+
+168
+00:07:15,080 --> 00:07:22,120
+millones 151 ya acá viene el monto del
+
+169
+00:07:19,759 --> 00:07:25,400
+incentivo al ahorro
+
+170
+00:07:22,120 --> 00:07:28,520
+que en la planilla lo determina bueno
+
+171
+00:07:25,400 --> 00:07:32,919
+tomando la la
+
+172
+00:07:28,520 --> 00:07:34,919
+base restamos los retiros le restamos la
+
+173
+00:07:32,919 --> 00:07:39,479
+las multas las
+
+174
+00:07:34,919 --> 00:07:42,400
+donaciones y el pago del impuesto Sí y
+
+175
+00:07:39,479 --> 00:07:45,720
+eso me da ese valor y aplicando la regla
+
+176
+00:07:42,400 --> 00:07:47,800
+del 50% porque no me paso la 5000 Uf me
+
+177
+00:07:45,720 --> 00:07:49,759
+quedan 3
+
+178
+00:07:47,800 --> 00:07:52,319
+millones
+
+179
+00:07:49,759 --> 00:07:54,400
+76973 que lo vamos a ingresar acá y ahí
+
+180
+00:07:52,319 --> 00:07:56,560
+bueno quedamos ya con la determinación
+
+181
+00:07:54,400 --> 00:08:03,240
+de renta
+
+182
+00:07:56,560 --> 00:08:05,720
+líquida como está acá no 11 millones 074
+
+183
+00:08:03,240 --> 00:08:10,599
+516 y estamos
+
+184
+00:08:05,720 --> 00:08:13,280
+cuadrados y ahora Bueno solamente queda
+
+185
+00:08:10,599 --> 00:08:16,360
+grabar generar el Excel para hacer una
+
+186
+00:08:13,280 --> 00:08:19,120
+revisión final y hacer el envío de la
+
+187
+00:08:16,360 --> 00:08:22,479
+declaración impuestos internos cces
+
+188
+00:08:19,120 --> 00:08:24,960
+generamos el archivo Excel lo
+
+189
+00:08:22,479 --> 00:08:27,120
+descargamos este Excel bueno es como mi
+
+190
+00:08:24,960 --> 00:08:29,759
+respaldo No ya con la información que ya
+
+191
+00:08:27,120 --> 00:08:33,200
+tengo ingresada en el sistema entonces
+
+192
+00:08:29,759 --> 00:08:35,440
+acá Bueno tengo la misma información e
+
+193
+00:08:33,200 --> 00:08:36,880
+vamos a acercar un poquito la pantalla
+
+194
+00:08:35,440 --> 00:08:39,240
+Acá tengo el
+
+195
+00:08:36,880 --> 00:08:42,479
+resultado luego tengo la parte de los
+
+196
+00:08:39,240 --> 00:08:44,399
+agregados con sus cuentas y luego tengo
+
+197
+00:08:42,479 --> 00:08:46,519
+la parte de las deducciones con sus
+
+198
+00:08:44,399 --> 00:08:51,240
+cuentas
+
+199
+00:08:46,519 --> 00:08:55,080
+no Acá tengo el resultado el de la renta
+
+200
+00:08:51,240 --> 00:08:57,480
+líquida luego le descontamos el o la
+
+201
+00:08:55,080 --> 00:08:59,279
+prenta líquida como lo indica le
+
+202
+00:08:57,480 --> 00:09:01,600
+restamos el incentivo al ahorro Y bueno
+
+203
+00:08:59,279 --> 00:09:03,600
+ya llegamos al mismo monto y esto es lo
+
+204
+00:09:01,600 --> 00:09:05,360
+que se mandaría impuestos internos al
+
+205
+00:09:03,600 --> 00:09:07,040
+generar la declaración jurada para hacer
+
+206
+00:09:05,360 --> 00:09:10,040
+el envío de la declaración jurada una
+
+207
+00:09:07,040 --> 00:09:11,480
+vez que ya hemos ingresado toda la e los
+
+208
+00:09:10,040 --> 00:09:13,680
+agregados y deducciones para la
+
+209
+00:09:11,480 --> 00:09:15,760
+determinación de renta líquida
+
+210
+00:09:13,680 --> 00:09:18,880
+simplemente presionamos el botón archivo
+
+211
+00:09:15,760 --> 00:09:21,200
+casa de software y completamos el
+
+212
+00:09:18,880 --> 00:09:23,959
+formulario en este caso Bueno si tenemos
+
+213
+00:09:21,200 --> 00:09:26,720
+e la renta líquida la imprimimos en en
+
+214
+00:09:23,959 --> 00:09:28,519
+hojas foliadas acá Tendremos que indicar
+
+215
+00:09:26,720 --> 00:09:29,959
+de qué folio A qué folio suponiendo que
+
+216
+00:09:28,519 --> 00:09:32,959
+fuera una hoja
+
+217
+00:09:29,959 --> 00:09:35,640
+como es el caso de la 100 a la 100 acá
+
+218
+00:09:32,959 --> 00:09:38,200
+ponemos el Root del contador y el tipo
+
+219
+00:09:35,640 --> 00:09:40,720
+de declaración si le estamos haciendo el
+
+220
+00:09:38,200 --> 00:09:43,320
+envío por primera vez el sistema me va a
+
+221
+00:09:40,720 --> 00:09:45,480
+generar un número si estoy haciendo una
+
+222
+00:09:43,320 --> 00:09:47,040
+rectificatoria entonces seleccionamos la
+
+223
+00:09:45,480 --> 00:09:48,800
+opción rectificatoria y tenemos que ir a
+
+224
+00:09:47,040 --> 00:09:51,279
+la página web de impuestos internos y
+
+225
+00:09:48,800 --> 00:09:53,079
+poner el número que estamos rectificando
+
+226
+00:09:51,279 --> 00:09:54,480
+acá va el correo electrónico en este
+
+227
+00:09:53,079 --> 00:09:57,320
+caso voy a poner mi
+
+228
+00:09:54,480 --> 00:09:59,440
+correo y finalmente ya descargamos el
+
+229
+00:09:57,320 --> 00:10:02,920
+archivo
+
+230
+00:09:59,440 --> 00:10:05,880
+este archivo lo tengo que bueno subir a
+
+231
+00:10:02,920 --> 00:10:08,040
+impuestos internos recuerden antes de
+
+232
+00:10:05,880 --> 00:10:11,680
+subir el archivo lo voy a cortar de acá
+
+233
+00:10:08,040 --> 00:10:15,720
+y lo voy a llevar a mi carpeta de de
+
+234
+00:10:11,680 --> 00:10:17,959
+escritorio aquí en cursos yo tengo una
+
+235
+00:10:15,720 --> 00:10:21,480
+carpeta para las declaraciones juradas
+
+236
+00:10:17,959 --> 00:10:24,360
+en este caso la 1926 voy a crear una una
+
+237
+00:10:21,480 --> 00:10:24,360
+carpeta para el año
+
+238
+00:10:25,320 --> 00:10:30,360
+2025 y luego eh voy a pegar el archivo y
+
+239
+00:10:28,800 --> 00:10:33,040
+con este este botón que está aquí le
+
+240
+00:10:30,360 --> 00:10:35,760
+cambio el nombre solamente debe tener el
+
+241
+00:10:33,040 --> 00:10:39,160
+número de root si en este caso Windows
+
+242
+00:10:35,760 --> 00:10:42,519
+le pone si el número ya existe le pone
+
+243
+00:10:39,160 --> 00:10:43,839
+un como una versión entonces ahí ya el
+
+244
+00:10:42,519 --> 00:10:45,959
+archivo está listo para poder ser
+
+245
+00:10:43,839 --> 00:10:48,200
+enviado en puestos internos si yo me voy
+
+246
+00:10:45,959 --> 00:10:49,839
+al al blog de a programa de
+
+247
+00:10:48,200 --> 00:10:52,440
+contabilidad.cl
+
+248
+00:10:49,839 --> 00:10:55,320
+y me voy al al
+
+249
+00:10:52,440 --> 00:10:58,240
+blog aquí Bueno podemos poner una una
+
+250
+00:10:55,320 --> 00:11:01,760
+declaración jurada por ejemplo la
+
+251
+00:10:58,240 --> 00:11:03,399
+1835 os el manual y aquí en la parte
+
+252
+00:11:01,760 --> 00:11:05,279
+final se muestran las pantallas de
+
+253
+00:11:03,399 --> 00:11:08,959
+impuestos internos para hacer el envío
+
+254
+00:11:05,279 --> 00:11:11,160
+No aquí también explica muy bien el tema
+
+255
+00:11:08,959 --> 00:11:13,440
+del nombre del archivo no que va el Root
+
+256
+00:11:11,160 --> 00:11:15,000
+sin dígito verificador y que si está así
+
+257
+00:11:13,440 --> 00:11:17,440
+yo lo tengo que renombrar tal como lo
+
+258
+00:11:15,000 --> 00:11:19,959
+hice y la pantalla impuestos internos se
+
+259
+00:11:17,440 --> 00:11:22,000
+vería más o menos como esta des hacen la
+
+260
+00:11:19,959 --> 00:11:24,360
+opción de enviar archivo mediante casa
+
+261
+00:11:22,000 --> 00:11:25,959
+de software Recuerden seleccionan el
+
+262
+00:11:24,360 --> 00:11:28,440
+archivo le presionan enviar y les va a
+
+263
+00:11:25,959 --> 00:11:30,480
+dar un certificado de recepción después
+
+264
+00:11:28,440 --> 00:11:32,160
+vuelven después de una media hora y ya
+
+265
+00:11:30,480 --> 00:11:33,320
+el proceso va a estar terminado les va a
+
+266
+00:11:32,160 --> 00:11:36,360
+dar el resultado del archivo si el
+
+267
+00:11:33,320 --> 00:11:39,000
+proceso está okay O si tienen algún
+
+268
+00:11:36,360 --> 00:11:41,320
+error muy bien Cualquier duda o consulta
+
+269
+00:11:39,000 --> 00:11:42,720
+la hacen a través de nuestro sitio web o
+
+270
+00:11:41,320 --> 00:11:45,600
+se contactan con nuestro equipo de
+
+271
+00:11:42,720 --> 00:11:47,760
+soporte los voy a dejar con eh los
+
+272
+00:11:45,600 --> 00:11:49,600
+teléfonos de de soporte para que
+
+273
+00:11:47,760 --> 00:11:52,160
+cualquier duda o consulta que tengan se
+
+274
+00:11:49,600 --> 00:11:53,839
+puedan contactar con ellos de mi parte
+
+275
+00:11:52,160 --> 00:11:56,120
+Muchas gracias a todos los que pudieron
+
+276
+00:11:53,839 --> 00:12:00,000
+ver este video recuerden suscribirse al
+
+277
+00:11:56,120 --> 00:12:00,000
+Canal y darle un like
+

@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}Balance - Tributación 14A{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-table"></i> Balance de 8 Columnas</h2>
+    <div>
+        <button id="btn-exportar" class="btn btn-success">
+            <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+        </button>
+    </div>
+</div>
+
+<div id="alert-no-empresa" class="alert alert-warning d-none">
+    <i class="bi bi-exclamation-triangle"></i> Selecciona una empresa en el <a href="{{ url_for('index') }}">Dashboard</a>.
+</div>
+
+<div id="panel-balance">
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <label>Fecha hasta</label>
+            <input type="date" id="bal-fecha" class="form-control" value="2024-12-31">
+        </div>
+        <div class="col-md-3">
+            <label>Norma</label>
+            <select id="bal-norma" class="form-select">
+                <option value="CONTABLE">Contable</option>
+                <option value="TRIBUTARIO">Tributario</option>
+            </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button id="btn-calcular" class="btn btn-primary w-100">
+                <i class="bi bi-calculator"></i> Calcular
+            </button>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table id="tabla-balance" class="table table-sm table-striped table-bordered" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>N°</th>
+                    <th>Cuenta</th>
+                    <th>Nombre</th>
+                    <th class="text-end">Débitos</th>
+                    <th class="text-end">Créditos</th>
+                    <th class="text-end">Saldo Deudor</th>
+                    <th class="text-end">Saldo Acreedor</th>
+                    <th class="text-end">Activo</th>
+                    <th class="text-end">Pasivo</th>
+                    <th class="text-end">Pérdidas</th>
+                    <th class="text-end">Ganancias</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Detalle Cuenta -->
+<div class="modal fade" id="modal-detalle" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalle de Cuenta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h6 id="detalle-cuenta-titulo"></h6>
+                <div class="table-responsive">
+                    <table id="tabla-detalle" class="table table-sm table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Comprobante</th>
+                                <th>Concepto</th>
+                                <th class="text-end">Debe</th>
+                                <th class="text-end">Haber</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    const emp = getEmpresa();
+    if (!emp) {
+        $('#alert-no-empresa').removeClass('d-none');
+        $('#panel-balance').addClass('d-none');
+        return;
+    }
+
+    let table;
+
+    $('#btn-calcular').on('click', calcularBalance);
+    $('#btn-exportar').on('click', function() {
+        const fecha = $('#bal-fecha').val();
+        const norma = $('#bal-norma').val();
+        window.open(`/api/exportar_balance/${emp.rut}?fecha=${fecha}&norma=${norma}`);
+    });
+
+    function calcularBalance() {
+        const fecha = $('#bal-fecha').val();
+        const norma = $('#bal-norma').val();
+        $('#btn-calcular').prop('disabled', true).html('<i class="bi bi-hourglass-split"></i> Calculando...');
+
+        apiGet(`/api/balance/${emp.rut}?fecha=${fecha}&norma=${norma}`)
+            .then(data => {
+                const tbody = $('#tabla-balance tbody');
+                tbody.empty();
+                data.filas.forEach(row => {
+                    const esTotal = row._es_total;
+                    const esResultado = row.nombre_cuenta === 'Resultado del Ejercicio';
+                    const clase = esResultado ? 'resultado-row' : esTotal ? 'total-row-dark' : '';
+                    const numFila = esTotal ? '' : (row.n || '');
+                    const nombreStyle = esResultado ? 'style="text-align:center; font-weight:bold;"' : '';
+                    tbody.append(`
+                        <tr class="${clase}" data-cuenta="${row.cuenta}" data-nombre="${row.nombre_cuenta}">
+                            <td>${numFila}</td>
+                            <td>${row.cuenta}</td>
+                            <td ${nombreStyle}>${row.nombre_cuenta}</td>
+                            <td class="text-end">${formatNumber(row.debe)}</td>
+                            <td class="text-end">${formatNumber(row.haber)}</td>
+                            <td class="text-end">${formatNumber(row.saldo_deudor)}</td>
+                            <td class="text-end">${formatNumber(row.saldo_acreedor)}</td>
+                            <td class="text-end">${formatNumber(row.activo)}</td>
+                            <td class="text-end">${formatNumber(row.pasivo)}</td>
+                            <td class="text-end">${formatNumber(row.perdida)}</td>
+                            <td class="text-end">${formatNumber(row.ganancia)}</td>
+                        </tr>
+                    `);
+                });
+
+                if (table) table.destroy();
+                table = $('#tabla-balance').DataTable({
+                    pageLength: 50,
+                    ordering: false,
+                    language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' }
+                });
+
+                // Doble click en filas normales abre detalle
+                $('#tabla-balance tbody').off('dblclick').on('dblclick', 'tr', function() {
+                    const cuenta = $(this).data('cuenta');
+                    const nombre = $(this).data('nombre');
+                    if (cuenta) abrirDetalle(cuenta, nombre);
+                });
+            })
+            .catch(err => showToast('Error: ' + err, 'error'))
+            .finally(() => $('#btn-calcular').prop('disabled', false).html('<i class="bi bi-calculator"></i> Calcular'));
+    }
+
+    function abrirDetalle(cuenta, nombre) {
+        $('#detalle-cuenta-titulo').text(`${cuenta} - ${nombre}`);
+        apiGet(`/api/ledger/${emp.rut}?cuenta=${encodeURIComponent(cuenta)}`).then(data => {
+            const tbody = $('#tabla-detalle tbody');
+            tbody.empty();
+            data.forEach(row => {
+                tbody.append(`
+                    <tr>
+                        <td>${row.fecha || ''}</td>
+                        <td>${row.comprobante || ''}</td>
+                        <td>${row.concepto || ''}</td>
+                        <td class="text-end">${formatNumber(row.debe)}</td>
+                        <td class="text-end">${formatNumber(row.haber)}</td>
+                    </tr>
+                `);
+            });
+            $('#modal-detalle').modal('show');
+        });
+    }
+});
+</script>
+{% endblock %}

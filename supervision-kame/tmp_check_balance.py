@@ -1,0 +1,10 @@
+﻿import sqlite3
+con = sqlite3.connect("774094466_kame.db")
+cur = con.cursor()
+print("NET_ALL", cur.execute("SELECT SUM(COALESCE(CAST(debe AS REAL),0)-COALESCE(CAST(haber AS REAL),0)) FROM ledger_runtime").fetchone()[0])
+print("NET_3_4_ALL", cur.execute("SELECT SUM(COALESCE(CAST(debe AS REAL),0)-COALESCE(CAST(haber AS REAL),0)) FROM ledger_runtime WHERE SUBSTR(TRIM(cuenta),1,1) IN ('3','4')").fetchone()[0])
+print("NET_3_4_2026-03-18", cur.execute("SELECT SUM(COALESCE(CAST(debe AS REAL),0)-COALESCE(CAST(haber AS REAL),0)) FROM ledger_runtime WHERE SUBSTR(TRIM(cuenta),1,1) IN ('3','4') AND fecha<=?", ("2026-03-18",)).fetchone()[0])
+print("FECHAS", cur.execute("SELECT COUNT(*), MIN(fecha), MAX(fecha) FROM ledger_runtime").fetchone())
+print("FMT", cur.execute("SELECT CASE WHEN fecha LIKE '____-__-__' THEN 'ISO' WHEN fecha LIKE '__/__/____' THEN 'DMY_SLASH' WHEN fecha LIKE '__-__-____' THEN 'DMY_DASH' WHEN fecha IS NULL OR TRIM(fecha)='' THEN 'VACIA' ELSE 'OTRO' END AS f, COUNT(*) FROM ledger_runtime GROUP BY f ORDER BY 2 DESC").fetchall())
+print("POR_DIGITO", cur.execute("SELECT SUBSTR(TRIM(cuenta),1,1) d, SUM(COALESCE(CAST(debe AS REAL),0)-COALESCE(CAST(haber AS REAL),0)) n FROM ledger_runtime GROUP BY d ORDER BY d").fetchall())
+con.close()

@@ -1,0 +1,5 @@
+TipoComprobante;FolioAuto;Folio;Fecha;Comentario;Cuenta;Debe;Haber;Comentario Linea;Rut Ficha;Rzn Social Ficha;Nombre Doc;Folio Doc;Fecha Venc;Unidad Negocio;Tipo Movimiento;Número Movimiento
+INGRESO;S;;01/01/2024;Ejemplo de comentario ingreso;1.01.01.01;100000;0;Detalle ejemplo;12345678-9;Empresa Ejemplo Ltda.;BOLETA ELECTRÓNICA;001;31/12/2024;Centro Negocio;CHEQUE;001
+INGRESO;S;;01/01/2024;Ejemplo de comentario ingreso;2.01.01.01;0;100000;Contrapartida ejemplo;;;;;;;;
+EGRESO;S;;02/01/2024;Ejemplo de comentario egreso;4.01.03.01;50000;0;Gasto administrativo;98765432-1;Proveedor Ejemplo SpA;FACTURA ELECTRÓNICA;102;15/02/2024;Centro Negocio;CHEQUE;002
+EGRESO;S;;02/01/2024;Ejemplo de comentario egreso;1.01.01.01;0;50000;Contrapartida gasto;;;;;;;;

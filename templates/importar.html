@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block title %}Importar - Tributación 14A{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-upload"></i> Importar Libro Mayor</h2>
+</div>
+
+<div id="alert-no-empresa" class="alert alert-warning d-none">
+    <i class="bi bi-exclamation-triangle"></i> Selecciona una empresa en el <a href="{{ url_for('index') }}">Dashboard</a>.
+</div>
+
+<div id="panel-importar">
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="drop-zone" id="drop-zone">
+                <i class="bi bi-cloud-upload fs-1"></i>
+                <p class="mb-1">Arrastra el archivo CSV o Excel aquí</p>
+                <p class="small text-muted">o haz clic para seleccionar</p>
+                <input type="file" id="file-input" accept=".csv,.xlsx,.xls" style="display:none;">
+            </div>
+        </div>
+    </div>
+
+    <div id="preview-section" class="d-none">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-eye"></i> Vista previa</span>
+                <span id="preview-info" class="badge bg-secondary"></span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="preview-table" class="table table-sm table-striped">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <i class="bi bi-gear"></i> Mapeo de columnas detectado
+            </div>
+            <div class="card-body">
+                <div id="mapeo-info" class="row"></div>
+            </div>
+        </div>
+
+        <div class="mt-3 text-end">
+            <button id="btn-importar" class="btn btn-primary btn-lg">
+                <i class="bi bi-save"></i> Importar a Base de Datos
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    const emp = getEmpresa();
+    if (!emp) {
+        $('#alert-no-empresa').removeClass('d-none');
+        $('#panel-importar').addClass('d-none');
+        return;
+    }
+
+    const dropZone = $('#drop-zone');
+    const fileInput = $('#file-input');
+    let currentFile = null;
+
+    dropZone.on('click', () => fileInput.click());
+    dropZone.on('dragover', (e) => { e.preventDefault(); dropZone.addClass('dragover'); });
+    dropZone.on('dragleave', () => dropZone.removeClass('dragover'));
+    dropZone.on('drop', (e) => {
+        e.preventDefault();
+        dropZone.removeClass('dragover');
+        const files = e.originalEvent.dataTransfer.files;
+        if (files.length) handleFile(files[0]);
+    });
+    fileInput.on('change', (e) => {
+        if (e.target.files.length) handleFile(e.target.files[0]);
+    });
+
+    function handleFile(file) {
+        currentFile = file;
+        const ext = file.name.split('.').pop().toLowerCase();
+        $('#preview-info').text(file.name + ' (' + (file.size/1024).toFixed(1) + ' KB)');
+        $('#preview-section').removeClass('d-none');
+
+        if (ext === 'csv') {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const lines = text.split('\n').slice(0, 11);
+                const sep = text.includes('\t') ? '\t' : ';';
+                const headers = lines[0].split(sep).map(h => h.trim());
+                const rows = lines.slice(1, 6).map(l => l.split(sep));
+
+                let thead = '<tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr>';
+                let tbody = rows.map(r => '<tr>' + r.map(c => `<td>${c}</td>`).join('') + '</tr>').join('');
+                $('#preview-table thead').html(thead);
+                $('#preview-table tbody').html(tbody);
+            };
+            reader.readAsText(file);
+            $('#mapeo-info').html(
+                `<div class="col-md-3"><strong>Cuenta:</strong> detectando...</div>` +
+                `<div class="col-md-3"><strong>Debe:</strong> detectando...</div>` +
+                `<div class="col-md-3"><strong>Haber:</strong> detectando...</div>` +
+                `<div class="col-md-3"><strong>Fecha:</strong> detectando...</div>`
+            );
+        } else {
+            // Excel: no mostramos preview en texto plano
+            $('#preview-table thead').html('<tr><th>Vista previa</th></tr>');
+            $('#preview-table tbody').html('<tr><td class="text-muted">Los archivos Excel (.xlsx) se procesan directamente en el servidor. Presiona "Importar" para continuar.</td></tr>');
+            $('#mapeo-info').html(
+                `<div class="col-12 text-muted">El mapeo de columnas se detectará automáticamente al importar.</div>`
+            );
+        }
+    }
+
+    $('#btn-importar').on('click', function() {
+        if (!currentFile) return;
+        const emp = getEmpresa();
+        const formData = new FormData();
+        formData.append('file', currentFile);
+
+        const btn = $(this);
+        btn.prop('disabled', true).html('<i class="bi bi-hourglass-split"></i> Procesando...');
+
+        fetch(`/api/importar/${emp.rut}`, { method: 'POST', body: formData })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) {
+                    showToast('Error: ' + data.error, 'error');
+                } else {
+                    showToast(`Importado: ${data.filas} filas, ${data.cuentas} cuentas`);
+                    $('#preview-section').addClass('d-none');
+                    currentFile = null;
+                }
+            })
+            .catch(err => showToast('Error: ' + err, 'error'))
+            .finally(() => btn.prop('disabled', false).html('<i class="bi bi-save"></i> Importar a Base de Datos'));
+    });
+});
+</script>
+{% endblock %}

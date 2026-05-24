@@ -1,0 +1,1292 @@
+1
+00:00:00,919 --> 00:00:05,879
+Declaraciones juradas en el sistema de
+
+2
+00:00:03,719 --> 00:00:07,680
+contabilidad.
+
+3
+00:00:05,879 --> 00:00:11,120
+Déjanos tu like y suscríbete a nuestro
+
+4
+00:00:07,680 --> 00:00:11,120
+canal de YouTube.
+
+5
+00:00:13,160 --> 00:00:16,639
+En breve comenzamos.
+
+6
+00:00:18,160 --> 00:00:23,400
+Declaraciones juradas.
+
+7
+00:00:20,800 --> 00:00:24,640
+En breve comenzamos.
+
+8
+00:00:23,400 --> 00:00:29,560
+Ya, eso con respecto a las dos
+
+9
+00:00:24,640 --> 00:00:31,439
+declaraciones. Eh, después tenemos la de
+
+10
+00:00:29,560 --> 00:00:34,399
+los retiros.
+
+11
+00:00:31,439 --> 00:00:37,559
+Entonces, bueno, para la 1948, que es la
+
+12
+00:00:34,399 --> 00:00:39,760
+de los retiros, eh, tenemos, bueno, un
+
+13
+00:00:37,559 --> 00:00:42,760
+manual
+
+14
+00:00:39,760 --> 00:00:42,760
+1948,
+
+15
+00:00:44,079 --> 00:00:48,160
+este de aquí, que, bueno, básicamente yo
+
+16
+00:00:46,600 --> 00:00:50,600
+tengo que tener una cuenta por cada
+
+17
+00:00:48,160 --> 00:00:52,359
+socio, o puede ser una cuenta o puede
+
+18
+00:00:50,600 --> 00:00:54,079
+ser una cuenta con auxiliar. Entonces
+
+19
+00:00:52,359 --> 00:00:55,399
+tengo que tener la definida en la
+
+20
+00:00:54,079 --> 00:00:58,600
+configuración cuál es la cuenta de
+
+21
+00:00:55,399 --> 00:01:01,920
+retiro socio. Entonces dentro del
+
+22
+00:00:58,600 --> 00:01:03,800
+sistema, aquí en configuración
+
+23
+00:01:01,920 --> 00:01:05,479
+yo tengo que tener especificado la
+
+24
+00:01:03,800 --> 00:01:08,759
+cuenta de retiro socio. Entonces aquí
+
+25
+00:01:05,479 --> 00:01:11,840
+está. Ese es un grupo.
+
+26
+00:01:08,759 --> 00:01:13,479
+Entonces dentro de ese grupo yo tengo eh
+
+27
+00:01:11,840 --> 00:01:17,880
+dos cuentas. Entonces, dentro del plan
+
+28
+00:01:13,479 --> 00:01:20,439
+de cuentas tengo la cuenta eh 303
+
+29
+00:01:17,880 --> 00:01:22,119
+asterisco. Ponemos buscar y me va a
+
+30
+00:01:20,439 --> 00:01:25,479
+mostrar la cuenta del socio uno y la
+
+31
+00:01:22,119 --> 00:01:28,000
+cuenta del socio dos. Okay.
+
+32
+00:01:25,479 --> 00:01:30,720
+Entonces, eh, bueno, que es lo mismo que
+
+33
+00:01:28,000 --> 00:01:33,840
+está acá en el en la pantalla, socio
+
+34
+00:01:30,720 --> 00:01:35,399
+uno, socio dos, ¿ya?
+
+35
+00:01:33,840 --> 00:01:37,079
+Eh, bueno, si ustedes tienen otro grupo
+
+36
+00:01:35,399 --> 00:01:38,640
+de cuenta por los retiros, simplemente
+
+37
+00:01:37,079 --> 00:01:40,600
+tienen que poner el otro grupo que
+
+38
+00:01:38,640 --> 00:01:42,000
+tienen creado para el caso, ¿no? Si usan
+
+39
+00:01:40,600 --> 00:01:43,360
+la misma cuenta, no hay problema. Y si
+
+40
+00:01:42,000 --> 00:01:45,960
+tienen más socios, bueno, agregan los
+
+41
+00:01:43,360 --> 00:01:48,399
+socios que fueran. Ya, también podrían
+
+42
+00:01:45,960 --> 00:01:51,360
+tener una sola cuenta directamente y
+
+43
+00:01:48,399 --> 00:01:53,560
+tener auxiliares por esa cuenta. ¿Okay?
+
+44
+00:01:51,360 --> 00:01:56,520
+En este caso, como el ejemplo es de dos
+
+45
+00:01:53,560 --> 00:01:58,280
+socios, vamos a hacerlo tal cual.
+
+46
+00:01:56,520 --> 00:01:59,759
+Eh, ya tenemos las cuentas creadas. Si
+
+47
+00:01:58,280 --> 00:02:03,600
+hubiera un tercer socio, simplemente
+
+48
+00:01:59,759 --> 00:02:05,600
+agregamos una cuenta más. Ya,
+
+49
+00:02:03,600 --> 00:02:08,200
+una vez que tenemos listo eso, eh,
+
+50
+00:02:05,600 --> 00:02:09,920
+tenemos que ingresar los retiros.
+
+51
+00:02:08,200 --> 00:02:12,959
+Entonces, bueno, para eso me tengo que
+
+52
+00:02:09,920 --> 00:02:15,040
+ir simplemente al asiento contable y
+
+53
+00:02:12,959 --> 00:02:16,800
+comenzar a hacer un voucher de retiro.
+
+54
+00:02:15,040 --> 00:02:19,720
+Entonces, ponemos agregar y ponemos la
+
+55
+00:02:16,800 --> 00:02:23,560
+fecha del retiro. Ponemos que vamos a
+
+56
+00:02:19,720 --> 00:02:27,200
+poner 30 de junio, el primer retiro.
+
+57
+00:02:23,560 --> 00:02:31,360
+20 26. Ponemos un asiento.
+
+58
+00:02:27,200 --> 00:02:33,920
+Me da ah, perdón, 25. Aquí
+
+59
+00:02:31,360 --> 00:02:37,879
+ya ahí me da el número del voucher. Aquí
+
+60
+00:02:33,920 --> 00:02:39,560
+le pongo la glosa. Retiro socio un.
+
+61
+00:02:37,879 --> 00:02:43,640
+Ya
+
+62
+00:02:39,560 --> 00:02:46,000
+la fecha le ponemos 30 de junio del 206
+
+63
+00:02:43,640 --> 00:02:49,080
+25
+
+64
+00:02:46,000 --> 00:02:51,640
+vencimiento no iría libro aquí un libro
+
+65
+00:02:49,080 --> 00:02:54,239
+de retiro,
+
+66
+00:02:51,640 --> 00:02:56,840
+documento egreso y número de folio. Voy
+
+67
+00:02:54,239 --> 00:02:59,680
+a poner el primer retiro. Ya. Y aquí le
+
+68
+00:02:56,840 --> 00:03:03,680
+pongo el root del socio un voy a usar un
+
+69
+00:02:59,680 --> 00:03:08,640
+root ficticio. Voy a usar el 16
+
+70
+00:03:03,680 --> 00:03:11,799
+y este le voy a poner socio uno. Okay.
+
+71
+00:03:08,640 --> 00:03:14,680
+Luego presionamos el asistente y aquí le
+
+72
+00:03:11,799 --> 00:03:16,560
+ingreso la cuenta del socio 1 que era
+
+73
+00:03:14,680 --> 00:03:20,519
+30301.
+
+74
+00:03:16,560 --> 00:03:22,640
+Ya. Cuenta su y la cuenta del banco. Si
+
+75
+00:03:20,519 --> 00:03:24,720
+no saben el código de la cuenta, pinchan
+
+76
+00:03:22,640 --> 00:03:28,159
+el botón buscar y buscan aquí la cuenta,
+
+77
+00:03:24,720 --> 00:03:30,239
+¿no? Aquí está la cuenta del banco. Ya.
+
+78
+00:03:28,159 --> 00:03:37,000
+Y luego eh le ponemos el monto del
+
+79
+00:03:30,239 --> 00:03:37,000
+retiro. En este caso le vamos a poner eh
+
+80
+00:03:37,080 --> 00:03:40,280
+un montón.
+
+81
+00:03:40,760 --> 00:03:47,519
+Ya un millón. Listo, grabamos
+
+82
+00:03:44,319 --> 00:03:50,040
+y eso es todo. Ya. Si quiero hacer otro
+
+83
+00:03:47,519 --> 00:03:53,079
+retiro del mismo socio, simplemente tomo
+
+84
+00:03:50,040 --> 00:03:56,239
+el voucher y lo copió.
+
+85
+00:03:53,079 --> 00:03:59,439
+Y este socio volvió a retirar, eh, pero
+
+86
+00:03:56,239 --> 00:04:02,239
+en diciembre, por ejemplo,
+
+87
+00:03:59,439 --> 00:04:04,480
+o en
+
+88
+00:04:02,239 --> 00:04:06,319
+ya.
+
+89
+00:04:04,480 --> 00:04:08,280
+Y ahí, bueno, vamos cambiando. Retiro
+
+90
+00:04:06,319 --> 00:04:12,680
+socio uno.
+
+91
+00:04:08,280 --> 00:04:12,680
+Eh, le ponemos la fecha. Así mismo
+
+92
+00:04:15,560 --> 00:04:20,600
+y luego le ponemos, bueno, egreso, ya
+
+93
+00:04:17,759 --> 00:04:23,479
+sería el número dos, al Rud igual y en
+
+94
+00:04:20,600 --> 00:04:27,720
+el asistente le ponemos eh el moto que
+
+95
+00:04:23,479 --> 00:04:29,960
+retiró, ¿ya? Y grabamos
+
+96
+00:04:27,720 --> 00:04:32,360
+y listo. Ya con eso eh tenemos dos
+
+97
+00:04:29,960 --> 00:04:34,840
+retiros del socio uno. Ahora ingresemos
+
+98
+00:04:32,360 --> 00:04:37,120
+retiros del socio dos. Entonces, bueno,
+
+99
+00:04:34,840 --> 00:04:39,479
+vamos a agregar un retiro del socio dos.
+
+100
+00:04:37,120 --> 00:04:42,039
+Entonces,
+
+101
+00:04:39,479 --> 00:04:45,639
+retiro
+
+102
+00:04:42,039 --> 00:04:48,919
+socio dos, la fecha del retiro,
+
+103
+00:04:45,639 --> 00:04:53,120
+suponiendo que este retiro en marzo,
+
+104
+00:04:48,919 --> 00:04:53,120
+30 de marzo,
+
+105
+00:04:54,039 --> 00:05:02,520
+¿ya? Y luego así mismo libro retiro
+
+106
+00:04:58,520 --> 00:05:04,039
+y este obviamente egreso y el número de
+
+107
+00:05:02,520 --> 00:05:07,360
+folios.
+
+108
+00:05:04,039 --> 00:05:14,720
+Este es el tercero y el rot. Aquí le voy
+
+109
+00:05:07,360 --> 00:05:17,560
+a poner 1001 4 y este es socio 2.
+
+110
+00:05:14,720 --> 00:05:20,319
+Este es el nombre del socio dos y luego
+
+111
+00:05:17,560 --> 00:05:25,039
+pincho el asistente y pongo la cuenta
+
+112
+00:05:20,319 --> 00:05:27,319
+del socio 2 que era 3032
+
+113
+00:05:25,039 --> 00:05:32,199
+y la cuenta del banco. En este caso la
+
+114
+00:05:27,319 --> 00:05:32,199
+cuenta del banco era 101012.
+
+115
+00:05:32,960 --> 00:05:38,000
+Es la cuenta del banco y el monto que
+
+116
+00:05:34,759 --> 00:05:40,400
+retiró. Entonces va a poner 3,000.
+
+117
+00:05:38,000 --> 00:05:43,560
+Le damos a aceptar y ya listo. Y ahí
+
+118
+00:05:40,400 --> 00:05:47,039
+tenemos el retiro del socio. Grabamos. Y
+
+119
+00:05:43,560 --> 00:05:49,160
+ahora si yo voy al libro de retiros
+
+120
+00:05:47,039 --> 00:05:50,720
+en en los libros, aquí debe haber un
+
+121
+00:05:49,160 --> 00:05:53,639
+libro de retiro, aquí libro retiro
+
+122
+00:05:50,720 --> 00:05:55,120
+socio. Entonces,
+
+123
+00:05:53,639 --> 00:05:56,479
+tal como lo muestra el manual, ¿no?
+
+124
+00:05:55,120 --> 00:05:58,880
+Entonces ya hicimos el ingreso de los
+
+125
+00:05:56,479 --> 00:06:01,759
+retiros y luego hay que cuadrar y que el
+
+126
+00:05:58,880 --> 00:06:05,280
+libro esté bueno. Entonces, voy al libro
+
+127
+00:06:01,759 --> 00:06:08,440
+como está aquí libro libro retiro socio
+
+128
+00:06:05,280 --> 00:06:10,560
+y ahí puedo revisar efectivamente para
+
+129
+00:06:08,440 --> 00:06:13,560
+el año. En este caso voy a pedir todo el
+
+130
+00:06:10,560 --> 00:06:13,560
+año
+
+131
+00:06:13,919 --> 00:06:18,479
+eh mi libro retiro. Entonces, aquí
+
+132
+00:06:16,360 --> 00:06:21,280
+podemos revisar efectivamente que el
+
+133
+00:06:18,479 --> 00:06:24,680
+socio uno tiene dos retiros y que el
+
+134
+00:06:21,280 --> 00:06:28,520
+socio dos tiene un retiro.
+
+135
+00:06:24,680 --> 00:06:30,639
+Ambos retiraron eh 3 millones. Así que
+
+136
+00:06:28,520 --> 00:06:32,160
+bueno, ese sería un buen ejemplo.
+
+137
+00:06:30,639 --> 00:06:35,080
+Entonces, ya tenemos ingresado todos los
+
+138
+00:06:32,160 --> 00:06:37,039
+retiros de los socios.
+
+139
+00:06:35,080 --> 00:06:38,800
+Eh, luego el siguiente paso es ya
+
+140
+00:06:37,039 --> 00:06:42,680
+simplemente generar la declaración
+
+141
+00:06:38,800 --> 00:06:44,520
+jurada. Ya hay otro paso que bueno que
+
+142
+00:06:42,680 --> 00:06:46,160
+es saber de dónde va a retirar, ¿no? Y
+
+143
+00:06:44,520 --> 00:06:49,800
+si tiene crédito o no tiene crédito,
+
+144
+00:06:46,160 --> 00:06:53,400
+pero eso ya es parte de lo que de lo que
+
+145
+00:06:49,800 --> 00:06:54,800
+tiene que determinar de acuerdo a la al
+
+146
+00:06:53,400 --> 00:06:58,479
+registro de rentas empresariales que
+
+147
+00:06:54,800 --> 00:07:01,840
+tenga el en este caso el la empresa,
+
+148
+00:06:58,479 --> 00:07:05,479
+¿no? Es muy variable.
+
+149
+00:07:01,840 --> 00:07:07,080
+Okay. Entonces, bueno, tengo el me falta
+
+150
+00:07:05,479 --> 00:07:08,599
+crear los socios, ¿no? Este es el
+
+151
+00:07:07,080 --> 00:07:10,840
+siguiente paso. Y una vez que ingresamos
+
+152
+00:07:08,599 --> 00:07:12,560
+los revisamos eso, revisamos los
+
+153
+00:07:10,840 --> 00:07:15,000
+retiros, vamos al mantenedor de socios,
+
+154
+00:07:12,560 --> 00:07:18,479
+¿no? Entonces, me voy a de nuevo al
+
+155
+00:07:15,000 --> 00:07:22,599
+mantenedor de socios.
+
+156
+00:07:18,479 --> 00:07:25,720
+Acá mantener de socios, ya
+
+157
+00:07:22,599 --> 00:07:28,280
+sería como el la tercera parte, ¿no?
+
+158
+00:07:25,720 --> 00:07:31,400
+Entonces, primero la cuenta, después lo
+
+159
+00:07:28,280 --> 00:07:33,639
+retiro, revisamos los retiros y ahora ya
+
+160
+00:07:31,400 --> 00:07:35,840
+vamos a agregarle la ficha de cada
+
+161
+00:07:33,639 --> 00:07:37,120
+socio, ¿no? Entonces aquí, bueno, hay
+
+162
+00:07:35,840 --> 00:07:38,680
+una opción de copiar del año anterior,
+
+163
+00:07:37,120 --> 00:07:41,000
+pero bueno, yo no tengo ingresado nada,
+
+164
+00:07:38,680 --> 00:07:42,879
+así que no tengo cómo copiar en esta
+
+165
+00:07:41,000 --> 00:07:45,240
+empresa. Si tengo los mismos socios, los
+
+166
+00:07:42,879 --> 00:07:47,879
+podría copiar. Entonces dijimos que era
+
+167
+00:07:45,240 --> 00:07:50,599
+100 el primer socio. Este se llamaba
+
+168
+00:07:47,879 --> 00:07:53,479
+socio uno
+
+169
+00:07:50,599 --> 00:07:55,680
+y tiene un porcentaje de 50%. Y bueno, y
+
+170
+00:07:53,479 --> 00:07:58,120
+si no tiene su por acción es una
+
+171
+00:07:55,680 --> 00:07:59,440
+limitada, se le pone cero. Ya en este
+
+172
+00:07:58,120 --> 00:08:02,000
+caso vamos a asumir que es una limitada,
+
+173
+00:07:59,440 --> 00:08:04,520
+entonces no ponemos las acciones y luego
+
+174
+00:08:02,000 --> 00:08:06,840
+simplemente agregamos el segundo socio,
+
+175
+00:08:04,520 --> 00:08:08,919
+el 2025,
+
+176
+00:08:06,840 --> 00:08:14,080
+el rot 1001,
+
+177
+00:08:08,919 --> 00:08:14,080
+el gu y este era el socio 2
+
+178
+00:08:14,199 --> 00:08:19,039
+y así mismo tiene el 50% y tiene cero
+
+179
+00:08:17,440 --> 00:08:21,960
+acciones porque no es una sociedad por
+
+180
+00:08:19,039 --> 00:08:25,120
+acción. y grabamos
+
+181
+00:08:21,960 --> 00:08:26,879
+y está listo. Ya tengo el 100% de la de
+
+182
+00:08:25,120 --> 00:08:29,000
+la sociedad.
+
+183
+00:08:26,879 --> 00:08:30,560
+Entonces, ahora ya una vez que agregamos
+
+184
+00:08:29,000 --> 00:08:32,200
+la
+
+185
+00:08:30,560 --> 00:08:34,279
+el mantenedor de socio, podemos ir a la
+
+186
+00:08:32,200 --> 00:08:37,159
+declaración jurada. Entonces, el paso
+
+187
+00:08:34,279 --> 00:08:41,519
+final básicamente sería generar la
+
+188
+00:08:37,159 --> 00:08:41,519
+declaración jurada. Entonces, aquí
+
+189
+00:08:42,080 --> 00:08:47,279
+en la 1948
+
+190
+00:08:44,760 --> 00:08:51,240
+tengo la opción de seleccionar el año y
+
+191
+00:08:47,279 --> 00:08:55,440
+presionar el botón generar.
+
+192
+00:08:51,240 --> 00:08:57,399
+Aquí, bueno, me pregunta si eh si es la
+
+193
+00:08:55,440 --> 00:09:01,560
+dependiendo del régimen seleccionan el
+
+194
+00:08:57,399 --> 00:09:04,640
+factor. Le voy a poner yo que es prop.
+
+195
+00:09:01,560 --> 00:09:07,240
+Le damos a aceptar
+
+196
+00:09:04,640 --> 00:09:10,000
+y listo. Y ahí se generaron los retiros.
+
+197
+00:09:07,240 --> 00:09:12,480
+Ya. Y se les hizo el la actualización y
+
+198
+00:09:10,000 --> 00:09:15,120
+el sistema, bueno, les puso una
+
+199
+00:09:12,480 --> 00:09:17,000
+situación, ¿okay? Una y generó un
+
+200
+00:09:15,120 --> 00:09:18,920
+crédito, además.
+
+201
+00:09:17,000 --> 00:09:20,560
+Pero como les digo, esto depende mucho
+
+202
+00:09:18,920 --> 00:09:22,720
+del registro de rentas empresariales.
+
+203
+00:09:20,560 --> 00:09:24,120
+Nosotros eh todos los años igual hacemos
+
+204
+00:09:22,720 --> 00:09:25,760
+un curso del registro de rentas
+
+205
+00:09:24,120 --> 00:09:27,600
+empresariales.
+
+206
+00:09:25,760 --> 00:09:30,160
+Eh bueno, el último curso es bastante
+
+207
+00:09:27,600 --> 00:09:32,160
+bueno. Y aquí también podemos llevar el
+
+208
+00:09:30,160 --> 00:09:34,120
+registro de rentas empresariales, ¿no?
+
+209
+00:09:32,160 --> 00:09:36,000
+Aquí se puede agregar el saldo del año
+
+210
+00:09:34,120 --> 00:09:37,800
+pasado y saber, bueno, dependiendo si es
+
+211
+00:09:36,000 --> 00:09:40,360
+la renta,
+
+212
+00:09:37,800 --> 00:09:43,640
+voy a hacer el retiro de la renta afecta
+
+213
+00:09:40,360 --> 00:09:45,480
+impuesto, que sería el Ray, ¿verdad? Eh,
+
+214
+00:09:43,640 --> 00:09:48,000
+y obviamente y acá está el manejo de los
+
+215
+00:09:45,480 --> 00:09:51,200
+créditos. Sí.
+
+216
+00:09:48,000 --> 00:09:52,959
+Entonces, bueno, eso va a depender eh de
+
+217
+00:09:51,200 --> 00:09:54,800
+cómo tengan el registro del año pasado y
+
+218
+00:09:52,959 --> 00:09:57,640
+cómo les quedó el saldo y y cuál van a
+
+219
+00:09:54,800 --> 00:09:59,720
+ocupar. Okay. Entonces, depende mucho de
+
+220
+00:09:57,640 --> 00:10:00,959
+este libro, ya que también lo tiene el
+
+221
+00:09:59,720 --> 00:10:02,240
+sistema, que es el registro de
+
+222
+00:10:00,959 --> 00:10:04,000
+empresarial. El curso que hicimos el año
+
+223
+00:10:02,240 --> 00:10:06,959
+pasado quedó muy bueno, así que para les
+
+224
+00:10:04,000 --> 00:10:08,640
+sugiero verlo eh si necesitan más
+
+225
+00:10:06,959 --> 00:10:11,399
+información de porque hicimos un buen
+
+226
+00:10:08,640 --> 00:10:13,079
+ejercicio acá. ¿Ya?
+
+227
+00:10:11,399 --> 00:10:14,720
+Y luego, bueno, ya una vez que saben de
+
+228
+00:10:13,079 --> 00:10:16,440
+dónde van a retirar y si tienen crédito
+
+229
+00:10:14,720 --> 00:10:18,320
+o no tienen crédito, van a cada uno de
+
+230
+00:10:16,440 --> 00:10:19,600
+los casos y le van corrigiendo, ¿no?
+
+231
+00:10:18,320 --> 00:10:21,600
+Aquí, bueno, me aparecen todas las
+
+232
+00:10:19,600 --> 00:10:24,360
+columnas que corresponden. Esta es la la
+
+233
+00:10:21,600 --> 00:10:26,160
+parte de acá es la situación del retiro.
+
+234
+00:10:24,360 --> 00:10:29,480
+¿De qué fondo retiro? En este caso, por
+
+235
+00:10:26,160 --> 00:10:32,040
+defecto, me lo sitúa en la columna
+
+236
+00:10:29,480 --> 00:10:35,639
+eh cinco, ¿verdad? La situación del
+
+237
+00:10:32,040 --> 00:10:38,760
+retiro. Es decir, dice que es
+
+238
+00:10:35,639 --> 00:10:41,000
+esto de aquí. Ya,
+
+239
+00:10:38,760 --> 00:10:43,360
+pero bueno, dependiendo como les dije de
+
+240
+00:10:41,000 --> 00:10:46,880
+de si es renta exenta, en fin, va a ser
+
+241
+00:10:43,360 --> 00:10:48,959
+muy variable, ¿ya? Pero bueno, él está
+
+242
+00:10:46,880 --> 00:10:50,880
+asumiendo que que es un ray, ¿ya?
+
+243
+00:10:48,959 --> 00:10:52,600
+Entonces está subiendo línea cinco y
+
+244
+00:10:50,880 --> 00:10:55,320
+además le está subiendo un crédito con
+
+245
+00:10:52,600 --> 00:10:57,760
+la tasa que nosotros le pusimos. Pero si
+
+246
+00:10:55,320 --> 00:10:59,240
+es un es anterior, entonces podría tener
+
+247
+00:10:57,760 --> 00:11:01,519
+otra tasa. Entonces, bueno, ustedes
+
+248
+00:10:59,240 --> 00:11:03,000
+pueden cambiar el monto del crédito o
+
+249
+00:11:01,519 --> 00:11:04,959
+derechamente no tiene crédito, entonces
+
+250
+00:11:03,000 --> 00:11:07,519
+le ponen que no tiene crédito. Esto va a
+
+251
+00:11:04,959 --> 00:11:09,399
+quedar, eh, pero bueno, si tiene
+
+252
+00:11:07,519 --> 00:11:11,519
+crédito, verifican que el monto del
+
+253
+00:11:09,399 --> 00:11:12,920
+crédito corresponde y le ponen a qué
+
+254
+00:11:11,519 --> 00:11:16,360
+columna, porque acá están las columnas
+
+255
+00:11:12,920 --> 00:11:18,560
+de los créditos correspondería. Ya dicho
+
+256
+00:11:16,360 --> 00:11:20,639
+eso, que es muy importante que lo
+
+257
+00:11:18,560 --> 00:11:24,440
+revisen y que va a depender mucho de la
+
+258
+00:11:20,639 --> 00:11:26,639
+de la situación de cada uno, eh ya
+
+259
+00:11:24,440 --> 00:11:29,880
+podemos, si está revisado y listo,
+
+260
+00:11:26,639 --> 00:11:32,040
+podemos ya generar la declaración jurada
+
+261
+00:11:29,880 --> 00:11:35,360
+y enviarla. Entonces, bueno, antes de yo
+
+262
+00:11:32,040 --> 00:11:37,480
+a mí siempre me gusta generar el Excel
+
+263
+00:11:35,360 --> 00:11:41,079
+y revisar que evidentemente está todo
+
+264
+00:11:37,480 --> 00:11:42,839
+completo, que estoy cuadrado.
+
+265
+00:11:41,079 --> 00:11:45,000
+Entonces, bueno, generamos el archivo,
+
+266
+00:11:42,839 --> 00:11:47,440
+se está demorando un poquito. Entras
+
+267
+00:11:45,000 --> 00:11:50,800
+descarga.
+
+268
+00:11:47,440 --> 00:11:52,760
+Vamos a entrar ahora a la carpeta.
+
+269
+00:11:50,800 --> 00:11:56,000
+Ahí ya lo descargó.
+
+270
+00:11:52,760 --> 00:11:56,000
+Voy a abrir
+
+271
+00:11:57,360 --> 00:12:02,880
+y ahí, bueno, eh, lo vamos a acercar un
+
+272
+00:12:00,160 --> 00:12:07,079
+poquito. Aquí lo mismo, ¿no? Aquí yo
+
+273
+00:12:02,880 --> 00:12:11,079
+tengo eh las columnas, ¿no? Aquí está el
+
+274
+00:12:07,079 --> 00:12:13,720
+retiro y esta es la columna de retiro y
+
+275
+00:12:11,079 --> 00:12:17,279
+estas son las columnas de
+
+276
+00:12:13,720 --> 00:12:18,680
+en este caso del de los créditos. Acá
+
+277
+00:12:17,279 --> 00:12:20,160
+los créditos. Este es el grupo de los
+
+278
+00:12:18,680 --> 00:12:22,440
+créditos y este es el grupo de los
+
+279
+00:12:20,160 --> 00:12:26,440
+retiros. ¿Ya?
+
+280
+00:12:22,440 --> 00:12:28,000
+Entonces, eh como les digo, esto esta
+
+281
+00:12:26,440 --> 00:12:28,959
+columna la tienen que determinar de
+
+282
+00:12:28,000 --> 00:12:31,320
+acuerdo al registro de rentes
+
+283
+00:12:28,959 --> 00:12:34,000
+empresariales y a la situación de cada
+
+284
+00:12:31,320 --> 00:12:35,920
+empresa, ¿ya? Y una vez que hacen eso,
+
+285
+00:12:34,000 --> 00:12:37,680
+bueno, revisan que evidentemente estén
+
+286
+00:12:35,920 --> 00:12:40,320
+completos los retiros para cada uno de
+
+287
+00:12:37,680 --> 00:12:42,360
+los socios eh, a nivel de totales y a
+
+288
+00:12:40,320 --> 00:12:44,920
+nivel de columna. Esta en realidad no
+
+289
+00:12:42,360 --> 00:12:47,360
+cambió para este año, no no tiene no
+
+290
+00:12:44,920 --> 00:12:49,000
+tiene cambios, así que no habría el
+
+291
+00:12:47,360 --> 00:12:50,440
+problema en poderla generar y una vez
+
+292
+00:12:49,000 --> 00:12:52,000
+que estén cuadrados la pueden hacer el
+
+293
+00:12:50,440 --> 00:12:54,399
+envío.
+
+294
+00:12:52,000 --> 00:12:57,519
+Entonces luego pinchan el botón que dice
+
+295
+00:12:54,399 --> 00:13:02,680
+eh DJ Casa de software
+
+296
+00:12:57,519 --> 00:13:02,680
+y pueden hacer el envío. Aquí me está
+
+297
+00:13:03,920 --> 00:13:08,000
+me está bloqueando. ¿Por qué me está
+
+298
+00:13:05,440 --> 00:13:10,240
+bloqueando?
+
+299
+00:13:08,000 --> 00:13:12,760
+Ya ahí le quité para que me la permita
+
+300
+00:13:10,240 --> 00:13:12,760
+hacer.
+
+301
+00:13:16,440 --> 00:13:22,480
+Le ponen original
+
+302
+00:13:18,800 --> 00:13:24,199
+y le ponemos el correo. Bueno, si
+
+303
+00:13:22,480 --> 00:13:25,519
+original, si es la primera vez, lo mismo
+
+304
+00:13:24,199 --> 00:13:27,760
+que anterior, ¿no? Recuerden, siempre
+
+305
+00:13:25,519 --> 00:13:29,440
+tienen que mirar si es que es la primera
+
+306
+00:13:27,760 --> 00:13:33,360
+vez, siempre es original y si es por
+
+307
+00:13:29,440 --> 00:13:33,360
+segundo envío, eh
+
+308
+00:13:33,839 --> 00:13:39,160
+tiene que poner el folio que está en
+
+309
+00:13:35,279 --> 00:13:39,160
+impuestos internos, ¿no?
+
+310
+00:13:39,560 --> 00:13:42,880
+indicando cuál es la rectificatora.
+
+311
+00:13:41,120 --> 00:13:45,519
+Ponemos descargar y ya estamos listos
+
+312
+00:13:42,880 --> 00:13:47,240
+para descargar el archivo. Recuerden que
+
+313
+00:13:45,519 --> 00:13:48,680
+el archivo se descarga y bueno, si ya
+
+314
+00:13:47,240 --> 00:13:50,440
+tienen archivos con el mismo nombre, les
+
+315
+00:13:48,680 --> 00:13:51,920
+va a ir poniendo numerito cuatro y ese
+
+316
+00:13:50,440 --> 00:13:54,160
+numerito hay que borrarlo, ¿no? Para eso
+
+317
+00:13:51,920 --> 00:13:56,079
+usan este botoncito que está acá y
+
+318
+00:13:54,160 --> 00:13:59,279
+cambiar nombre y ese les permite dejarlo
+
+319
+00:13:56,079 --> 00:14:02,839
+sin eso. ¿Ya? Entonces, bueno, esa sería
+
+320
+00:13:59,279 --> 00:14:04,959
+la declaración jurada 1948.
+
+321
+00:14:02,839 --> 00:14:06,279
+No sé si hay alguna duda, Raúl, ahora de
+
+322
+00:14:04,959 --> 00:14:11,120
+esta declaración jurada.
+
+323
+00:14:06,279 --> 00:14:11,120
+Nada. Bien, seguiremos avanzando.
+

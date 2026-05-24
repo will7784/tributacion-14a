@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Clasificación - Tributación 14A{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-diagram-3"></i> Clasificación para Reportes</h2>
+    <button id="btn-guardar" class="btn btn-success">
+        <i class="bi bi-save"></i> Guardar cambios
+    </button>
+</div>
+
+<div id="alert-no-empresa" class="alert alert-warning d-none">
+    <i class="bi bi-exclamation-triangle"></i> Selecciona una empresa en el <a href="{{ url_for('index') }}">Dashboard</a>.
+</div>
+
+<div id="panel-clas">
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Asigna categorías de reporte a las cuentas del <strong>Plan Base</strong>.
+        Esto se usará para generar los formatos de declaración jurada.
+    </div>
+    <div class="table-container">
+        <div class="mb-2">
+            <input type="text" id="filtro-clas" class="form-control form-control-sm" placeholder="Buscar cuenta o nombre..." style="max-width: 300px;">
+        </div>
+        <table id="tabla-clas" class="table table-sm table-striped table-bordered" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>Cuenta Base</th>
+                    <th>Nombre Base</th>
+                    <th>Tipo Reporte</th>
+                    <th>Categoría</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    const emp = getEmpresa();
+    if (!emp) {
+        $('#alert-no-empresa').removeClass('d-none');
+        $('#panel-clas').addClass('d-none');
+        return;
+    }
+
+    let table;
+
+    function cargarClasificacion() {
+        Promise.all([
+            apiGet('/api/plan_base'),
+            apiGet(`/api/clasificacion/${emp.rut}`)
+        ]).then(([base, clas]) => {
+            const clasMap = {};
+            clas.forEach(r => { clasMap[r.cuenta_base] = r; });
+
+            const tbody = $('#tabla-clas tbody');
+            tbody.empty();
+            base.forEach(row => {
+                const c = clasMap[row.Cuenta] || {};
+                tbody.append(`
+                    <tr data-cuenta="${row.Cuenta}">
+                        <td>${row.Cuenta}</td>
+                        <td>${row.Nombre || ''}</td>
+                        <td contenteditable="true">${c.tipo_reporte || ''}</td>
+                        <td contenteditable="true">${c.categoria || ''}</td>
+                    </tr>
+                `);
+            });
+
+            if (table) table.destroy();
+            table = $('#tabla-clas').DataTable({
+                pageLength: 50,
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' }
+            });
+        });
+    }
+
+    cargarClasificacion();
+
+    $('#filtro-clas').on('keyup', function() {
+        if (table) table.search(this.value).draw();
+    });
+
+    $('#btn-guardar').on('click', function() {
+        const rows = [];
+        $('#tabla-clas tbody tr').each(function() {
+            const tr = $(this);
+            const tipo = tr.find('td:eq(2)').text().trim();
+            const categoria = tr.find('td:eq(3)').text().trim();
+            if (tipo || categoria) {
+                rows.push({
+                    cuenta_base: tr.data('cuenta'),
+                    tipo_reporte: tipo,
+                    categoria: categoria
+                });
+            }
+        });
+        apiPost(`/api/clasificacion/${emp.rut}`, rows)
+            .then(() => showToast('Clasificación guardada'))
+            .catch(err => showToast('Error: ' + err, 'error'));
+    });
+});
+</script>
+{% endblock %}

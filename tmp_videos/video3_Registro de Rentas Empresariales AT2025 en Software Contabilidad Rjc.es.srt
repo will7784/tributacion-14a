@@ -1,0 +1,1716 @@
+1
+00:00:00,120 --> 00:00:05,240
+Puedes ver nuestros cursos ya emitidos
+
+2
+00:00:02,000 --> 00:00:05,240
+en nuestro canal de YouTube
+
+3
+00:00:06,279 --> 00:00:09,519
+www.youtube.com/rjcsoftware aquí
+
+4
+00:00:07,520 --> 00:00:11,719
+encontrarás nuestros cursos ya emitidos
+
+5
+00:00:09,519 --> 00:00:14,400
+anteriormente y el del día de
+
+6
+00:00:11,719 --> 00:00:16,279
+hoy. Además, también puedes dejarnos tu
+
+7
+00:00:14,400 --> 00:00:19,160
+like. es una manera de apoyarnos para
+
+8
+00:00:16,279 --> 00:00:20,560
+seguir creando material para ti.
+
+9
+00:00:19,160 --> 00:00:22,600
+Hola, buenas tardes. Mi nombre es Raúl
+
+10
+00:00:20,560 --> 00:00:24,039
+Cordero de RJC Software. Hoy les voy a
+
+11
+00:00:22,600 --> 00:00:26,400
+mostrar cómo funciona el registro de
+
+12
+00:00:24,039 --> 00:00:28,679
+rentas empresariales. Para esto hemos
+
+13
+00:00:26,400 --> 00:00:29,759
+preparado un ejemplo. Lo primero que
+
+14
+00:00:28,679 --> 00:00:31,320
+vamos a hacer es revisar los
+
+15
+00:00:29,759 --> 00:00:33,160
+antecedentes. El primer antecedente que
+
+16
+00:00:31,320 --> 00:00:35,320
+tenemos es 10,000ones de capital
+
+17
+00:00:33,160 --> 00:00:38,120
+inicial. Ese multiplicado por el factor
+
+18
+00:00:35,320 --> 00:00:40,600
+de reajuste me da 10,420. Y luego
+
+19
+00:00:38,120 --> 00:00:42,760
+tenemos el capital propio tributario del
+
+20
+00:00:40,600 --> 00:00:45,039
+año anterior, tenemos el registro de
+
+21
+00:00:42,760 --> 00:00:48,399
+rentas empresariales del año pasado, los
+
+22
+00:00:45,039 --> 00:00:52,160
+saldos, tenemos el impuesto eh pagado
+
+23
+00:00:48,399 --> 00:00:54,000
+del año pasado, tenemos multa y tenemos
+
+24
+00:00:52,160 --> 00:00:56,760
+un gasto rechazado, o sea, una factura
+
+25
+00:00:54,000 --> 00:00:59,640
+que no es del giro. También tenemos los
+
+26
+00:00:56,760 --> 00:01:01,320
+retiros de los socios y luego, bueno,
+
+27
+00:00:59,640 --> 00:01:03,559
+tenemos que hacer varios
+
+28
+00:01:01,320 --> 00:01:08,560
+cálculos. Bien, lo primero que vamos a
+
+29
+00:01:03,559 --> 00:01:08,560
+hacer es revisar el balance.
+
+30
+00:01:09,080 --> 00:01:13,759
+Entonces, acá tenemos el el balance
+
+31
+00:01:11,759 --> 00:01:15,960
+tributario. En la pantalla análisis
+
+32
+00:01:13,759 --> 00:01:18,240
+conta podemos revisar el balance. Aquí
+
+33
+00:01:15,960 --> 00:01:21,600
+tenemos una utilidad de 16
+
+34
+00:01:18,240 --> 00:01:24,360
+millones. Perfecto. Dentro del balance
+
+35
+00:01:21,600 --> 00:01:24,360
+nosotros tenemos
+
+36
+00:01:24,600 --> 00:01:29,000
+contabilizado en la parte de asientos
+
+37
+00:01:27,000 --> 00:01:31,200
+contables. Si buscamos, por ejemplo, en
+
+38
+00:01:29,000 --> 00:01:33,320
+la factura, tenemos la multa. Por
+
+39
+00:01:31,200 --> 00:01:36,439
+ejemplo, si busco la multa, aquí tengo
+
+40
+00:01:33,320 --> 00:01:38,600
+la contabilización de la multa.
+
+41
+00:01:36,439 --> 00:01:43,280
+También tengo la contabilización de la
+
+42
+00:01:38,600 --> 00:01:46,520
+factura rechazada. Quiero un
+
+43
+00:01:43,280 --> 00:01:47,240
+regalo. Acá tengo la factura regalo. Ahí
+
+44
+00:01:46,520 --> 00:01:48,880
+está
+
+45
+00:01:47,240 --> 00:01:50,280
+contabilizada. También tenemos
+
+46
+00:01:48,880 --> 00:01:53,560
+contabilizado
+
+47
+00:01:50,280 --> 00:01:53,560
+el el
+
+48
+00:01:54,600 --> 00:01:59,680
+impuesto. Ahí está el pago del impuesto
+
+49
+00:01:57,280 --> 00:02:01,520
+del año pasado. Ahí están los 5
+
+50
+00:01:59,680 --> 00:02:02,479
+millones. Perfecto. Entonces, ya. Bueno,
+
+51
+00:02:01,520 --> 00:02:05,320
+tenemos todo
+
+52
+00:02:02,479 --> 00:02:07,119
+contabilizado, tenemos listo el balance.
+
+53
+00:02:05,320 --> 00:02:09,039
+Lo otro que tenemos que revisar son los
+
+54
+00:02:07,119 --> 00:02:11,200
+retiros. Entonces, dentro de nuestra
+
+55
+00:02:09,039 --> 00:02:12,599
+planilla antecedentes vamos a ir a
+
+56
+00:02:11,200 --> 00:02:14,760
+revisar todos los
+
+57
+00:02:12,599 --> 00:02:16,519
+retiros. Entonces, para esto vamos a
+
+58
+00:02:14,760 --> 00:02:17,879
+usar la declaración jurada de retiro,
+
+59
+00:02:16,519 --> 00:02:19,920
+que es la
+
+60
+00:02:17,879 --> 00:02:21,400
+1948. Entonces, acá tengo todos los
+
+61
+00:02:19,920 --> 00:02:23,319
+retiros que ya tenemos ingresado. Vamos
+
+62
+00:02:21,400 --> 00:02:25,640
+a copiar esta planilla de
+
+63
+00:02:23,319 --> 00:02:29,280
+aquí. La voy a copiar y la voy a llevar
+
+64
+00:02:25,640 --> 00:02:31,640
+a Excel. Entonces, aquí con esto voy a
+
+65
+00:02:29,280 --> 00:02:34,000
+pegar y bueno, me voy a quedar solamente
+
+66
+00:02:31,640 --> 00:02:37,160
+con las columnas del
+
+67
+00:02:34,000 --> 00:02:41,040
+retiro. Esta de aquí la vamos
+
+68
+00:02:37,160 --> 00:02:43,200
+a a eliminar. Okay. Me voy a quedar
+
+69
+00:02:41,040 --> 00:02:44,879
+solamente con estas dos columnas. Okay.
+
+70
+00:02:43,200 --> 00:02:48,800
+Entonces, aquí tengo la fecha en que se
+
+71
+00:02:44,879 --> 00:02:51,480
+retiró y bueno, el root del retiro.
+
+72
+00:02:48,800 --> 00:02:55,400
+Okay. Voy a voy a correrte un poquito
+
+73
+00:02:51,480 --> 00:02:56,800
+más acá para quede mejor. Okay, lo voy a
+
+74
+00:02:55,400 --> 00:02:58,599
+ordenar.
+
+75
+00:02:56,800 --> 00:03:00,560
+Están ordenados por fecha. Sí. Perfecto.
+
+76
+00:02:58,599 --> 00:03:03,200
+Entonces, este sería el socio uno, este
+
+77
+00:03:00,560 --> 00:03:05,360
+el socio dos.
+
+78
+00:03:03,200 --> 00:03:07,920
+Bien, entonces vamos a sumar los retiros
+
+79
+00:03:05,360 --> 00:03:07,920
+para hacer el
+
+80
+00:03:08,200 --> 00:03:14,360
+caletamos 5
+
+81
+00:03:10,080 --> 00:03:17,280
+millones y el monto reajustado va a
+
+82
+00:03:14,360 --> 00:03:19,120
+ser este valor. Entonces, bueno, para
+
+83
+00:03:17,280 --> 00:03:24,920
+calcular el
+
+84
+00:03:19,120 --> 00:03:27,120
+retiro va vamos a tener este valor
+
+85
+00:03:24,920 --> 00:03:30,400
+menos este
+
+86
+00:03:27,120 --> 00:03:33,480
+valor. Esa es la el valor de la
+
+87
+00:03:30,400 --> 00:03:35,879
+corrección monetaria de los retiros.
+
+88
+00:03:33,480 --> 00:03:37,799
+Okay. Bien, una vez que tenemos todos
+
+89
+00:03:35,879 --> 00:03:40,840
+estos antecedentes, vamos a hacer el
+
+90
+00:03:37,799 --> 00:03:40,840
+cálculo de la renta
+
+91
+00:03:40,879 --> 00:03:45,120
+líquida. Entonces, vamos a ir al
+
+92
+00:03:42,879 --> 00:03:48,439
+programa y vamos
+
+93
+00:03:45,120 --> 00:03:51,640
+a ir a la
+
+94
+00:03:48,439 --> 00:03:55,280
+1926, donde podemos calcular la renta
+
+95
+00:03:51,640 --> 00:03:57,040
+líquida. Entonces, entramos año 2024 y
+
+96
+00:03:55,280 --> 00:04:00,760
+comenzamos a copiar. Bueno, el primer
+
+97
+00:03:57,040 --> 00:04:01,920
+valor de la multa eran 50.000 y esta fue
+
+98
+00:04:00,760 --> 00:04:04,400
+en
+
+99
+00:04:01,920 --> 00:04:06,720
+junio. Entonces, ingresamos el valor de
+
+100
+00:04:04,400 --> 00:04:08,959
+la de la multa y el valor reajustado de
+
+101
+00:04:06,720 --> 00:04:11,280
+una vez lo vamos copiando en la planilla
+
+102
+00:04:08,959 --> 00:04:14,000
+porque lo vamos a necesitar
+
+103
+00:04:11,280 --> 00:04:16,320
+posteriormente. Luego tenemos un gasto
+
+104
+00:04:14,000 --> 00:04:20,280
+rechazado que también fue en junio de
+
+105
+00:04:16,320 --> 00:04:23,160
+500,000 pesos. Entonces acá tenemos esta
+
+106
+00:04:20,280 --> 00:04:24,880
+este pago que que no es del giro.
+
+107
+00:04:23,160 --> 00:04:28,360
+Entonces
+
+108
+00:04:24,880 --> 00:04:30,320
+500,000. Este gasto también fue en junio
+
+109
+00:04:28,360 --> 00:04:32,759
+y lo tenemos que ingresar como agregado
+
+110
+00:04:30,320 --> 00:04:32,759
+y como
+
+111
+00:04:35,440 --> 00:04:39,120
+deducción. Y así mismo en junio.
+
+112
+00:04:37,600 --> 00:04:40,840
+Perfecto. Ya. Entonces tenemos el mismo
+
+113
+00:04:39,120 --> 00:04:42,479
+valor y este valor reajustado. Así mismo
+
+114
+00:04:40,840 --> 00:04:44,759
+lo vamos a
+
+115
+00:04:42,479 --> 00:04:48,120
+usar posteriormente, así que lo vamos a
+
+116
+00:04:44,759 --> 00:04:48,120
+capturar. Después tenemos el
+
+117
+00:04:48,160 --> 00:04:53,160
+impuesto que también debo ingresarlo,
+
+118
+00:04:51,000 --> 00:04:56,280
+que bueno, este fue en abril, ¿correcto?
+
+119
+00:04:53,160 --> 00:04:58,600
+Entonces, ya ahí está el valor del
+
+120
+00:04:56,280 --> 00:05:01,160
+impuesto. Muy
+
+121
+00:04:58,600 --> 00:05:03,639
+bien. Y luego
+
+122
+00:05:01,160 --> 00:05:05,800
+tenemos el la corrección monetaria de
+
+123
+00:05:03,639 --> 00:05:05,800
+los
+
+124
+00:05:06,000 --> 00:05:13,639
+retiros. La corrección monetaria de los
+
+125
+00:05:10,080 --> 00:05:15,240
+retiros acá.
+
+126
+00:05:13,639 --> 00:05:17,080
+Y me estaría faltando la corrección
+
+127
+00:05:15,240 --> 00:05:19,919
+monetaria del capital inicial, que lo
+
+128
+00:05:17,080 --> 00:05:24,080
+tengo acá,
+
+129
+00:05:19,919 --> 00:05:24,080
+el de abajo, el que está acá,
+
+130
+00:05:26,880 --> 00:05:29,880
+¿correcto? Que también lo teníamos
+
+131
+00:05:28,759 --> 00:05:31,680
+dentro de los antecedentes. Entonces,
+
+132
+00:05:29,880 --> 00:05:34,280
+ingresamos el valor de la corrección
+
+133
+00:05:31,680 --> 00:05:36,720
+monetaria y revisamos, ¿no? Entonces,
+
+134
+00:05:34,280 --> 00:05:38,800
+bueno, ingresamos multas, ingresamos el
+
+135
+00:05:36,720 --> 00:05:42,160
+impuesto y ingresamos la
+
+136
+00:05:38,800 --> 00:05:44,160
+factura. Acá está la factura dos veces.
+
+137
+00:05:42,160 --> 00:05:46,520
+Ingresamos la corrección monetaria, los
+
+138
+00:05:44,160 --> 00:05:49,639
+retiros de socio y la corrección
+
+139
+00:05:46,520 --> 00:05:54,080
+monetaria del capital propio tributario
+
+140
+00:05:49,639 --> 00:05:56,080
+inicial. Y ahora sí tenemos el la renta
+
+141
+00:05:54,080 --> 00:05:58,160
+líquida. No vamos a hacer incentivo al
+
+142
+00:05:56,080 --> 00:05:59,759
+ahorro, así que directamente este sería
+
+143
+00:05:58,160 --> 00:06:02,080
+el valor 19
+
+144
+00:05:59,759 --> 00:06:03,600
+millones, que sería el valor de la renta
+
+145
+00:06:02,080 --> 00:06:06,000
+líquida que luego vamos a ocupar.
+
+146
+00:06:03,600 --> 00:06:08,199
+Entonces vamos a copiar acá.
+
+147
+00:06:06,000 --> 00:06:11,080
+Entonces, renta
+
+148
+00:06:08,199 --> 00:06:13,360
+líquida va a ser este
+
+149
+00:06:11,080 --> 00:06:14,800
+mundo. Okay, con esto tenemos toda la
+
+150
+00:06:13,360 --> 00:06:16,160
+información que necesitamos por el
+
+151
+00:06:14,800 --> 00:06:18,720
+momento,
+
+152
+00:06:16,160 --> 00:06:22,000
+¿no? Entonces, ahora ya podemos ir a
+
+153
+00:06:18,720 --> 00:06:24,919
+ingresar. Vamos a grabar
+
+154
+00:06:22,000 --> 00:06:27,280
+esto para tenerlo respaldado por
+
+155
+00:06:24,919 --> 00:06:28,800
+cualquier Ya. Y bueno, igual recuerden
+
+156
+00:06:27,280 --> 00:06:30,919
+que acá también se puede generar un
+
+157
+00:06:28,800 --> 00:06:33,520
+Excel con esta información, ¿no? Acá en
+
+158
+00:06:30,919 --> 00:06:35,319
+el Excel es muy importante revisarlo
+
+159
+00:06:33,520 --> 00:06:37,479
+sobre todo las cuentas. Si es que van a
+
+160
+00:06:35,319 --> 00:06:39,440
+hacer la declaración jurada, es
+
+161
+00:06:37,479 --> 00:06:40,919
+importante que revisen las cuentas, ¿no?
+
+162
+00:06:39,440 --> 00:06:44,120
+Aquí voy a acercar un
+
+163
+00:06:40,919 --> 00:06:47,919
+poquito. Bueno, aquí sale ya el los
+
+164
+00:06:44,120 --> 00:06:51,599
+multas, el impuesto, la factura que no
+
+165
+00:06:47,919 --> 00:06:55,560
+era que no es del giro y acá igual, ¿no?
+
+166
+00:06:51,599 --> 00:06:57,680
+La factura en deducciones, la corrección
+
+167
+00:06:55,560 --> 00:07:00,360
+monetaria y la corrección, esta es la
+
+168
+00:06:57,680 --> 00:07:03,319
+del capital, la de los retiros y esta es
+
+169
+00:07:00,360 --> 00:07:05,280
+la del capital tributario inicial. Y
+
+170
+00:07:03,319 --> 00:07:06,800
+este sería la prarenta. No hicimos
+
+171
+00:07:05,280 --> 00:07:08,720
+incentivo al ahorro, así que tendríamos
+
+172
+00:07:06,800 --> 00:07:11,080
+directamente los 19
+
+173
+00:07:08,720 --> 00:07:13,720
+millones. Okay. Finalmente, con esa
+
+174
+00:07:11,080 --> 00:07:18,039
+información vamos a ir
+
+175
+00:07:13,720 --> 00:07:19,879
+al otra vez menú de declaración jurada,
+
+176
+00:07:18,039 --> 00:07:21,680
+registro de rentas
+
+177
+00:07:19,879 --> 00:07:25,160
+empresariales. Vamos a seleccionar el
+
+178
+00:07:21,680 --> 00:07:27,879
+año 2024 y vamos a descargar la
+
+179
+00:07:25,160 --> 00:07:29,199
+planilla. Scionamos descargar planilla y
+
+180
+00:07:27,879 --> 00:07:31,199
+vamos a abrir la planilla de los
+
+181
+00:07:29,199 --> 00:07:32,960
+antecedentes acá. Bueno, en la planilla
+
+182
+00:07:31,199 --> 00:07:34,919
+lo primero que tengo que hacer es traer
+
+183
+00:07:32,960 --> 00:07:38,960
+la información del Bueno, vamos a
+
+184
+00:07:34,919 --> 00:07:41,160
+habilitar edición y vamos a traer los
+
+185
+00:07:38,960 --> 00:07:42,919
+saldos. Sí, me voy con los saldos del
+
+186
+00:07:41,160 --> 00:07:45,280
+año anterior y los copio. La planilla
+
+187
+00:07:42,919 --> 00:07:47,759
+del la planilla que descargué
+
+188
+00:07:45,280 --> 00:07:50,639
+primero. Vamos a la planilla que
+
+189
+00:07:47,759 --> 00:07:51,919
+descargué, habilitar edición y pegamos
+
+190
+00:07:50,639 --> 00:07:53,840
+los valores
+
+191
+00:07:51,919 --> 00:07:55,599
+aquí. Entonces, vamos a hacer la
+
+192
+00:07:53,840 --> 00:07:57,000
+razonalidad de capital propio para tener
+
+193
+00:07:55,599 --> 00:07:58,639
+el capital propio de este año.
+
+194
+00:07:57,000 --> 00:08:00,360
+¿Correcto?
+
+195
+00:07:58,639 --> 00:08:02,919
+Entonces, tomamos el capital propio del
+
+196
+00:08:00,360 --> 00:08:03,919
+año anterior, que sería este, y lo
+
+197
+00:08:02,919 --> 00:08:07,759
+pegamos
+
+198
+00:08:03,919 --> 00:08:09,879
+acá. Luego tenemos la renta líquida, que
+
+199
+00:08:07,759 --> 00:08:12,879
+esa ya la tenemos en nuestro plenidad
+
+200
+00:08:09,879 --> 00:08:15,039
+antecedente, serían los 19
+
+201
+00:08:12,879 --> 00:08:18,319
+millones. Luego incentivo al ahorro que
+
+202
+00:08:15,039 --> 00:08:21,120
+no pusimos, sería cero. Luego dividendos
+
+203
+00:08:18,319 --> 00:08:23,759
+que tampoco pusamos.
+
+204
+00:08:21,120 --> 00:08:25,919
+Los retiros
+
+205
+00:08:23,759 --> 00:08:29,159
+actualizados serían
+
+206
+00:08:25,919 --> 00:08:29,159
+estos y
+
+207
+00:08:31,000 --> 00:08:39,360
+negativo. Ya. Luego tenemos las multas
+
+208
+00:08:34,240 --> 00:08:39,360
+fiscales y esta también corregida.
+
+209
+00:08:39,599 --> 00:08:43,039
+51,100 -
+
+210
+00:08:43,159 --> 00:08:48,600
+51000
+
+211
+00:08:44,920 --> 00:08:48,600
+100 y luego las
+
+212
+00:08:49,120 --> 00:08:52,839
+donaciones que ser los gastos
+
+213
+00:08:53,279 --> 00:08:56,560
+rechazados también
+
+214
+00:08:59,240 --> 00:09:06,600
+negativo y luego el
+
+215
+00:09:02,839 --> 00:09:06,600
+impuesto que sería este valor.
+
+216
+00:09:09,079 --> 00:09:11,360
+también
+
+217
+00:09:13,000 --> 00:09:17,240
+negativo. Acá iría el valor de la renta
+
+218
+00:09:18,040 --> 00:09:21,800
+líquida de los 19
+
+219
+00:09:24,839 --> 00:09:28,959
+millones y esos son los antecedentes. A
+
+220
+00:09:27,120 --> 00:09:30,560
+ver, revisemos. Primero tenemos el
+
+221
+00:09:28,959 --> 00:09:33,160
+capital
+
+222
+00:09:30,560 --> 00:09:36,240
+tributario del año
+
+223
+00:09:33,160 --> 00:09:38,000
+anterior. Luego tenemos, bueno, esto es
+
+224
+00:09:36,240 --> 00:09:40,959
+una fórmula simplemente el factor de
+
+225
+00:09:38,000 --> 00:09:43,480
+actualización. Luego tenemos la que para
+
+226
+00:09:40,959 --> 00:09:45,440
+este año es el 4,2. Luego tenemos la
+
+227
+00:09:43,480 --> 00:09:47,839
+renta lígidia, los 19
+
+228
+00:09:45,440 --> 00:09:49,360
+millones. Estos valores que no estamos
+
+229
+00:09:47,839 --> 00:09:51,920
+usando, que es el incentivo del ahorro
+
+230
+00:09:49,360 --> 00:09:54,360
+ni los dividendos. Tenemos los retiros
+
+231
+00:09:51,920 --> 00:09:56,399
+actualizados, las multas actualizadas,
+
+232
+00:09:54,360 --> 00:09:58,040
+la factura. Esto es más que donación son
+
+233
+00:09:56,399 --> 00:10:00,480
+facturas rechazadas.
+
+234
+00:09:58,040 --> 00:10:00,480
+o gasto
+
+235
+00:10:03,160 --> 00:10:09,800
+rechazado y luego tenemos el impuesto y
+
+236
+00:10:05,880 --> 00:10:13,360
+llegamos a este capital propio
+
+237
+00:10:09,800 --> 00:10:15,519
+tributario. Bien, entonces luego vamos a
+
+238
+00:10:13,360 --> 00:10:18,640
+determinar el nuevo Ray. Tenemos el
+
+239
+00:10:15,519 --> 00:10:20,839
+capital tributario inicial. Esto es para
+
+240
+00:10:18,640 --> 00:10:22,279
+nuevo Ray. Luego tenemos la renta
+
+241
+00:10:20,839 --> 00:10:27,640
+exenta, esto en
+
+242
+00:10:22,279 --> 00:10:27,640
+negativo. Le vamos a multiplicar por -1.
+
+243
+00:10:28,079 --> 00:10:32,640
+Luego tenemos
+
+244
+00:10:29,560 --> 00:10:33,920
+el capital aportado. Esto es en la
+
+245
+00:10:32,640 --> 00:10:38,279
+planilla antecedentes. Tenemos el
+
+246
+00:10:33,920 --> 00:10:41,240
+capital aportado. En este caso los 10
+
+247
+00:10:38,279 --> 00:10:43,320
+millones también en
+
+248
+00:10:41,240 --> 00:10:45,399
+negativo. El que va reajustado, que
+
+249
+00:10:43,320 --> 00:10:49,560
+sería este de acá. Este para el año
+
+250
+00:10:45,399 --> 00:10:51,519
+actual que sería
+
+251
+00:10:49,560 --> 00:10:54,040
+acá. Ahí está.
+
+252
+00:10:51,519 --> 00:10:56,560
+Ya. Y el saldo del
+
+253
+00:10:54,040 --> 00:10:58,639
+Rex, este valor me falta. Este tenemos
+
+254
+00:10:56,560 --> 00:11:02,200
+que
+
+255
+00:10:58,639 --> 00:11:02,200
+determinarlo. Estos son los
+
+256
+00:11:02,320 --> 00:11:06,760
+retiros. Ya me estaría faltando este
+
+257
+00:11:05,000 --> 00:11:09,639
+valor. Para determinar este valor
+
+258
+00:11:06,760 --> 00:11:12,040
+necesito ingresar el saldo inicial.
+
+259
+00:11:09,639 --> 00:11:15,120
+Entonces, me voy al registro de rentas
+
+260
+00:11:12,040 --> 00:11:18,399
+empresariales, presiono el botón saldo
+
+261
+00:11:15,120 --> 00:11:20,440
+inicial, eh pongo que sí tiene reajuste
+
+262
+00:11:18,399 --> 00:11:22,839
+y copio los valores que están en mi
+
+263
+00:11:20,440 --> 00:11:24,600
+planilla de antecedentes. En este caso
+
+264
+00:11:22,839 --> 00:11:30,600
+tengo este
+
+265
+00:11:24,600 --> 00:11:30,600
+Ray, ingreso aquí, tengo luego la renta
+
+266
+00:11:31,240 --> 00:11:38,519
+exenta, esta sería la renta exenta y
+
+267
+00:11:34,440 --> 00:11:38,519
+luego tengo el
+
+268
+00:11:39,480 --> 00:11:43,519
+crédito. Ingresamos el crédito y
+
+269
+00:11:41,519 --> 00:11:45,519
+grabamos.
+
+270
+00:11:43,519 --> 00:11:48,079
+Y con eso ya tengo el saldo inicial y
+
+271
+00:11:45,519 --> 00:11:50,079
+tengo el saldo de la renta exent que
+
+272
+00:11:48,079 --> 00:11:52,880
+sería estos serían los
+
+273
+00:11:50,079 --> 00:11:55,560
+valores. Este sería mi valor
+
+274
+00:11:52,880 --> 00:11:59,040
+de que tendría que ir
+
+275
+00:11:55,560 --> 00:12:04,079
+aquí con negativo otra
+
+276
+00:11:59,040 --> 00:12:06,279
+vez. Entonces este sería mi nuevo Ray 39
+
+277
+00:12:04,079 --> 00:12:07,760
+millones. Entonces, bueno, vamos a
+
+278
+00:12:06,279 --> 00:12:10,399
+agregar el nuevo
+
+279
+00:12:07,760 --> 00:12:12,880
+Ray. Serían los
+
+280
+00:12:10,399 --> 00:12:16,000
+39,358. Pegamos acá.
+
+281
+00:12:12,880 --> 00:12:16,000
+Aquí hay que quitarle los
+
+282
+00:12:16,120 --> 00:12:22,000
+puntitos y agregamos. Y ahí ya tengo el
+
+283
+00:12:19,519 --> 00:12:27,160
+nuevo Ray. Y ahora solamente tengo que
+
+284
+00:12:22,000 --> 00:12:30,160
+ingresar el saldo del crédito. En este
+
+285
+00:12:27,160 --> 00:12:34,199
+caso, en mi nueva
+
+286
+00:12:30,160 --> 00:12:36,880
+planilla, aquí está 5 millones.
+
+287
+00:12:34,199 --> 00:12:40,079
+Y vamos a ingresar el saldo del crédito.
+
+288
+00:12:36,880 --> 00:12:42,199
+Y aquí tengo que poner con código 101
+
+289
+00:12:40,079 --> 00:12:45,560
+para el primero de enero del
+
+290
+00:12:42,199 --> 00:12:48,279
+2024. Código 101. Vamos a ingresar el
+
+291
+00:12:45,560 --> 00:12:48,279
+nuevo saldo del
+
+292
+00:12:48,560 --> 00:12:53,320
+crédito. Perfecto. 5 millones.
+
+293
+00:12:53,800 --> 00:12:59,800
+Grabamos y listo. Entonces, ya ahora sí
+
+294
+00:12:56,320 --> 00:13:02,480
+tengo el saldo completo de el Ray 39
+
+295
+00:12:59,800 --> 00:13:04,160
+millones, la renta exente actualizada y
+
+296
+00:13:02,480 --> 00:13:06,920
+el nuevo saldo del crédito. Son los
+
+297
+00:13:04,160 --> 00:13:10,639
+valores que hemos
+
+298
+00:13:06,920 --> 00:13:13,040
+calculado. Este sería mi nuevo
+
+299
+00:13:10,639 --> 00:13:14,079
+saldo. Este valor lo voy a llevar a mi
+
+300
+00:13:13,040 --> 00:13:18,199
+planilla de
+
+301
+00:13:14,079 --> 00:13:22,040
+antecedentes y lo vamos a pegar aquí.
+
+302
+00:13:18,199 --> 00:13:24,959
+Lo vamos a pegar sin
+
+303
+00:13:22,040 --> 00:13:27,160
+formato, ¿ya? Y vamos a ponernos la
+
+304
+00:13:24,959 --> 00:13:29,880
+nuevo valor sería eso
+
+305
+00:13:27,160 --> 00:13:32,560
+ahí. Por lo tanto, los retiros que están
+
+306
+00:13:29,880 --> 00:13:34,360
+acá se van haciendo en orden secuencial.
+
+307
+00:13:32,560 --> 00:13:36,880
+Entonces, para el primer
+
+308
+00:13:34,360 --> 00:13:39,320
+socio vamos a hacer el primer retiro de
+
+309
+00:13:36,880 --> 00:13:40,959
+un millón. Entonces tengo las cuentas
+
+310
+00:13:39,320 --> 00:13:46,199
+que yo tengo saldo
+
+311
+00:13:40,959 --> 00:13:49,279
+Ray, el Rex y el SAC.
+
+312
+00:13:46,199 --> 00:13:51,720
+Okay. Entonces, bueno, del Ray, no, del
+
+313
+00:13:49,279 --> 00:13:53,720
+Rex primero vamos a sacar los
+
+314
+00:13:51,720 --> 00:13:58,120
+22000 pesos que
+
+315
+00:13:53,720 --> 00:14:01,079
+quedaban, ¿ya? Y del Ray vamos a sacar
+
+316
+00:13:58,120 --> 00:14:03,680
+este valor menos este
+
+317
+00:14:01,079 --> 00:14:05,880
+valor. El para calcular el SAT voy a
+
+318
+00:14:03,680 --> 00:14:09,680
+usar la tasa que está acá
+
+319
+00:14:05,880 --> 00:14:15,199
+arriba multiplicado por el
+
+320
+00:14:09,680 --> 00:14:17,959
+rayo. Esta tasa debería estar fijada.
+
+321
+00:14:15,199 --> 00:14:20,440
+corregir la fórmula para poderla copiar.
+
+322
+00:14:17,959 --> 00:14:20,440
+Listo, ahora
+
+323
+00:14:20,519 --> 00:14:25,680
+sí. Y vamos copiando los valores. Sería
+
+324
+00:14:23,480 --> 00:14:27,120
+este valor, sería la misma fórmula que
+
+325
+00:14:25,680 --> 00:14:29,720
+está
+
+326
+00:14:27,120 --> 00:14:32,079
+aquí. Y ahí tengo todos mis retiros.
+
+327
+00:14:29,720 --> 00:14:32,079
+Bueno, este
+
+328
+00:14:32,240 --> 00:14:37,279
+no. Ya. Entonces, esto es lo que tengo
+
+329
+00:14:34,519 --> 00:14:40,560
+que ingresar como retiros. Entonces, el
+
+330
+00:14:37,279 --> 00:14:42,199
+primer socio sería el 31 de marzo, 11000
+
+331
+00:14:40,560 --> 00:14:43,959
+pesos.
+
+332
+00:14:42,199 --> 00:14:46,920
+Entonces vamos a agregar los retiros.
+
+333
+00:14:43,959 --> 00:14:52,880
+Agregar y el código del
+
+334
+00:14:46,920 --> 00:14:55,000
+retiro 31 de marzo del 2000 24 y vamos a
+
+335
+00:14:52,880 --> 00:14:57,199
+agregar el 106 que es el código del
+
+336
+00:14:55,000 --> 00:14:59,399
+retiro. El
+
+337
+00:14:57,199 --> 00:15:01,880
+retiro
+
+338
+00:14:59,399 --> 00:15:04,639
+socio y el monto de los retiros. Bueno,
+
+339
+00:15:01,880 --> 00:15:09,120
+aquí están los montos. El Ray era este
+
+340
+00:15:04,639 --> 00:15:09,120
+valor. De Rex tenemos este
+
+341
+00:15:10,399 --> 00:15:21,320
+valor. Este es el Rex y de Z este
+
+342
+00:15:17,240 --> 00:15:25,320
+val este y el espacio en blanco que se
+
+343
+00:15:21,320 --> 00:15:28,040
+copian a veces generan ciertas dudas.
+
+344
+00:15:25,320 --> 00:15:31,600
+Bien, entonces ahí
+
+345
+00:15:28,040 --> 00:15:33,519
+tengo el primer retiro,
+
+346
+00:15:31,600 --> 00:15:35,800
+1,34,000
+
+347
+00:15:33,519 --> 00:15:37,600
+pesos. Ya. Entonces, el segundo retiro,
+
+348
+00:15:35,800 --> 00:15:38,920
+que ya es más fácil solamente es el el
+
+349
+00:15:37,600 --> 00:15:42,720
+Ray y el
+
+350
+00:15:38,920 --> 00:15:42,720
+SAC. Entonces, bueno, vamos a
+
+351
+00:15:43,279 --> 00:15:49,160
+agregar. Ah, perdón, aquí era 31 de
+
+352
+00:15:46,759 --> 00:15:52,720
+marzo también el
+
+353
+00:15:49,160 --> 00:15:55,040
+2024. La operación era 106.
+
+354
+00:15:52,720 --> 00:15:58,279
+Este era retiro socio
+
+355
+00:15:55,040 --> 00:16:02,040
+dos y aquí tengo el valor
+
+356
+00:15:58,279 --> 00:16:02,040
+1,200 que sería
+
+357
+00:16:02,480 --> 00:16:07,040
+este borramos ese espacio en blanco.
+
+358
+00:16:05,959 --> 00:16:10,319
+Vamos a
+
+359
+00:16:07,040 --> 00:16:13,759
+grabar y listo. Ahí tengo el segundo
+
+360
+00:16:10,319 --> 00:16:13,759
+retiro, 1240.
+
+361
+00:16:14,079 --> 00:16:20,199
+Eh, seguimos agregando los
+
+362
+00:16:16,120 --> 00:16:21,759
+retiros y el Ray sería S. ¿Correcto? Y
+
+363
+00:16:20,199 --> 00:16:23,480
+ahora el monto
+
+364
+00:16:21,759 --> 00:16:25,680
+del
+
+365
+00:16:23,480 --> 00:16:28,040
+crédito que sería
+
+366
+00:16:25,680 --> 00:16:29,560
+este.
+
+367
+00:16:28,040 --> 00:16:31,120
+Ingresamos.
+
+368
+00:16:29,560 --> 00:16:33,360
+Grabar.
+
+369
+00:16:31,120 --> 00:16:35,560
+Listo. Y aquí ya tenemos ingresados
+
+370
+00:16:33,360 --> 00:16:36,639
+todos los valores de todos los retiros,
+
+371
+00:16:35,560 --> 00:16:38,880
+los cuatro
+
+372
+00:16:36,639 --> 00:16:40,560
+retiros. Retiro del socio uno, retiro
+
+373
+00:16:38,880 --> 00:16:42,959
+del socio dos, retiro del socio uno,
+
+374
+00:16:40,560 --> 00:16:45,800
+retiro del socio dos.
+
+375
+00:16:42,959 --> 00:16:48,600
+Perfecto. Las fechas están bien. Sí.
+
+376
+00:16:45,800 --> 00:16:51,480
+Marzo, marzo, marzo. Ahora me
+
+377
+00:16:48,600 --> 00:16:53,959
+faltaría las multas. Bueno, como esto
+
+378
+00:16:51,480 --> 00:16:57,839
+está ingresado, tengo que calcular el
+
+379
+00:16:53,959 --> 00:17:00,600
+SAC. ¿Cuánto sería el SAC de las multas
+
+380
+00:16:57,839 --> 00:17:05,240
+y de los gastos rechazados?
+
+381
+00:17:00,600 --> 00:17:05,240
+Entonces lo multiplico por el
+
+382
+00:17:05,600 --> 00:17:08,720
+factor. Bueno, igual que antes tenemos
+
+383
+00:17:07,640 --> 00:17:12,240
+que hacer
+
+384
+00:17:08,720 --> 00:17:12,240
+eso y este
+
+385
+00:17:14,439 --> 00:17:18,919
+sería. Entonces, tanto las multas como
+
+386
+00:17:17,079 --> 00:17:20,480
+los gastos rechazados tienen un efecto
+
+387
+00:17:18,919 --> 00:17:22,240
+en el SAC, en el saldo acumulado del
+
+388
+00:17:20,480 --> 00:17:25,280
+crédito. Entonces, vamos a dar la baja
+
+389
+00:17:22,240 --> 00:17:28,640
+de los créditos. tenemos que tanto por
+
+390
+00:17:25,280 --> 00:17:32,120
+multas eh restarle al saldo del crédito
+
+391
+00:17:28,640 --> 00:17:34,120
+18,900 y por gasto rechazado 189,000
+
+392
+00:17:32,120 --> 00:17:35,679
+pes. Entonces vamos al registro de
+
+393
+00:17:34,120 --> 00:17:38,760
+rentas empresariales y agregamos un
+
+394
+00:17:35,679 --> 00:17:42,559
+código movimiento 300. Ponemos ya eso
+
+395
+00:17:38,760 --> 00:17:42,559
+eh, con fecha 31 de
+
+396
+00:17:42,600 --> 00:17:48,880
+de diciembre y ponemos los valores. En
+
+397
+00:17:46,000 --> 00:17:52,160
+este caso vamos a ingresar con código
+
+398
+00:17:48,880 --> 00:17:54,919
+300, las imputaciones tanto por
+
+399
+00:17:52,160 --> 00:17:59,200
+multas y aquí pondríamos el monto. En
+
+400
+00:17:54,919 --> 00:18:02,480
+este caso eran 18900 por
+
+401
+00:17:59,200 --> 00:18:04,799
+multa. Y lo mismo hacemos para agregar
+
+402
+00:18:02,480 --> 00:18:07,840
+el gasto rechazado. Así mismo, el 31 del
+
+403
+00:18:04,799 --> 00:18:10,360
+12, el 20 24.
+
+404
+00:18:07,840 --> 00:18:10,360
+el código
+
+405
+00:18:10,679 --> 00:18:15,280
+300 por la factura
+
+406
+00:18:15,480 --> 00:18:22,240
+rechazada y ponemos el los 189,000
+
+407
+00:18:19,320 --> 00:18:24,679
+pesos.
+
+408
+00:18:22,240 --> 00:18:29,000
+Grabamos y listo. Entonces tenemos
+
+409
+00:18:24,679 --> 00:18:31,799
+ingresado el código 300 y el nuevo
+
+410
+00:18:29,000 --> 00:18:34,200
+saldo. Ahora podemos sacar un
+
+411
+00:18:31,799 --> 00:18:37,159
+PDF para imprimir. Podemos imprimirlo
+
+412
+00:18:34,200 --> 00:18:39,000
+con folio. Y aquí podemos revisar, voy a
+
+413
+00:18:37,159 --> 00:18:40,360
+acercar un poco la pantalla, mi registro
+
+414
+00:18:39,000 --> 00:18:43,559
+de rentas
+
+415
+00:18:40,360 --> 00:18:44,679
+empresariales. Entonces aquí tengo todo,
+
+416
+00:18:43,559 --> 00:18:46,520
+¿no?
+
+417
+00:18:44,679 --> 00:18:48,880
+la información y los saldos nuevos del
+
+418
+00:18:46,520 --> 00:18:51,200
+Ray, el saldo de la renta etca, bueno,
+
+419
+00:18:48,880 --> 00:18:53,880
+que quedó en cero y el y el SAC, que es
+
+420
+00:18:51,200 --> 00:18:55,880
+el saldo del crédito acumulado. Muy
+
+421
+00:18:53,880 --> 00:18:57,280
+bien, con eso hemos revisado cómo
+
+422
+00:18:55,880 --> 00:19:00,159
+funciona el registro de rentas
+
+423
+00:18:57,280 --> 00:19:02,559
+empresariales. Muchas gracias. Los vamos
+
+424
+00:19:00,159 --> 00:19:05,440
+a dejar con nuestra página
+
+425
+00:19:02,559 --> 00:19:07,640
+de eh web y los teléfonos de soporte
+
+426
+00:19:05,440 --> 00:19:09,240
+para cualquier consulta o duda. Se
+
+427
+00:19:07,640 --> 00:19:10,679
+recomiendo ver este video varias veces
+
+428
+00:19:09,240 --> 00:19:14,559
+para que puedan realizar el ejercicio
+
+429
+00:19:10,679 --> 00:19:14,559
+sin problemas. Gracias.
+

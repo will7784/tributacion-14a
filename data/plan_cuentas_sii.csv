@@ -1,0 +1,118 @@
+cuenta_sii,nombre,seccion,tipo
+1.01.01.00,Efectivo y equivalentes,I,ACTIVO
+1.01.02.00,Instrumentos de inversión,I,ACTIVO
+1.01.03.00,Deudores por venta,I,ACTIVO
+1.01.04.00,Documentos y cuentas por cobrar,I,ACTIVO
+1.01.05.00,Existencias,I,ACTIVO
+1.01.06.00,Gastos pagados por anticipado,I,ACTIVO
+1.01.07.00,Impuestos por recuperar,I,ACTIVO
+1.01.08.00,Otros activos circulantes,I,ACTIVO
+1.02.01.00,Terrenos,I,ACTIVO
+1.02.02.00,Edificios,I,ACTIVO
+1.02.03.00,Maquinarias y equipos,I,ACTIVO
+1.02.04.00,Muebles y útiles,I,ACTIVO
+1.02.05.00,Vehículos,I,ACTIVO
+1.02.06.00,Activos biológicos,I,ACTIVO
+1.02.07.00,Activos mineros,I,ACTIVO
+1.02.08.00,Obras en construcción,I,ACTIVO
+1.02.09.00,Otros activos fijos,I,ACTIVO
+1.02.10.00,Depreciación acumulada (menos),I,ACTIVO
+1.02.11.00,Activos intangibles,I,ACTIVO
+1.02.12.00,Amortización acumulada (menos),I,ACTIVO
+1.02.13.00,Activos de exploración,I,ACTIVO
+1.02.14.00,Activos de evaluación,I,ACTIVO
+1.03.01.00,Inversiones en empresas relacionadas,I,ACTIVO
+1.03.02.00,Inversiones en otras sociedades,I,ACTIVO
+1.03.03.00,Otros activos,I,ACTIVO
+1.04.01.00,Cuentas de orden de activos,I,ACTIVO
+2.01.01.00,Obligaciones con bancos e instituciones financieras,I,PASIVO
+2.01.02.00,Obligaciones con el público,I,PASIVO
+2.01.03.00,Cuentas por pagar,I,PASIVO
+2.01.04.00,Sueldos por pagar,I,PASIVO
+2.01.05.00,Impuestos por pagar,I,PASIVO
+2.01.06.00,Dividendos por pagar,I,PASIVO
+2.01.07.00,Provisiones,I,PASIVO
+2.01.08.00,Ingresos percibidos por adelantado,I,PASIVO
+2.01.09.00,Otros pasivos circulantes,I,PASIVO
+2.02.01.00,Obligaciones con bancos largo plazo,I,PASIVO
+2.02.02.00,Obligaciones con el público largo plazo,I,PASIVO
+2.02.03.00,Cuentas por pagar largo plazo,I,PASIVO
+2.02.04.00,Provisiones largo plazo,I,PASIVO
+2.02.05.00,Impuestos diferidos,I,PASIVO
+2.02.06.00,Otros pasivos largo plazo,I,PASIVO
+2.03.01.00,Capital,I,PATRIMONIO
+2.03.02.00,Reservas,I,PATRIMONIO
+2.03.03.00,Utilidades acumuladas,I,PATRIMONIO
+2.03.04.00,Pérdidas acumuladas,I,PATRIMONIO
+2.03.05.00,Utilidad del ejercicio,I,PATRIMONIO
+2.03.06.00,Pérdida del ejercicio,I,PATRIMONIO
+2.04.01.00,Cuentas de orden de pasivos,I,PASIVO
+3.01.01.00,Ingresos del giro percibidos o devengados,II,INGRESO
+3.01.02.00,Rentas de fuente extranjera,II,INGRESO
+3.01.03.00,Intereses percibidos o devengados,II,INGRESO
+3.01.04.00,Otros ingresos percibidos o devengados,II,INGRESO
+3.02.01.00,Costo directo de los bienes y servicios,II,COSTO
+3.03.01.00,Remuneraciones,II,GASTO
+3.03.02.00,Arriendos,II,GASTO
+3.03.03.00,Depreciación financiera del ejercicio,II,GASTO
+3.03.04.00,Intereses pagados o adeudados,II,GASTO
+3.03.05.00,Gastos por donaciones,II,GASTO
+3.03.06.00,Otros gastos financieros,II,GASTO
+3.03.07.00,Gastos por inversión privada en I+D certificados por CORFO,II,GASTO
+3.03.08.00,Gastos por inversión privada en I+D no certificados por CORFO,II,GASTO
+3.03.09.00,Gastos por exigencias medio ambientales,II,GASTO
+3.03.10.00,Gasto por indemnización o compensación a clientes o usuarios,II,GASTO
+3.03.11.00,Costos y gastos necesarios para producir las rentas de fuente extranjera,II,GASTO
+3.03.12.00,Gastos por impuesto renta e impuesto diferido,II,GASTO
+3.03.13.00,Otros gastos deducidos de los ingresos brutos,II,GASTO
+1657,Ingresos del giro percibidos o devengados,II,CONCEPTO
+1658,Rentas de fuente extranjera,II,CONCEPTO
+1659,Intereses percibidos o devengados,II,CONCEPTO
+1660,Otros ingresos percibidos o devengados,II,CONCEPTO
+1661,Costo directo de los bienes y servicios,II,CONCEPTO
+1662,Remuneraciones,II,CONCEPTO
+1140,Arriendos,II,CONCEPTO
+1663,Depreciación financiera del ejercicio,II,CONCEPTO
+1664,Intereses pagados o adeudados,II,CONCEPTO
+1665,Gastos por donaciones,II,CONCEPTO
+1666,Otros gastos financieros,II,CONCEPTO
+1667,Gastos por inversión privada en I+D certificados por CORFO,II,CONCEPTO
+1668,Gastos por inversión privada en I+D no certificados por CORFO,II,CONCEPTO
+1141,Gastos por exigencias medio ambientales,II,CONCEPTO
+1142,Gasto por indemnización o compensación a clientes o usuarios,II,CONCEPTO
+1669,Costos y gastos necesarios para producir las rentas de fuente extranjera,II,CONCEPTO
+1670,Gastos por impuesto renta e impuesto diferido,II,CONCEPTO
+1671,Otros gastos deducidos de los ingresos brutos,II,CONCEPTO
+1673,Corrección monetaria saldo deudor (art. 32 N° 1 LIR),III,AJUSTE
+1674,Corrección monetaria saldo acreedor (art. 32 N° 2 LIR),III,AJUSTE
+1144,Partidas del inciso primero no afectas al IU tasa 40% e inciso segundo art. 21 LIR,III,AJUSTE
+1675,Depreciación financiera del ejercicio,III,AJUSTE
+1175,Estimación y/o castigos de deudas incobrables según criterios financieros,III,AJUSTE
+1676,Rentas tributables no reconocidas financieramente,III,AJUSTE
+1677,Gastos agregados por donaciones,III,AJUSTE
+1678,Gastos que se deben agregar a la RLI según art. 33 N° 1 LIR,III,AJUSTE
+1150,Ingreso diferido por cambio de régimen,III,AJUSTE
+1147,Costos y gastos asociados a ingresos no renta (art. 17 LIR),III,AJUSTE
+1148,Proporcionalidad gastos imputados a ingresos no renta y/o rentas exentas,III,AJUSTE
+1149,Intereses devengados por inversiones en bonos del art. 104 LIR,III,AJUSTE
+1151,Ingresos devengados por cambio de régimen,III,AJUSTE
+1991,Ajustes de precios de transferencia según artículo 41 E LIR,III,AJUSTE
+1152,Gastos adeudados por cambio de régimen,III,AJUSTE
+1176,Castigo de deudas incobrables según art. 31 inc. 4° N° 4 LIR,III,AJUSTE
+1679,Depreciación tributaria del ejercicio,III,AJUSTE
+1680,Gasto goodwill tributario del ejercicio,III,AJUSTE
+1681,Impuesto específico a la actividad minera,III,AJUSTE
+1974,Componente ad valorem del Royalty Minero según art. 2 Ley N° 21.591,III,AJUSTE
+1975,Componente del margen del Royalty Minero según art. 3 o art. 4 Ley N° 21.591,III,AJUSTE
+1682,Gastos rechazados afectos a la tributación del art. 21 inc. 1° LIR,III,AJUSTE
+1683,Gastos rechazados afectos a la tributación del art. 21 inc. 3° LIR,III,AJUSTE
+1684,Otras partidas,III,AJUSTE
+1685,Rentas exentas IDPC (art. 33 N°2 LIR),III,AJUSTE
+1686,Dividendos y/o utilidades sociales percibidos o devengados (art. 33 N° 2 LIR),III,AJUSTE
+1183,Dividendos y/o utilidades sociales percibidas o devengadas (art. 33 N° 2 LIR) ingresos no renta,III,AJUSTE
+1687,Gastos aceptados por donaciones,III,AJUSTE
+1688,Ingresos no renta generados (art. 17 LIR),III,AJUSTE
+1689,Pérdidas de ejercicios anteriores (art. 31 N° 3 LIR),III,AJUSTE
+1154,Incentivo al ahorro según art. 14 letra E) LIR,III,AJUSTE
+1157,Base del IDPC voluntario según art. 14 letra A) N° 6 LIR y art. 42° transitorio Ley N° 21.210,III,AJUSTE
+1690,RENTA LÍQUIDA IMPONIBLE AFECTA AL IDPC O PÉRDIDA TRIBUTARIA,III,AJUSTE

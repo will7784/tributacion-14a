@@ -1,0 +1,94 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    min-height: 100vh;
+    background-color: #1e3a5f;
+    color: white;
+    padding-top: 1rem;
+}
+
+.sidebar .nav-link {
+    color: rgba(255,255,255,0.8);
+    border-radius: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    color: white;
+    background-color: rgba(255,255,255,0.15);
+}
+
+.sidebar .nav-link i {
+    width: 24px;
+    text-align: center;
+    margin-right: 8px;
+}
+
+.main-content {
+    padding: 1.5rem;
+}
+
+.table-container {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+    padding: 1rem;
+}
+
+table.dataTable tbody tr.selected {
+    background-color: #cfe2ff !important;
+}
+
+table.dataTable tbody tr:hover {
+    cursor: pointer;
+}
+
+.total-row {
+    background-color: #e9ecef !important;
+    font-weight: bold;
+}
+
+.resultado-row,
+.total-row-dark {
+    background-color: #6c757f !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Sobrescribir table-striped de Bootstrap/DataTables */
+table.table-striped > tbody > tr.total-row-dark > td,
+table.table-striped > tbody > tr.total-row-dark > th,
+table.table-striped > tbody > tr.resultado-row > td,
+table.table-striped > tbody > tr.resultado-row > th,
+table.dataTable tbody tr.total-row-dark td,
+table.dataTable tbody tr.resultado-row td {
+    background-color: #6c757f !important;
+    color: white !important;
+    --bs-table-accent-bg: transparent !important;
+}
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+.drop-zone {
+    border: 2px dashed #adb5bd;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+    color: #6c757d;
+    transition: all 0.2s;
+}
+
+.drop-zone.dragover {
+    border-color: #0d6efd;
+    background-color: #e7f1ff;
+}
+
+.modal-lg {
+    max-width: 90vw;
+}

@@ -1,0 +1,960 @@
+1
+00:00:00,120 --> 00:00:03,600
+puedes ver nuestros cursos ya emitidos
+
+2
+00:00:02,000 --> 00:00:05,520
+en nuestro canal de YouTube
+
+3
+00:00:03,600 --> 00:00:08,440
+wwww.youtube.com
+
+4
+00:00:05,520 --> 00:00:10,440
+rjc software Aquí encontrarás nuestros
+
+5
+00:00:08,440 --> 00:00:11,480
+cursos ya emitidos anteriormente Y el
+
+6
+00:00:10,440 --> 00:00:14,200
+del día de
+
+7
+00:00:11,480 --> 00:00:16,160
+hoy además también puedes dejarnos tu
+
+8
+00:00:14,200 --> 00:00:19,480
+like Es una manera de apoyarnos para
+
+9
+00:00:16,160 --> 00:00:19,480
+seguir creando material para
+
+10
+00:00:19,560 --> 00:00:24,439
+ti Hola buenas tardes Mi nombre es Raúl
+
+11
+00:00:22,279 --> 00:00:26,480
+Cordero de rjc software Hoy les voy a
+
+12
+00:00:24,439 --> 00:00:27,599
+mostrar Cómo realizar la declaración
+
+13
+00:00:26,480 --> 00:00:30,199
+jurada
+
+14
+00:00:27,599 --> 00:00:32,000
+1847 bueno para enviar la declaración
+
+15
+00:00:30,199 --> 00:00:33,800
+jurada lo que tengo que hacer es tener
+
+16
+00:00:32,000 --> 00:00:35,480
+preparado el balance Entonces lo primero
+
+17
+00:00:33,800 --> 00:00:37,239
+que vamos a hacer es revisar el balance
+
+18
+00:00:35,480 --> 00:00:39,920
+que tenemos preparado Entonces paso uno
+
+19
+00:00:37,239 --> 00:00:43,000
+preparar balance Ya lo tenemos listo
+
+20
+00:00:39,920 --> 00:00:45,200
+entonces acá Bueno podemos consultar el
+
+21
+00:00:43,000 --> 00:00:48,600
+balance revisar la utilidad Y si está
+
+22
+00:00:45,200 --> 00:00:52,559
+todo bien ya podemos ir al paso dos Una
+
+23
+00:00:48,600 --> 00:00:54,879
+vez que tenemos listo esto podemos ir a
+
+24
+00:00:52,559 --> 00:00:56,719
+revisar el plan de cuentas entonces
+
+25
+00:00:54,879 --> 00:00:58,760
+preparar el plan de cuentas todas las
+
+26
+00:00:56,719 --> 00:01:01,239
+cuentas del balance tiene que tener la
+
+27
+00:00:58,760 --> 00:01:02,920
+cuenta de la declaración jurada todas
+
+28
+00:01:01,239 --> 00:01:04,799
+las cuentas que vienen en el sistema por
+
+29
+00:01:02,920 --> 00:01:08,280
+defecto yo les puedo cargar la cuenta
+
+30
+00:01:04,799 --> 00:01:10,240
+usando este botón eh cargar cuentas de
+
+31
+00:01:08,280 --> 00:01:12,479
+declaración jurada Eso hace que por
+
+32
+00:01:10,240 --> 00:01:15,119
+ejemplo si yo tengo una cuenta esa
+
+33
+00:01:12,479 --> 00:01:16,920
+cuenta ya me aparezca la el código de la
+
+34
+00:01:15,119 --> 00:01:20,400
+de la cuenta de impuestos internos si yo
+
+35
+00:01:16,920 --> 00:01:22,320
+he creado cuentas nuevas Esas cuentas no
+
+36
+00:01:20,400 --> 00:01:23,960
+van a tener la la cuenta de la
+
+37
+00:01:22,320 --> 00:01:25,960
+declaración jurada Entonces cuando yo
+
+38
+00:01:23,960 --> 00:01:27,400
+genere la declaración jurada me va a dar
+
+39
+00:01:25,960 --> 00:01:31,520
+error y me va a decir esta cuenta me
+
+40
+00:01:27,400 --> 00:01:35,360
+falta no Entonces por ejemplo yo sé que
+
+41
+00:01:31,520 --> 00:01:37,880
+yo usé cuentas en el grupo 40109 por
+
+42
+00:01:35,360 --> 00:01:41,840
+ejemplo
+
+43
+00:01:37,880 --> 00:01:43,759
+40109 asterisco yo ahí Creo unas cuentas
+
+44
+00:01:41,840 --> 00:01:46,920
+Entonces lo más probable es que estas
+
+45
+00:01:43,759 --> 00:01:50,159
+cuentas que están acá no tengan su su
+
+46
+00:01:46,920 --> 00:01:52,960
+cuenta no pero por ejemplo la cuenta 416
+
+47
+00:01:50,159 --> 00:01:54,719
+esa ya viene y este código por lo tanto
+
+48
+00:01:52,960 --> 00:02:00,320
+yo voy a usar este mismo código en las
+
+49
+00:01:54,719 --> 00:02:03,240
+cuentas que creé en el grupo a 40109
+
+50
+00:02:00,320 --> 00:02:05,799
+asterisco voy a poner buscar y por
+
+51
+00:02:03,240 --> 00:02:07,880
+ejemplo la cuenta gastos de internet Ah
+
+52
+00:02:05,799 --> 00:02:10,119
+bueno ya yo ya le puse cuando las creé
+
+53
+00:02:07,880 --> 00:02:13,560
+probablemente en el curso anterior si
+
+54
+00:02:10,119 --> 00:02:15,560
+alguna cuenta de las que hemos creado no
+
+55
+00:02:13,560 --> 00:02:17,879
+tiene su cuenta de la declaración jurada
+
+56
+00:02:15,560 --> 00:02:19,480
+No se preocupen cuando realicemos el
+
+57
+00:02:17,879 --> 00:02:21,440
+proceso de generación de declaración
+
+58
+00:02:19,480 --> 00:02:24,000
+jurada me va a decir a qué cuentas le
+
+59
+00:02:21,440 --> 00:02:25,840
+tengo que poner la el código de de
+
+60
+00:02:24,000 --> 00:02:30,000
+impuestos internos entonces bueno paso
+
+61
+00:02:25,840 --> 00:02:33,280
+uno balance paso dos plan de cuentas
+
+62
+00:02:30,000 --> 00:02:35,080
+paso tres capital propio entonces para
+
+63
+00:02:33,280 --> 00:02:37,080
+el paso tres que es el capital propio
+
+64
+00:02:35,080 --> 00:02:39,080
+tributario vamos a entrar a la opción de
+
+65
+00:02:37,080 --> 00:02:40,920
+capital propio tributario aquí donde
+
+66
+00:02:39,080 --> 00:02:43,360
+dice balance está la opción de capital
+
+67
+00:02:40,920 --> 00:02:45,400
+propio tributario y aquí podemos usar la
+
+68
+00:02:43,360 --> 00:02:48,159
+opción de fecha para seleccionar el año
+
+69
+00:02:45,400 --> 00:02:50,360
+y luego presionar el botón imprimir PDF
+
+70
+00:02:48,159 --> 00:02:52,879
+acá se va a mostrar en pantalla el
+
+71
+00:02:50,360 --> 00:02:55,080
+capital propio tributario es muy
+
+72
+00:02:52,879 --> 00:02:58,360
+importante configurarlo para que
+
+73
+00:02:55,080 --> 00:03:00,440
+funcione bien yo tengo que ingresarle al
+
+74
+00:02:58,360 --> 00:03:03,920
+capital propio tributario las cuentas
+
+75
+00:03:00,440 --> 00:03:05,599
+into de activos y también tengo que
+
+76
+00:03:03,920 --> 00:03:06,680
+indicarle Cuáles son las cuentas de
+
+77
+00:03:05,599 --> 00:03:09,560
+pasivo
+
+78
+00:03:06,680 --> 00:03:11,840
+exigible en el plan de cuentas es
+
+79
+00:03:09,560 --> 00:03:14,599
+importante identificar Cuáles son las
+
+80
+00:03:11,840 --> 00:03:16,920
+cuentas dos de pasivo Entonces
+
+81
+00:03:14,599 --> 00:03:19,280
+presionamos dos asterisco y podemos ver
+
+82
+00:03:16,920 --> 00:03:21,159
+por ejemplo la cuenta proveedores esa
+
+83
+00:03:19,280 --> 00:03:22,640
+cuenta sabemos que es de pasivo exigible
+
+84
+00:03:21,159 --> 00:03:24,400
+entonces en capital propio le ponemos
+
+85
+00:03:22,640 --> 00:03:26,640
+que es exigible y
+
+86
+00:03:24,400 --> 00:03:31,000
+grabamos ya Asimismo si tuviéramos
+
+87
+00:03:26,640 --> 00:03:33,840
+alguna cuenta en el activo que fuera una
+
+88
+00:03:31,000 --> 00:03:35,400
+cuenta into la marcamos por ejemplo una
+
+89
+00:03:33,840 --> 00:03:38,519
+cuenta activo y aquí le ponemos que es
+
+90
+00:03:35,400 --> 00:03:40,920
+una cuenta into ya eso es muy importante
+
+91
+00:03:38,519 --> 00:03:43,680
+que lo vayan configurando no de acuerdo
+
+92
+00:03:40,920 --> 00:03:46,760
+a la empresa que estamos trabajando este
+
+93
+00:03:43,680 --> 00:03:48,480
+caso yo tengo Ay me equivoqué B por
+
+94
+00:03:46,760 --> 00:03:51,480
+ejemplo pongo dos asteriscos y puedo ver
+
+95
+00:03:48,480 --> 00:03:53,319
+todas las cuentas de de pasivo y por
+
+96
+00:03:51,480 --> 00:03:54,959
+ejemplo bueno cuentas por pagar sueldos
+
+97
+00:03:53,319 --> 00:03:57,720
+por pagar honor por pagar todas estas
+
+98
+00:03:54,959 --> 00:04:00,360
+cuentas son pasivo exigibles Entonces
+
+99
+00:03:57,720 --> 00:04:02,319
+vamos acá y las marcamos como exigible
+
+100
+00:04:00,360 --> 00:04:03,920
+Y de esa forma Bueno una vez Que
+
+101
+00:04:02,319 --> 00:04:06,079
+terminamos de configurar todas las
+
+102
+00:04:03,920 --> 00:04:08,040
+cuentas del Así mismo las cuentas del
+
+103
+00:04:06,079 --> 00:04:11,319
+balance todo todo esto es con el
+
+104
+00:04:08,040 --> 00:04:15,400
+balance podemos Volver al capital propio
+
+105
+00:04:11,319 --> 00:04:17,880
+y presionar eh PDF y se vuelve a generar
+
+106
+00:04:15,400 --> 00:04:20,120
+el archivo Y bueno ya como ven ya no
+
+107
+00:04:17,880 --> 00:04:21,959
+solamente me salen las cuentas de activo
+
+108
+00:04:20,120 --> 00:04:25,240
+sino que también ya me salen las cuentas
+
+109
+00:04:21,959 --> 00:04:26,759
+menos exigibles y las cuentas menos into
+
+110
+00:04:25,240 --> 00:04:28,759
+ya en este caso Bueno yo no tengo
+
+111
+00:04:26,759 --> 00:04:30,720
+ninguna en mi balance como balance de
+
+112
+00:04:28,759 --> 00:04:32,520
+prueba no tengo nada con configurado
+
+113
+00:04:30,720 --> 00:04:34,199
+pero sí puedo ir poniendo ya las de
+
+114
+00:04:32,520 --> 00:04:35,520
+proveedor las honorarios por pagar las
+
+115
+00:04:34,199 --> 00:04:38,080
+sueldos por pagar y bueno todas las
+
+116
+00:04:35,520 --> 00:04:40,120
+cuentas que correspondan y voy a obtener
+
+117
+00:04:38,080 --> 00:04:41,520
+mi capital propio tributario Okay
+
+118
+00:04:40,120 --> 00:04:43,680
+entonces con el capital propio
+
+119
+00:04:41,520 --> 00:04:46,560
+tributario es que vamos a poder generar
+
+120
+00:04:43,680 --> 00:04:48,160
+la declaración jurada entonces recuerden
+
+121
+00:04:46,560 --> 00:04:51,120
+qué es lo que necesitamos para hacer el
+
+122
+00:04:48,160 --> 00:04:53,039
+envío primero necesitamos el balance una
+
+123
+00:04:51,120 --> 00:04:55,039
+vez que tenemos el balance preparamos el
+
+124
+00:04:53,039 --> 00:04:56,880
+plan de cuentas con las cuentas de
+
+125
+00:04:55,039 --> 00:04:58,520
+impuestos internos entonces cada una de
+
+126
+00:04:56,880 --> 00:05:01,560
+las cuentas que yo haya creado tiene que
+
+127
+00:04:58,520 --> 00:05:04,479
+tener la cuenta de internos después
+
+128
+00:05:01,560 --> 00:05:06,280
+vamos al capital propio y de acuerdo a
+
+129
+00:05:04,479 --> 00:05:09,080
+las cuentas que tenemos de balance vamos
+
+130
+00:05:06,280 --> 00:05:10,720
+configurando las cuentas las de pasivo y
+
+131
+00:05:09,080 --> 00:05:13,240
+las vamos marcando como cuentas
+
+132
+00:05:10,720 --> 00:05:16,320
+exigibles no entonces me voy a
+
+133
+00:05:13,240 --> 00:05:17,960
+declaración jurada y selecciono eh
+
+134
+00:05:16,320 --> 00:05:22,280
+formulario
+
+135
+00:05:17,960 --> 00:05:23,800
+1847 y podemos eh presionar el botón
+
+136
+00:05:22,280 --> 00:05:26,080
+generar declaración
+
+137
+00:05:23,800 --> 00:05:27,600
+jurada entonces código de actividad
+
+138
+00:05:26,080 --> 00:05:28,639
+económica Este es el código que está en
+
+139
+00:05:27,600 --> 00:05:31,240
+impuestos
+
+140
+00:05:28,639 --> 00:05:33,600
+internos Bueno yo para ejemplo práctico
+
+141
+00:05:31,240 --> 00:05:36,240
+le voy a poner 1 1 entidad supervisora
+
+142
+00:05:33,600 --> 00:05:38,199
+no aplica en mi caso acá es el número de
+
+143
+00:05:36,240 --> 00:05:39,680
+folio del del balance Recuerden que
+
+144
+00:05:38,199 --> 00:05:41,840
+tienen que tener impreso el balance
+
+145
+00:05:39,680 --> 00:05:44,400
+Entonces le ponen si lo imprimieron de
+
+146
+00:05:41,840 --> 00:05:46,039
+la de la suponiendo que el el folio del
+
+147
+00:05:44,400 --> 00:05:48,759
+año anterior quedó en 100 y ahora me
+
+148
+00:05:46,039 --> 00:05:50,680
+toca el 101 le pongo el 101 este número
+
+149
+00:05:48,759 --> 00:05:53,240
+de folio es el mismo que cuando
+
+150
+00:05:50,680 --> 00:05:54,639
+imprimimos el balance imprimir con PDF
+
+151
+00:05:53,240 --> 00:05:56,440
+con número de folio y me pide el número
+
+152
+00:05:54,639 --> 00:05:59,160
+de folio pongo el
+
+153
+00:05:56,440 --> 00:06:01,639
+101 Entonces ese va a ser el folio de mi
+
+154
+00:05:59,160 --> 00:06:01,639
+balance
+
+155
+00:06:02,039 --> 00:06:06,440
+acá me sale el encabezado dos veces para
+
+156
+00:06:03,600 --> 00:06:08,960
+que eso no pase que salga dos veces aquí
+
+157
+00:06:06,440 --> 00:06:10,960
+donde dice encabezado le ponemos que no
+
+158
+00:06:08,960 --> 00:06:14,000
+y imprimimos con
+
+159
+00:06:10,960 --> 00:06:16,479
+eh usando la opción Número de folio
+
+160
+00:06:14,000 --> 00:06:19,720
+cuando usamos esa opción ahí si me sale
+
+161
+00:06:16,479 --> 00:06:21,319
+el folio único nacional y un solo un
+
+162
+00:06:19,720 --> 00:06:23,960
+solo encabezado
+
+163
+00:06:21,319 --> 00:06:27,479
+no porque cuando uso el formato de
+
+164
+00:06:23,960 --> 00:06:29,759
+impuestos internos con folio eh Ya le va
+
+165
+00:06:27,479 --> 00:06:31,199
+a poner el encabezado y aquí bueno este
+
+166
+00:06:29,759 --> 00:06:34,520
+tengo mi balance y este es el que voy a
+
+167
+00:06:31,199 --> 00:06:35,639
+mandar Y este tiene el número 101 sí que
+
+168
+00:06:34,520 --> 00:06:37,120
+lo tengo que haber solicitado en
+
+169
+00:06:35,639 --> 00:06:39,000
+impuestos internos y Ese es el número
+
+170
+00:06:37,120 --> 00:06:40,680
+que vamos a poner acá y bueno si el
+
+171
+00:06:39,000 --> 00:06:43,080
+balance tiene más de una hoja le van
+
+172
+00:06:40,680 --> 00:06:46,840
+poniendo Si tuviera tres cuatro hojas le
+
+173
+00:06:43,080 --> 00:06:50,479
+ponen no eh acá si no tienen ifrs le
+
+174
+00:06:46,840 --> 00:06:52,840
+ponemos cero e y bueno no no hay
+
+175
+00:06:50,479 --> 00:06:54,280
+reajuste la dirección de la empresa Esto
+
+176
+00:06:52,840 --> 00:06:55,879
+está en la ficha de la empresa el rot
+
+177
+00:06:54,280 --> 00:06:58,599
+del contador acá le ponen el rot del
+
+178
+00:06:55,879 --> 00:07:00,080
+contador y luego le ponemos original si
+
+179
+00:06:58,599 --> 00:07:01,680
+es la primera vez que estamos haciendo
+
+180
+00:07:00,080 --> 00:07:03,120
+la declaración si la estamos corrigiendo
+
+181
+00:07:01,680 --> 00:07:05,800
+o rectificando
+
+182
+00:07:03,120 --> 00:07:08,759
+ponemos el número que corresponde y
+
+183
+00:07:05,800 --> 00:07:10,400
+Bueno finalmente Le ponemos el correo y
+
+184
+00:07:08,759 --> 00:07:12,639
+presionamos el botón
+
+185
+00:07:10,400 --> 00:07:13,360
+descargar este momento se va a generar
+
+186
+00:07:12,639 --> 00:07:15,720
+un
+
+187
+00:07:13,360 --> 00:07:17,759
+archivo descargamos el archivo este
+
+188
+00:07:15,720 --> 00:07:21,120
+archivo me va a Cedar en la carpeta de
+
+189
+00:07:17,759 --> 00:07:23,800
+descargas vamos a la carpeta de
+
+190
+00:07:21,120 --> 00:07:25,400
+descargas y cortamos el archivo y lo voy
+
+191
+00:07:23,800 --> 00:07:27,039
+a llevar al escritorio tengo que
+
+192
+00:07:25,400 --> 00:07:29,639
+corregir el nombre del archivo Entonces
+
+193
+00:07:27,039 --> 00:07:32,240
+lo voy a llevar a a documentos tengo ahí
+
+194
+00:07:29,639 --> 00:07:34,960
+una carpeta cursos Ah no perdón en lo
+
+195
+00:07:32,240 --> 00:07:36,720
+llevo a la carpeta escritorio y ahí
+
+196
+00:07:34,960 --> 00:07:40,120
+tengo una carpeta
+
+197
+00:07:36,720 --> 00:07:42,319
+cursos y Aquí vamos a eh Buscar la
+
+198
+00:07:40,120 --> 00:07:44,520
+carpeta declaración
+
+199
+00:07:42,319 --> 00:07:47,919
+jurada
+
+200
+00:07:44,520 --> 00:07:50,599
+1847 y Aquí vamos a crear una un archivo
+
+201
+00:07:47,919 --> 00:07:50,599
+para el año
+
+202
+00:07:50,879 --> 00:07:56,520
+2025 y vamos
+
+203
+00:07:53,440 --> 00:07:57,960
+a vamos a pegar el archivo y le vamos a
+
+204
+00:07:56,520 --> 00:07:59,720
+cambiar el nombre Recuerden que el
+
+205
+00:07:57,960 --> 00:08:02,120
+nombre del archivo solamente debe
+
+206
+00:07:59,720 --> 00:08:03,960
+incorporar cuando tenga estos paréntesis
+
+207
+00:08:02,120 --> 00:08:05,919
+hay que eliminarlo y dejarlo solamente
+
+208
+00:08:03,960 --> 00:08:08,039
+con el el número de root sin dígito
+
+209
+00:08:05,919 --> 00:08:10,120
+verificador y este es el archivo que yo
+
+210
+00:08:08,039 --> 00:08:11,879
+tengo que enviar a impuestos internos
+
+211
+00:08:10,120 --> 00:08:13,199
+para hacer el envío a impuestos internos
+
+212
+00:08:11,879 --> 00:08:14,639
+tengo que Conectarme a la pantalla de
+
+213
+00:08:13,199 --> 00:08:16,240
+impuestos internos aquí tengo un ejemplo
+
+214
+00:08:14,639 --> 00:08:19,199
+cómo se ve la pantalla de impuestos
+
+215
+00:08:16,240 --> 00:08:21,080
+internos por ejemplo Eh bueno acá está
+
+216
+00:08:19,199 --> 00:08:24,039
+lo de que el archivo solamente tiene que
+
+217
+00:08:21,080 --> 00:08:25,800
+tener el número de root no sin sin
+
+218
+00:08:24,039 --> 00:08:27,039
+dígito pero una vez que voy a hacer el
+
+219
+00:08:25,800 --> 00:08:28,560
+envío de la declaración me voy a la
+
+220
+00:08:27,039 --> 00:08:31,199
+opción de impuestos internos mis
+
+221
+00:08:28,560 --> 00:08:34,240
+declaraciones y ahí pongo enviar
+
+222
+00:08:31,199 --> 00:08:36,279
+selecciono la opción casa de software eh
+
+223
+00:08:34,240 --> 00:08:39,000
+seleccionamos el archivo en este caso el
+
+224
+00:08:36,279 --> 00:08:40,880
+archivo que acabamos de de descargar y
+
+225
+00:08:39,000 --> 00:08:42,680
+luego lo enviamos me va a dar un
+
+226
+00:08:40,880 --> 00:08:44,560
+formulario y ese formulario me va a
+
+227
+00:08:42,680 --> 00:08:46,000
+indicar que ya fue recepcionado y
+
+228
+00:08:44,560 --> 00:08:47,959
+después de una media hora yo tengo que
+
+229
+00:08:46,000 --> 00:08:50,320
+regresar a la página web de impuestos
+
+230
+00:08:47,959 --> 00:08:52,640
+internos para revisar el estado de la
+
+231
+00:08:50,320 --> 00:08:53,959
+declaración de esta forma es que se hace
+
+232
+00:08:52,640 --> 00:08:56,720
+la generación y el envío de la
+
+233
+00:08:53,959 --> 00:08:59,000
+declaración jurada Okay cualquier
+
+234
+00:08:56,720 --> 00:09:00,920
+consulta o duda eh se pueden contactar
+
+235
+00:08:59,000 --> 00:09:03,560
+con nuestro equipo de soporte acá en la
+
+236
+00:09:00,920 --> 00:09:05,720
+página web programade conta.cl están los
+
+237
+00:09:03,560 --> 00:09:08,200
+teléfonos de contacto no se olviden
+
+238
+00:09:05,720 --> 00:09:09,600
+suscribirse al Canal y darle me gusta
+
+239
+00:09:08,200 --> 00:09:14,320
+para que no se pierdan ninguno de
+
+240
+00:09:09,600 --> 00:09:14,320
+nuestros videos Muchas gracias
+

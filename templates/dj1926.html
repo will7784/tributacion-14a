@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}DJ1926 - Tributación 14A{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-file-earmark-bar-graph"></i> Declaración Jurada 1926</h2>
+    <button id="btn-exportar" class="btn btn-success">
+        <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+    </button>
+</div>
+
+<div id="alert-no-empresa" class="alert alert-warning d-none">
+    <i class="bi bi-exclamation-triangle"></i> Selecciona una empresa en el <a href="{{ url_for('index') }}">Dashboard</a>.
+</div>
+
+<div id="panel-dj1926">
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <label>Fecha cierre</label>
+            <input type="date" id="dj-fecha" class="form-control" value="2024-12-31">
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button id="btn-generar" class="btn btn-primary w-100">
+                <i class="bi bi-calculator"></i> Generar DJ1926
+            </button>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-2">
+            <div class="card text-white bg-info">
+                <div class="card-body text-center">
+                    <h6>Resultado Financiero [9]</h6>
+                    <h5 id="res-fin">0</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-white bg-success">
+                <div class="card-body text-center">
+                    <h6>Agregados [1]</h6>
+                    <h5 id="res-agregados">0</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-white bg-danger">
+                <div class="card-body text-center">
+                    <h6>Deducciones [2]</h6>
+                    <h5 id="res-deducciones">0</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-white bg-warning">
+                <div class="card-body text-center">
+                    <h6>Ded. Letra E [4]</h6>
+                    <h5 id="res-dede">0</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-dark">
+                <div class="card-body text-center">
+                    <h6>RLI / Pérdida Tributaria</h6>
+                    <h5 id="res-rli">0</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h5>Sección B: Ajustes en la determinación de la Base Imponible</h5>
+    <div class="table-container mb-4">
+        <table id="tabla-dj1926" class="table table-sm table-striped table-bordered" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>Código SII</th>
+                    <th>Descripción</th>
+                    <th class="text-end">Monto</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    const emp = getEmpresa();
+    if (!emp) {
+        $('#alert-no-empresa').removeClass('d-none');
+        $('#panel-dj1926').addClass('d-none');
+        return;
+    }
+
+    let table;
+
+    $('#btn-generar').on('click', function() {
+        const fecha = $('#dj-fecha').val();
+        $('#btn-generar').prop('disabled', true).html('<i class="bi bi-hourglass-split"></i> Generando...');
+
+        apiGet(`/api/dj1926/${emp.rut}?fecha=${fecha}`)
+            .then(data => {
+                $('#res-fin').text(formatNumber(data.resumen.resultado_financiero));
+                $('#res-agregados').text(formatNumber(data.resumen.agregados));
+                $('#res-deducciones').text(formatNumber(data.resumen.deducciones));
+                $('#res-dede').text(formatNumber(data.resumen.ded_e));
+                $('#res-rli').text(formatNumber(data.resumen.rli));
+
+                const tbody = $('#tabla-dj1926 tbody');
+                tbody.empty();
+                data.seccion_b.forEach(row => {
+                    const tipoLabel = {1:'Agregado', 2:'Deducción', 4:'Ded. Letra E', 9:'Res. Financiero'}[row.tipo_ajuste] || row.tipo_ajuste;
+                    tbody.append(`
+                        <tr>
+                            <td>${row.codigo_sii}</td>
+                            <td>${row.descripcion}</td>
+                            <td class="text-end">${formatNumber(row.monto)}</td>
+                            <td>${tipoLabel}</td>
+                        </tr>
+                    `);
+                });
+                if (table) table.destroy();
+                table = $('#tabla-dj1926').DataTable({
+                    pageLength: 25,
+                    language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' }
+                });
+            })
+            .catch(err => showToast('Error: ' + err, 'error'))
+            .finally(() => $('#btn-generar').prop('disabled', false).html('<i class="bi bi-calculator"></i> Generar DJ1926'));
+    });
+
+    $('#btn-exportar').on('click', function() {
+        const fecha = $('#dj-fecha').val();
+        window.open(`/api/exportar_dj1926/${emp.rut}?fecha=${fecha}`);
+    });
+});
+</script>
+{% endblock %}

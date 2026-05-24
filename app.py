@@ -1,0 +1,548 @@
+import os
+import json
+import re
+from io import BytesIO
+from pathlib import Path
+from datetime import datetime
+
+from flask import Flask, render_template, request, jsonify, send_file
+import pandas as pd
+
+from core.db import (
+    init_db, get_empresa, guardar_empresa, get_plan_cuentas, guardar_plan_cuentas,
+    get_ledger, limpiar_ledger, guardar_ledger,
+    get_comprobantes, get_comprobante_lineas, guardar_comprobante,
+    get_ajustes_tributarios, guardar_ajustes_tributarios,
+    get_clasificacion, guardar_clasificacion,
+)
+from core.balance import get_balance_data
+from core.plan_cuentas import homologar_plan, cargar_plan_sii, cargar_plan_base, buscar_cuentas_base
+from parsers.csv_import import parse_csv
+from parsers.excel_import import parse_excel
+
+app = Flask(__name__)
+app.secret_key = "tax14a-secret-key-change-in-production"
+
+
+# ============================================================
+# HELPERS
+# ============================================================
+def _clean_rut(rut: str) -> str:
+    return rut.replace(".", "").replace("-", "").upper()
+
+
+def _get_db_path(rut: str) -> Path:
+    return Path(f"{_clean_rut(rut)}_14a.db")
+
+
+# ============================================================
+# PAGES
+# ============================================================
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+@app.route("/importar")
+def importar():
+    return render_template("importar.html")
+
+
+@app.route("/homologacion")
+def homologacion():
+    return render_template("homologacion.html")
+
+
+@app.route("/plan_base")
+def plan_base_page():
+    return render_template("plan_base.html")
+
+
+@app.route("/clasificacion")
+def clasificacion():
+    return render_template("clasificacion.html")
+
+
+@app.route("/comprobantes")
+def comprobantes():
+    return render_template("comprobantes.html")
+
+
+@app.route("/balance")
+def balance():
+    return render_template("balance.html")
+
+
+@app.route("/ajustes")
+def ajustes():
+    return render_template("ajustes.html")
+
+
+@app.route("/dj1847")
+def dj1847():
+    return render_template("dj1847.html")
+
+
+@app.route("/dj1926")
+def dj1926():
+    return render_template("dj1926.html")
+
+
+# ============================================================
+# API - EMPRESA
+# ============================================================
+@app.route("/api/empresas", methods=["GET"])
+def api_empresas():
+    db_files = sorted([f for f in os.listdir(".") if f.endswith("_14a.db")])
+    empresas = []
+    for db in db_files:
+        rut_raw = db.replace("_14a.db", "")
+        emp = get_empresa(rut_raw)
+        if emp:
+            empresas.append({"rut": rut_raw, "nombre": emp.get("nombre", rut_raw)})
+        else:
+            empresas.append({"rut": rut_raw, "nombre": rut_raw})
+    return jsonify(empresas)
+
+
+@app.route("/api/empresas", methods=["POST"])
+def api_empresas_post():
+    data = request.get_json() or {}
+    rut = str(data.get("rut", "")).strip()
+    nombre = str(data.get("nombre", "")).strip()
+    if not rut or not nombre:
+        return jsonify({"error": "RUT y nombre son obligatorios"}), 400
+    clean = _clean_rut(rut)
+    guardar_empresa(clean, nombre)
+    return jsonify({"rut": clean, "nombre": nombre})
+
+
+@app.route("/api/empresa/<rut>", methods=["GET"])
+def api_empresa_get(rut):
+    clean = _clean_rut(rut)
+    emp = get_empresa(clean)
+    if not emp:
+        return jsonify({"error": "No encontrada"}), 404
+    return jsonify(emp)
+
+
+# ============================================================
+# API - IMPORTAR
+# ============================================================
+@app.route("/api/importar/<rut>", methods=["POST"])
+def api_importar(rut):
+    clean = _clean_rut(rut)
+    if "file" not in request.files:
+        return jsonify({"error": "No se envió archivo"}), 400
+    file = request.files["file"]
+    if file.filename == "":
+        return jsonify({"error": "Nombre vacío"}), 400
+
+    ext = file.filename.split(".")[-1].lower()
+    bytes_data = file.read()
+
+    try:
+        if ext == "csv":
+            df_raw = parse_csv(bytes_data)
+        else:
+            df_raw = parse_excel(bytes_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+    # Detección robusta de columnas
+    def _norm(name):
+        return name.lower().strip().replace("$", "").replace(".", "").replace("  ", " ")
+
+    col_map = {}
+    for c in df_raw.columns:
+        cl = _norm(c)
+        cl_ns = cl.replace(" ", "")
+        if cl in ("cuenta", "codigo", "code", "id cuenta") or cl_ns in ("cuenta", "codigo", "code", "idcuenta"):
+            col_map["cuenta"] = c
+        elif cl in ("nombre", "descripcion", "glosa", "nombre cuenta", "nombre de cuenta") or cl_ns in ("nombre", "descripcion", "glosa", "nombrecuenta"):
+            col_map["nombre"] = c
+        elif cl in ("debe", "debito", "cargo", "debe ") or cl_ns in ("debe", "debito", "cargo"):
+            col_map["debe"] = c
+        elif cl in ("haber", "credito", "abono", "haber ") or cl_ns in ("haber", "credito", "abono"):
+            col_map["haber"] = c
+        elif cl in ("fecha", "date") or cl_ns in ("fecha", "date"):
+            col_map["fecha"] = c
+        elif cl in ("comprobante", "folio", "asiento", "número", "nro comprobante") or cl_ns in ("comprobante", "folio", "asiento", "numero", "nrocomprobante"):
+            col_map["comprobante"] = c
+        elif cl in ("tipo comprobante", "tipocomprobante", "tipo", "tipo de comprobante") or cl_ns in ("tipocomprobante", "tipodecomprobante"):
+            col_map["tipo_comprobante"] = c
+        elif cl in ("rut ficha", "rut", "rutficha", "rut cliente") or cl_ns in ("rutficha", "rutcliente"):
+            col_map["rut_ficha"] = c
+        elif cl in ("rzn social ficha", "razon social", "nombre ficha", "razón social", "nombre cliente") or cl_ns in ("rznsocialficha", "razonsocial", "nombreficha", "nombrecliente"):
+            col_map["razon_social"] = c
+        elif cl in ("comentario linea", "glosa linea", "concepto", "glosa") or cl_ns in ("comentariolinea", "glosalinea", "concepto", "glosa"):
+            col_map["concepto"] = c
+        elif cl in ("documento", "folio doc", "nro doc", "número documento") or cl_ns in ("documento", "foliodoc", "nrodoc", "numerodocumento"):
+            col_map["documento"] = c
+        elif cl in ("fecha venc", "vencimiento", "fecha de vencimiento") or cl_ns in ("fechavenc", "vencimiento", "fechadevencimiento"):
+            col_map["fecha_venc"] = c
+        elif cl in ("unidad negocio", "unidad_de_negocio", "proyecto", "unidad de negocio") or cl_ns in ("unidadnegocio", "unidaddenegocio"):
+            col_map["unidad_negocio"] = c
+        elif cl in ("tipo movimiento", "tipomovimiento", "tipo de movimiento") or cl_ns in ("tipomovimiento", "tipodemovimiento"):
+            col_map["tipo_movimiento"] = c
+        elif cl in ("número movimiento", "numeromovimiento", "nro mov", "número de movimiento") or cl_ns in ("numeromovimiento", "nromov", "numerodemovimiento"):
+            col_map["numero_movimiento"] = c
+
+    if "cuenta" not in col_map or "debe" not in col_map or "haber" not in col_map:
+        return jsonify({"error": f"No se detectaron columnas obligatorias. Encontradas: {list(col_map.keys())}"}), 400
+
+    cuenta_raw = df_raw[col_map["cuenta"]].astype(str).str.strip()
+    df = pd.DataFrame()
+    df["cuenta"] = cuenta_raw.str.extract(r"^\s*([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)", expand=False).fillna(cuenta_raw)
+    nombre_col = col_map.get("nombre")
+    cuenta_col_detected = col_map.get("cuenta")
+    if nombre_col and nombre_col != cuenta_col_detected:
+        df["nombre_cuenta"] = df_raw[nombre_col].astype(str).str.strip()
+    else:
+        df["nombre_cuenta"] = cuenta_raw.str.replace(r"^\s*[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\s*", "", regex=True).str.strip()
+        df.loc[df["nombre_cuenta"] == "", "nombre_cuenta"] = df["cuenta"]
+
+    df["debe"] = pd.to_numeric(df_raw[col_map["debe"]], errors="coerce").fillna(0)
+    df["haber"] = pd.to_numeric(df_raw[col_map["haber"]], errors="coerce").fillna(0)
+    df["fecha"] = pd.to_datetime(df_raw[col_map.get("fecha", "fecha")], errors="coerce", dayfirst=True).dt.strftime("%Y-%m-%d") if "fecha" in col_map else ""
+    df["comprobante"] = df_raw[col_map.get("comprobante", "comprobante")].astype(str) if "comprobante" in col_map else ""
+    df["tipo_comprobante"] = df_raw[col_map.get("tipo_comprobante", "tipo_comprobante")].astype(str) if "tipo_comprobante" in col_map else ""
+    df["concepto"] = df_raw[col_map.get("concepto", "concepto")].astype(str) if "concepto" in col_map else ""
+    df["rut_ficha"] = df_raw[col_map.get("rut_ficha", "rut_ficha")].astype(str) if "rut_ficha" in col_map else ""
+    df["razon_social"] = df_raw[col_map.get("razon_social", "razon_social")].astype(str) if "razon_social" in col_map else ""
+    df["documento"] = df_raw[col_map.get("documento", "documento")].astype(str) if "documento" in col_map else ""
+    df["fecha_venc"] = pd.to_datetime(df_raw[col_map.get("fecha_venc", "fecha_venc")], errors="coerce", dayfirst=True).dt.strftime("%Y-%m-%d") if "fecha_venc" in col_map else ""
+    df["unidad_negocio"] = df_raw[col_map.get("unidad_negocio", "unidad_negocio")].astype(str) if "unidad_negocio" in col_map else ""
+    df["tipo_movimiento"] = df_raw[col_map.get("tipo_movimiento", "tipo_movimiento")].astype(str) if "tipo_movimiento" in col_map else ""
+    df["numero_movimiento"] = df_raw[col_map.get("numero_movimiento", "numero_movimiento")].astype(str) if "numero_movimiento" in col_map else ""
+    df["origen"] = "IMPORTADO"
+
+    limpiar_ledger(clean)
+    guardar_ledger(df, clean)
+
+    # Homologar plan de cuentas
+    cuentas_import = df.groupby("cuenta")["nombre_cuenta"].first().reset_index().rename(columns={"nombre_cuenta": "nombre"})
+    hom = homologar_plan(cuentas_import)
+    guardar_plan_cuentas(clean, hom)
+
+    return jsonify({"ok": True, "filas": len(df), "cuentas": len(hom)})
+
+
+# ============================================================
+# API - PLAN BASE (global)
+# ============================================================
+@app.route("/api/plan_base", methods=["GET"])
+def api_plan_base_get():
+    df = cargar_plan_base()
+    return jsonify(df.fillna("").to_dict(orient="records"))
+
+
+@app.route("/api/plan_base", methods=["POST"])
+def api_plan_base_post():
+    data = request.get_json() or []
+    if not data:
+        return jsonify({"error": "Datos vacíos"}), 400
+    df = pd.DataFrame(data)
+    from core.plan_cuentas import guardar_plan_base
+    guardar_plan_base(df)
+    return jsonify({"ok": True})
+
+
+@app.route("/api/buscar_plan_base", methods=["GET"])
+def api_buscar_plan_base():
+    query = request.args.get("q", "").strip()
+    if not query:
+        return jsonify([])
+    resultados = buscar_cuentas_base(query)
+    return jsonify(resultados)
+
+
+# ============================================================
+# API - HOMOLOGACIÓN (por empresa)
+# ============================================================
+@app.route("/api/plan_cuentas/<rut>", methods=["GET"])
+def api_plan_cuentas_get(rut):
+    clean = _clean_rut(rut)
+    df = get_plan_cuentas(clean)
+    if df.empty:
+        return jsonify([])
+    # Enriquecer con nombre base
+    base = cargar_plan_base()
+    if not base.empty:
+        base_map = base.set_index("Cuenta")["Nombre"].to_dict()
+        df["nombre_base"] = df["cuenta_base"].map(base_map).fillna("")
+    return jsonify(df.fillna("").to_dict(orient="records"))
+
+
+@app.route("/api/plan_cuentas/<rut>", methods=["POST"])
+def api_plan_cuentas_post(rut):
+    clean = _clean_rut(rut)
+    data = request.get_json() or []
+    if not data:
+        return jsonify({"error": "Datos vacíos"}), 400
+    df = pd.DataFrame(data)
+    # Solo permitir columnas de homologación
+    cols_ok = ["cuenta_local", "nombre_local", "cuenta_base"]
+    df = df[[c for c in cols_ok if c in df.columns]]
+    guardar_plan_cuentas(clean, df)
+    return jsonify({"ok": True})
+
+
+@app.route("/api/plan_sii", methods=["GET"])
+def api_plan_sii():
+    df = cargar_plan_sii()
+    return jsonify(df.fillna("").to_dict(orient="records"))
+
+
+# ============================================================
+# API - CLASIFICACIÓN (por empresa)
+# ============================================================
+@app.route("/api/clasificacion/<rut>", methods=["GET"])
+def api_clasificacion_get(rut):
+    clean = _clean_rut(rut)
+    df = get_clasificacion(clean)
+    if df.empty:
+        return jsonify([])
+    return jsonify(df.fillna("").to_dict(orient="records"))
+
+
+@app.route("/api/clasificacion/<rut>", methods=["POST"])
+def api_clasificacion_post(rut):
+    clean = _clean_rut(rut)
+    data = request.get_json() or []
+    if not data:
+        return jsonify({"error": "Datos vacíos"}), 400
+    df = pd.DataFrame(data)
+    guardar_clasificacion(clean, df)
+    return jsonify({"ok": True})
+
+
+# ============================================================
+# API - COMPROBANTES
+# ============================================================
+@app.route("/api/comprobantes/<rut>", methods=["GET"])
+def api_comprobantes_get(rut):
+    clean = _clean_rut(rut)
+    comps = get_comprobantes(clean)
+    if comps.empty:
+        return jsonify([])
+    result = []
+    for _, comp in comps.iterrows():
+        lineas = get_comprobante_lineas(clean, comp["id"])
+        item = comp.to_dict()
+        item["lineas"] = lineas.fillna("").to_dict(orient="records") if not lineas.empty else []
+        result.append(item)
+    return jsonify(result)
+
+
+@app.route("/api/comprobantes/<rut>", methods=["POST"])
+def api_comprobantes_post(rut):
+    clean = _clean_rut(rut)
+    data = request.get_json() or {}
+    fecha = data.get("fecha", "")
+    glosa = data.get("glosa", "")
+    tipo_norma = data.get("tipo_norma", "CYT")
+    numero = data.get("numero", "")
+    lineas = data.get("lineas", [])
+    if not lineas:
+        return jsonify({"error": "Sin líneas"}), 400
+    total_debe = sum(float(l.get("debe", 0)) for l in lineas)
+    total_haber = sum(float(l.get("haber", 0)) for l in lineas)
+    if abs(total_debe - total_haber) > 0.01:
+        return jsonify({"error": f"No cuadra: Debe {total_debe:,.0f} != Haber {total_haber:,.0f}"}), 400
+    comp_id = guardar_comprobante(clean, fecha, glosa, tipo_norma, numero, lineas)
+    return jsonify({"ok": True, "id": comp_id})
+
+
+# ============================================================
+# API - BALANCE
+# ============================================================
+@app.route("/api/balance/<rut>", methods=["GET"])
+def api_balance(rut):
+    clean = _clean_rut(rut)
+    fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
+    norma = request.args.get("norma", "CONTABLE")
+    df = get_balance_data(clean, fecha, norma)
+    if df.empty:
+        return jsonify({"filas": [], "totales": {}})
+    records = df.fillna("").to_dict(orient="records")
+    # Totales
+    totales = {
+        "debe": float(df["debe"].sum()),
+        "haber": float(df["haber"].sum()),
+        "activo": float(df["activo"].sum()),
+        "pasivo": float(df["pasivo"].sum()),
+        "perdida": float(df["perdida"].sum()),
+        "ganancia": float(df["ganancia"].sum()),
+    }
+    return jsonify({"filas": records, "totales": totales})
+
+
+@app.route("/api/exportar_balance/<rut>", methods=["GET"])
+def api_exportar_balance(rut):
+    clean = _clean_rut(rut)
+    fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
+    norma = request.args.get("norma", "CONTABLE")
+    df = get_balance_data(clean, fecha, norma)
+    output = f"balance_{norma}_{fecha}.xlsx"
+    df.drop(columns=["_es_total"], errors="ignore").to_excel(output, index=False)
+    return send_file(output, as_attachment=True)
+
+
+# ============================================================
+# API - AJUSTES
+# ============================================================
+@app.route("/api/ajustes/<rut>", methods=["GET"])
+def api_ajustes_get(rut):
+    clean = _clean_rut(rut)
+    df = get_ajustes_tributarios(clean)
+    if df.empty:
+        return jsonify([])
+    return jsonify(df.fillna("").to_dict(orient="records"))
+
+
+@app.route("/api/ajustes/<rut>", methods=["POST"])
+def api_ajustes_post(rut):
+    clean = _clean_rut(rut)
+    data = request.get_json() or []
+    if not data:
+        return jsonify({"error": "Datos vacíos"}), 400
+    df = pd.DataFrame(data)
+    guardar_ajustes_tributarios(clean, df)
+    return jsonify({"ok": True})
+
+
+# ============================================================
+# API - DJ1847
+# ============================================================
+@app.route("/api/dj1847/<rut>", methods=["GET"])
+def api_dj1847(rut):
+    clean = _clean_rut(rut)
+    fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
+    balance = get_balance_data(clean, fecha, "TRIBUTARIO")
+    plan = get_plan_cuentas(clean)
+    base = cargar_plan_base()
+    sii = cargar_plan_sii()
+    if balance.empty:
+        return jsonify({"filas": [], "totales": {}})
+    bal = balance[~balance["_es_total"]].copy()
+    # Merge con homologación para obtener cuenta_base
+    if not plan.empty:
+        hom_map = plan.set_index("cuenta_local")["cuenta_base"].to_dict()
+        bal["cuenta_base"] = bal["cuenta"].map(hom_map).fillna("")
+    else:
+        bal["cuenta_base"] = ""
+    # Merge con plan base para obtener cuenta_sii
+    if not base.empty:
+        base_sii_map = base.set_index("Cuenta")["cuenta_sii"].to_dict()
+        bal["cuenta_sii"] = bal["cuenta_base"].map(base_sii_map).fillna("")
+        base_tipo_map = base.set_index("Cuenta")["Estado"].to_dict()
+        bal["tipo"] = bal["cuenta_base"].map(base_tipo_map).fillna("OTRO")
+    else:
+        bal["cuenta_sii"] = ""
+        bal["tipo"] = "OTRO"
+    bal["valor_tributario"] = bal.apply(lambda r: (r["activo"] - r["pasivo"]) if str(r["cuenta"]).startswith(("1","2")) else 0, axis=1)
+    concepto_map = {"INGRESO": "1657", "COSTO": "1661", "GASTO": "1662"}
+    bal["concepto"] = bal["tipo"].map(concepto_map).fillna("")
+    records = []
+    for _, r in bal.iterrows():
+        records.append({
+            "n": int(r["n"]),
+            "cuenta": r["cuenta"],
+            "cuenta_sii": r["cuenta_sii"],
+            "nombre": r["nombre_cuenta"],
+            "debe": float(r["debe"]),
+            "haber": float(r["haber"]),
+            "saldo_deudor": float(r["saldo_deudor"]),
+            "saldo_acreedor": float(r["saldo_acreedor"]),
+            "activo": float(r["activo"]),
+            "pasivo": float(r["pasivo"]),
+            "perdida": float(r["perdida"]),
+            "ganancia": float(r["ganancia"]),
+            "concepto": r["concepto"],
+            "valor_tributario": float(r["valor_tributario"]),
+        })
+    return jsonify({"filas": records, "totales": {}})
+
+
+@app.route("/api/exportar_dj1847/<rut>", methods=["GET"])
+def api_exportar_dj1847(rut):
+    clean = _clean_rut(rut)
+    fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
+    data = api_dj1847(clean)
+    if hasattr(data, "get_json"):
+        data = data.get_json()
+    df = pd.DataFrame(data.get("filas", []))
+    output = f"DJ1847_{clean}_{fecha}.xlsx"
+    df.to_excel(output, index=False)
+    return send_file(output, as_attachment=True)
+
+
+# ============================================================
+# API - DJ1926
+# ============================================================
+@app.route("/api/dj1926/<rut>", methods=["GET"])
+def api_dj1926(rut):
+    clean = _clean_rut(rut)
+    fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
+    balance = get_balance_data(clean, fecha, "TRIBUTARIO")
+    resultado_financiero = 0.0
+    if not balance.empty:
+        resultado_financiero = float(balance["ganancia"].sum() - balance["perdida"].sum())
+    aj = get_ajustes_tributarios(clean)
+    if aj.empty:
+        aj = pd.DataFrame(columns=["codigo_sii", "descripcion", "monto", "tipo_ajuste", "cuenta_afectada"])
+    aj["monto"] = pd.to_numeric(aj["monto"], errors="coerce").fillna(0)
+    agregados = float(aj[aj["tipo_ajuste"] == 1]["monto"].sum())
+    deducciones = float(aj[aj["tipo_ajuste"] == 2]["monto"].sum())
+    ded_e = float(aj[aj["tipo_ajuste"] == 4]["monto"].sum())
+    res_fin = float(aj[aj["tipo_ajuste"] == 9]["monto"].sum())
+    if res_fin == 0:
+        res_fin = resultado_financiero
+    rli = res_fin + agregados - deducciones - ded_e
+    return jsonify({
+        "seccion_b": aj.fillna("").to_dict(orient="records"),
+        "resumen": {
+            "resultado_financiero": res_fin,
+            "agregados": agregados,
+            "deducciones": deducciones,
+            "ded_e": ded_e,
+            "rli": rli,
+        }
+    })
+
+
+@app.route("/api/exportar_dj1926/<rut>", methods=["GET"])
+def api_exportar_dj1926(rut):
+    clean = _clean_rut(rut)
+    fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
+    data = api_dj1926(clean)
+    if hasattr(data, "get_json"):
+        data = data.get_json()
+    output = f"DJ1926_{clean}_{fecha}.xlsx"
+    with pd.ExcelWriter(output, engine="openpyxl") as writer:
+        pd.DataFrame(data.get("seccion_b", [])).to_excel(writer, sheet_name="Seccion B", index=False)
+        pd.DataFrame([data.get("resumen", {})]).to_excel(writer, sheet_name="Resumen", index=False)
+    return send_file(output, as_attachment=True)
+
+
+# ============================================================
+# API - LEDGER (para detalle de cuenta)
+# ============================================================
+@app.route("/api/ledger/<rut>", methods=["GET"])
+def api_ledger(rut):
+    clean = _clean_rut(rut)
+    df = get_ledger(clean)
+    if df.empty:
+        return jsonify([])
+    cuenta = request.args.get("cuenta")
+    if cuenta:
+        df = df[df["cuenta"] == cuenta]
+    return jsonify(df.fillna("").head(1000).to_dict(orient="records"))
+
+
+# ============================================================
+# MAIN
+# ============================================================
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)

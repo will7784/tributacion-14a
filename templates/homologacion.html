@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% block title %}Homologación - Tributación 14A{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-link-45deg"></i> Homologación de Plan de Cuentas</h2>
+    <button id="btn-guardar" class="btn btn-success">
+        <i class="bi bi-save"></i> Guardar cambios
+    </button>
+</div>
+
+<div id="alert-no-empresa" class="alert alert-warning d-none">
+    <i class="bi bi-exclamation-triangle"></i> Selecciona una empresa en el <a href="{{ url_for('index') }}">Dashboard</a>.
+</div>
+
+<div id="panel-hom">
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Asocia cada cuenta del cliente con una cuenta del <strong>Plan Base</strong>.
+        Usa la búsqueda inteligente o escribe el código/nombre directamente.
+    </div>
+    <div class="table-container">
+        <div class="mb-2 d-flex gap-2">
+            <input type="text" id="filtro-hom" class="form-control form-control-sm" placeholder="Buscar cuenta o nombre..." style="max-width: 300px;">
+            <button id="btn-automatch" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-magic"></i> Auto-match
+            </button>
+        </div>
+        <table id="tabla-hom" class="table table-sm table-striped table-bordered" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>Cuenta Cliente</th>
+                    <th>Nombre Cliente</th>
+                    <th>Cuenta Base</th>
+                    <th>Nombre Base</th>
+                    <th>Búsqueda</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal búsqueda -->
+<div class="modal fade" id="modal-buscar" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Buscar cuenta base</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="buscar-input" class="form-control mb-3" placeholder="Escribe código o nombre..." autocomplete="off">
+                <div id="buscar-resultados" class="list-group" style="max-height: 300px; overflow-y: auto;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    const emp = getEmpresa();
+    if (!emp) {
+        $('#alert-no-empresa').removeClass('d-none');
+        $('#panel-hom').addClass('d-none');
+        return;
+    }
+
+    let table;
+    let currentRow = null;
+    const modal = new bootstrap.Modal(document.getElementById('modal-buscar'));
+
+    function cargarHomologacion() {
+        apiGet(`/api/plan_cuentas/${emp.rut}`).then(data => {
+            const tbody = $('#tabla-hom tbody');
+            tbody.empty();
+            data.forEach(row => {
+                tbody.append(`
+                    <tr data-cuenta="${row.cuenta_local}">
+                        <td>${row.cuenta_local}</td>
+                        <td>${row.nombre_local}</td>
+                        <td class="cuenta-base">${row.cuenta_base || ''}</td>
+                        <td class="nombre-base">${row.nombre_base || ''}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-secondary btn-buscar">
+                                <i class="bi bi-search"></i> Buscar
+                            </button>
+                        </td>
+                    </tr>
+                `);
+            });
+
+            if (table) table.destroy();
+            table = $('#tabla-hom').DataTable({
+                pageLength: 25,
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' }
+            });
+        });
+    }
+
+    cargarHomologacion();
+
+    $('#filtro-hom').on('keyup', function() {
+        if (table) table.search(this.value).draw();
+    });
+
+    // Abrir modal de búsqueda
+    $('#tabla-hom tbody').on('click', '.btn-buscar', function() {
+        currentRow = $(this).closest('tr');
+        $('#buscar-input').val('').focus();
+        $('#buscar-resultados').empty();
+        modal.show();
+    });
+
+    // Búsqueda inteligente
+    let searchTimeout;
+    $('#buscar-input').on('input', function() {
+        clearTimeout(searchTimeout);
+        const q = $(this).val().trim();
+        if (q.length < 2) {
+            $('#buscar-resultados').empty();
+            return;
+        }
+        searchTimeout = setTimeout(() => {
+            apiGet(`/api/buscar_plan_base?q=${encodeURIComponent(q)}`).then(data => {
+                const container = $('#buscar-resultados');
+                container.empty();
+                if (data.length === 0) {
+                    container.html('<div class="list-group-item text-muted">Sin resultados</div>');
+                    return;
+                }
+                data.forEach(r => {
+                    container.append(`
+                        <button type="button" class="list-group-item list-group-item-action" data-cuenta="${r.cuenta}" data-nombre="${r.nombre}">
+                            <strong>${r.cuenta}</strong> - ${r.nombre}
+                            <span class="badge bg-secondary float-end">${Math.round(r.score * 100)}%</span>
+                        </button>
+                    `);
+                });
+            });
+        }, 300);
+    });
+
+    // Seleccionar resultado
+    $('#buscar-resultados').on('click', 'button', function() {
+        const cuenta = $(this).data('cuenta');
+        const nombre = $(this).data('nombre');
+        if (currentRow) {
+            currentRow.find('.cuenta-base').text(cuenta);
+            currentRow.find('.nombre-base').text(nombre);
+        }
+        modal.hide();
+    });
+
+    // Auto-match: usa la búsqueda inteligente por nombre local
+    $('#btn-automatch').on('click', function() {
+        $('#tabla-hom tbody tr').each(function() {
+            const tr = $(this);
+            const nombreLocal = tr.find('td:eq(1)').text();
+            const cuentaLocal = tr.find('td:eq(0)').text();
+            if (tr.find('.cuenta-base').text().trim() !== '') return; // ya tiene match
+            apiGet(`/api/buscar_plan_base?q=${encodeURIComponent(nombreLocal)}`).then(data => {
+                if (data.length > 0 && data[0].score > 0.75) {
+                    tr.find('.cuenta-base').text(data[0].cuenta);
+                    tr.find('.nombre-base').text(data[0].nombre);
+                }
+            });
+        });
+        showToast('Auto-match ejecutado. Revisa los resultados antes de guardar.');
+    });
+
+    $('#btn-guardar').on('click', function() {
+        const rows = [];
+        $('#tabla-hom tbody tr').each(function() {
+            const tr = $(this);
+            rows.push({
+                cuenta_local: tr.data('cuenta'),
+                nombre_local: tr.find('td:eq(1)').text(),
+                cuenta_base: tr.find('.cuenta-base').text().trim()
+            });
+        });
+        apiPost(`/api/plan_cuentas/${emp.rut}`, rows)
+            .then(() => showToast('Homologación guardada'))
+            .catch(err => showToast('Error: ' + err, 'error'));
+    });
+});
+</script>
+{% endblock %}

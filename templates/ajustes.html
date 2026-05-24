@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% block title %}Ajustes Tributarios - Tributación 14A{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-sliders"></i> Ajustes Tributarios DJ1926</h2>
+    <button id="btn-guardar" class="btn btn-success">
+        <i class="bi bi-save"></i> Guardar cambios
+    </button>
+</div>
+
+<div id="alert-no-empresa" class="alert alert-warning d-none">
+    <i class="bi bi-exclamation-triangle"></i> Selecciona una empresa en el <a href="{{ url_for('index') }}">Dashboard</a>.
+</div>
+
+<div id="panel-ajustes">
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h6>Resultado Financiero</h6>
+                    <h4 id="res-fin">0</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h6>Agregados</h6>
+                    <h4 id="res-agregados">0</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h6>Deducciones</h6>
+                    <h4 id="res-deducciones">0</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-dark">
+                <div class="card-body">
+                    <h6>RLI Estimada</h6>
+                    <h4 id="res-rli">0</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#tab-guiado">Guiado</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#tab-manual">Manual</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="tab-guiado">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <select id="ajuste-tipo" class="form-select">
+                        <option value="">-- Seleccionar tipo de ajuste --</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" id="ajuste-monto" class="form-control" placeholder="Monto" min="0">
+                </div>
+                <div class="col-md-3">
+                    <select id="ajuste-clase" class="form-select">
+                        <option value="1">Agregado</option>
+                        <option value="2">Deducción</option>
+                        <option value="4">Deducción Letra E</option>
+                        <option value="9">Resultado Financiero</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button id="btn-add-ajuste" class="btn btn-primary w-100">Agregar</button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="tab-manual">
+            <p class="text-muted small">Edita directamente la tabla. Puedes agregar o eliminar filas.</p>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table id="tabla-ajustes" class="table table-sm table-striped table-bordered" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>Código SII</th>
+                    <th>Descripción</th>
+                    <th>Monto</th>
+                    <th>Tipo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    const emp = getEmpresa();
+    if (!emp) {
+        $('#alert-no-empresa').removeClass('d-none');
+        $('#panel-ajustes').addClass('d-none');
+        return;
+    }
+
+    let siiAjustes = [];
+    apiGet('/api/plan_sii').then(data => {
+        siiAjustes = data.filter(r => r.tipo === 'AJUSTE');
+        const opts = siiAjustes.map(r => `<option value="${r.cuenta_sii}|${r.nombre}">${r.cuenta_sii} - ${r.nombre}</option>`).join('');
+        $('#ajuste-tipo').append(opts);
+    });
+
+    cargarAjustes();
+
+    $('#btn-add-ajuste').on('click', function() {
+        const val = $('#ajuste-tipo').val();
+        const monto = parseFloat($('#ajuste-monto').val()) || 0;
+        const tipo = parseInt($('#ajuste-clase').val());
+        if (!val || monto <= 0) {
+            showToast('Selecciona tipo e ingresa monto', 'warning');
+            return;
+        }
+        const [codigo, descripcion] = val.split('|');
+        agregarFila(codigo, descripcion, monto, tipo);
+        $('#ajuste-tipo').val('');
+        $('#ajuste-monto').val('');
+        calcularResumen();
+    });
+
+    $('#btn-guardar').on('click', function() {
+        const rows = [];
+        $('#tabla-ajustes tbody tr').each(function() {
+            rows.push({
+                codigo_sii: $(this).find('td:eq(0)').text(),
+                descripcion: $(this).find('td:eq(1)').text(),
+                monto: parseFloat($(this).find('.monto-input').val()) || 0,
+                tipo_ajuste: parseInt($(this).data('tipo')),
+                cuenta_afectada: ''
+            });
+        });
+        apiPost(`/api/ajustes/${emp.rut}`, rows)
+            .then(() => showToast('Ajustes guardados'))
+            .catch(err => showToast('Error: ' + err, 'error'));
+    });
+
+    function cargarAjustes() {
+        apiGet(`/api/ajustes/${emp.rut}`).then(data => {
+            $('#tabla-ajustes tbody').empty();
+            data.forEach(row => {
+                agregarFila(row.codigo_sii, row.descripcion, parseFloat(row.monto) || 0, parseInt(row.tipo_ajuste));
+            });
+            calcularResumen();
+        });
+    }
+
+    function agregarFila(codigo, descripcion, monto, tipo) {
+        const tipoLabel = {1:'Agregado', 2:'Deducción', 4:'Ded. Letra E', 9:'Res. Financiero'}[tipo] || tipo;
+        $('#tabla-ajustes tbody').append(`
+            <tr data-tipo="${tipo}">
+                <td>${codigo}</td>
+                <td>${descripcion}</td>
+                <td><input type="number" class="form-control form-control-sm monto-input" value="${monto}" min="0"></td>
+                <td>${tipoLabel}</td>
+                <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="$(this).closest('tr').remove(); calcularResumen();"><i class="bi bi-trash"></i></button></td>
+            </tr>
+        `);
+        $('.monto-input').off('input').on('input', calcularResumen);
+    }
+
+    function calcularResumen() {
+        let agregados = 0, deducciones = 0, dedE = 0, resFin = 0;
+        $('#tabla-ajustes tbody tr').each(function() {
+            const tipo = parseInt($(this).data('tipo'));
+            const monto = parseFloat($(this).find('.monto-input').val()) || 0;
+            if (tipo === 1) agregados += monto;
+            if (tipo === 2) deducciones += monto;
+            if (tipo === 4) dedE += monto;
+            if (tipo === 9) resFin += monto;
+        });
+        const rli = resFin + agregados - deducciones - dedE;
+        $('#res-agregados').text(formatNumber(agregados));
+        $('#res-deducciones').text(formatNumber(deducciones));
+        $('#res-fin').text(formatNumber(resFin));
+        $('#res-rli').text(formatNumber(rli));
+    }
+});
+</script>
+{% endblock %}
