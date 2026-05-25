@@ -19,10 +19,16 @@
                 <h6 class="card-subtitle mb-2 text-muted">Crear nueva empresa</h6>
                 <form id="form-nueva-empresa">
                     <div class="mb-2">
-                        <input type="text" class="form-control" id="new-rut" placeholder="RUT (sin puntos ni guión)" required>
+                        <input type="text" class="form-control" id="new-rut" placeholder="RUT empresa (sin puntos ni guión)" required>
                     </div>
                     <div class="mb-2">
                         <input type="text" class="form-control" id="new-nombre" placeholder="Nombre o Razón Social" required>
+                    </div>
+                    <div class="mb-2">
+                        <input type="text" class="form-control" id="new-rep-nombre" placeholder="Nombre Representante Legal">
+                    </div>
+                    <div class="mb-2">
+                        <input type="text" class="form-control" id="new-rep-rut" placeholder="RUT Representante Legal">
                     </div>
                     <button type="submit" class="btn btn-success btn-sm">
                         <i class="bi bi-plus-circle"></i> Crear
@@ -62,11 +68,15 @@ $(document).ready(function() {
         e.preventDefault();
         const rut = $('#new-rut').val().trim();
         const nombre = $('#new-nombre').val().trim();
-        apiPost('/api/empresas', {rut, nombre})
+        const rep_legal_nombre = $('#new-rep-nombre').val().trim();
+        const rep_legal_rut = $('#new-rep-rut').val().trim();
+        apiPost('/api/empresas', {rut, nombre, rep_legal_nombre, rep_legal_rut})
             .then(() => {
                 showToast('Empresa creada');
                 $('#new-rut').val('');
                 $('#new-nombre').val('');
+                $('#new-rep-nombre').val('');
+                $('#new-rep-rut').val('');
                 cargarEmpresas();
             })
             .catch(err => showToast('Error: ' + err, 'error'));

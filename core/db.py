@@ -30,7 +30,9 @@ def init_db(rut: str):
             entidad_supervisora TEXT,
             anio_ifrs INTEGER,
             folio_balance_ini TEXT,
-            folio_balance_fin TEXT
+            folio_balance_fin TEXT,
+            rep_legal_nombre TEXT,
+            rep_legal_rut TEXT
         )
         """
     )
@@ -151,8 +153,8 @@ def guardar_empresa(rut: str, nombre: str, **kwargs):
     cursor = conn.cursor()
     cursor.execute(
         """
-        INSERT OR REPLACE INTO empresa (rut, nombre, actividad_principal, entidad_supervisora, anio_ifrs, folio_balance_ini, folio_balance_fin)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT OR REPLACE INTO empresa (rut, nombre, actividad_principal, entidad_supervisora, anio_ifrs, folio_balance_ini, folio_balance_fin, rep_legal_nombre, rep_legal_rut)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             rut,
@@ -162,6 +164,8 @@ def guardar_empresa(rut: str, nombre: str, **kwargs):
             kwargs.get("anio_ifrs"),
             kwargs.get("folio_balance_ini"),
             kwargs.get("folio_balance_fin"),
+            kwargs.get("rep_legal_nombre"),
+            kwargs.get("rep_legal_rut"),
         ),
     )
     conn.commit()

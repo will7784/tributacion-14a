@@ -5,7 +5,7 @@ from io import BytesIO
 from pathlib import Path
 from datetime import datetime
 
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify, send_file, session, redirect, url_for
 import pandas as pd
 
 from core.db import (
@@ -17,11 +17,12 @@ from core.db import (
 )
 from core.balance import get_balance_data
 from core.plan_cuentas import homologar_plan, cargar_plan_sii, cargar_plan_base, buscar_cuentas_base
+from core.auth import init_auth_db, create_user, verify_user, get_user, login_required
 from parsers.csv_import import parse_csv
 from parsers.excel_import import parse_excel
 
 app = Flask(__name__)
-app.secret_key = "tax14a-secret-key-change-in-production"
+app.secret_key = os.environ.get("SECRET_KEY", "tax14a-secret-key-change-in-production")
 
 
 # ============================================================
@@ -36,54 +37,93 @@ def _get_db_path(rut: str) -> Path:
 
 
 # ============================================================
+# AUTH
+# ============================================================
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        if request.is_json:
+            data = request.get_json(silent=True) or {}
+        else:
+            data = request.form
+        username = str(data.get("username", "")).strip()
+        password = str(data.get("password", "")).strip()
+        if verify_user(username, password):
+            session["user"] = username
+            if request.is_json:
+                return jsonify({"ok": True})
+            return redirect(url_for("index"))
+        if request.is_json:
+            return jsonify({"error": "Credenciales inválidas"}), 401
+        return render_template("login.html", error="Credenciales inválidas")
+    return render_template("login.html", error=None)
+
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("login"))
+
+
+# ============================================================
 # PAGES
 # ============================================================
 @app.route("/")
+@login_required
 def index():
     return render_template("index.html")
 
 
 @app.route("/importar")
+@login_required
 def importar():
     return render_template("importar.html")
 
 
 @app.route("/homologacion")
+@login_required
 def homologacion():
     return render_template("homologacion.html")
 
 
 @app.route("/plan_base")
+@login_required
 def plan_base_page():
     return render_template("plan_base.html")
 
 
 @app.route("/clasificacion")
+@login_required
 def clasificacion():
     return render_template("clasificacion.html")
 
 
 @app.route("/comprobantes")
+@login_required
 def comprobantes():
     return render_template("comprobantes.html")
 
 
 @app.route("/balance")
+@login_required
 def balance():
     return render_template("balance.html")
 
 
 @app.route("/ajustes")
+@login_required
 def ajustes():
     return render_template("ajustes.html")
 
 
 @app.route("/dj1847")
+@login_required
 def dj1847():
     return render_template("dj1847.html")
 
 
 @app.route("/dj1926")
+@login_required
 def dj1926():
     return render_template("dj1926.html")
 
@@ -92,6 +132,7 @@ def dj1926():
 # API - EMPRESA
 # ============================================================
 @app.route("/api/empresas", methods=["GET"])
+@login_required
 def api_empresas():
     db_files = sorted([f for f in os.listdir(".") if f.endswith("_14a.db")])
     empresas = []
@@ -106,6 +147,7 @@ def api_empresas():
 
 
 @app.route("/api/empresas", methods=["POST"])
+@login_required
 def api_empresas_post():
     data = request.get_json() or {}
     rut = str(data.get("rut", "")).strip()
@@ -113,11 +155,17 @@ def api_empresas_post():
     if not rut or not nombre:
         return jsonify({"error": "RUT y nombre son obligatorios"}), 400
     clean = _clean_rut(rut)
-    guardar_empresa(clean, nombre)
+    guardar_empresa(
+        clean,
+        nombre,
+        rep_legal_nombre=data.get("rep_legal_nombre", ""),
+        rep_legal_rut=data.get("rep_legal_rut", ""),
+    )
     return jsonify({"rut": clean, "nombre": nombre})
 
 
 @app.route("/api/empresa/<rut>", methods=["GET"])
+@login_required
 def api_empresa_get(rut):
     clean = _clean_rut(rut)
     emp = get_empresa(clean)
@@ -130,6 +178,7 @@ def api_empresa_get(rut):
 # API - IMPORTAR
 # ============================================================
 @app.route("/api/importar/<rut>", methods=["POST"])
+@login_required
 def api_importar(rut):
     clean = _clean_rut(rut)
     if "file" not in request.files:
@@ -232,12 +281,14 @@ def api_importar(rut):
 # API - PLAN BASE (global)
 # ============================================================
 @app.route("/api/plan_base", methods=["GET"])
+@login_required
 def api_plan_base_get():
     df = cargar_plan_base()
     return jsonify(df.fillna("").to_dict(orient="records"))
 
 
 @app.route("/api/plan_base", methods=["POST"])
+@login_required
 def api_plan_base_post():
     data = request.get_json() or []
     if not data:
@@ -249,6 +300,7 @@ def api_plan_base_post():
 
 
 @app.route("/api/buscar_plan_base", methods=["GET"])
+@login_required
 def api_buscar_plan_base():
     query = request.args.get("q", "").strip()
     if not query:
@@ -261,6 +313,7 @@ def api_buscar_plan_base():
 # API - HOMOLOGACIÓN (por empresa)
 # ============================================================
 @app.route("/api/plan_cuentas/<rut>", methods=["GET"])
+@login_required
 def api_plan_cuentas_get(rut):
     clean = _clean_rut(rut)
     df = get_plan_cuentas(clean)
@@ -275,6 +328,7 @@ def api_plan_cuentas_get(rut):
 
 
 @app.route("/api/plan_cuentas/<rut>", methods=["POST"])
+@login_required
 def api_plan_cuentas_post(rut):
     clean = _clean_rut(rut)
     data = request.get_json() or []
@@ -289,6 +343,7 @@ def api_plan_cuentas_post(rut):
 
 
 @app.route("/api/plan_sii", methods=["GET"])
+@login_required
 def api_plan_sii():
     df = cargar_plan_sii()
     return jsonify(df.fillna("").to_dict(orient="records"))
@@ -298,6 +353,7 @@ def api_plan_sii():
 # API - CLASIFICACIÓN (por empresa)
 # ============================================================
 @app.route("/api/clasificacion/<rut>", methods=["GET"])
+@login_required
 def api_clasificacion_get(rut):
     clean = _clean_rut(rut)
     df = get_clasificacion(clean)
@@ -307,6 +363,7 @@ def api_clasificacion_get(rut):
 
 
 @app.route("/api/clasificacion/<rut>", methods=["POST"])
+@login_required
 def api_clasificacion_post(rut):
     clean = _clean_rut(rut)
     data = request.get_json() or []
@@ -321,6 +378,7 @@ def api_clasificacion_post(rut):
 # API - COMPROBANTES
 # ============================================================
 @app.route("/api/comprobantes/<rut>", methods=["GET"])
+@login_required
 def api_comprobantes_get(rut):
     clean = _clean_rut(rut)
     comps = get_comprobantes(clean)
@@ -336,6 +394,7 @@ def api_comprobantes_get(rut):
 
 
 @app.route("/api/comprobantes/<rut>", methods=["POST"])
+@login_required
 def api_comprobantes_post(rut):
     clean = _clean_rut(rut)
     data = request.get_json() or {}
@@ -358,6 +417,7 @@ def api_comprobantes_post(rut):
 # API - BALANCE
 # ============================================================
 @app.route("/api/balance/<rut>", methods=["GET"])
+@login_required
 def api_balance(rut):
     clean = _clean_rut(rut)
     fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
@@ -379,6 +439,7 @@ def api_balance(rut):
 
 
 @app.route("/api/exportar_balance/<rut>", methods=["GET"])
+@login_required
 def api_exportar_balance(rut):
     clean = _clean_rut(rut)
     fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
@@ -393,6 +454,7 @@ def api_exportar_balance(rut):
 # API - AJUSTES
 # ============================================================
 @app.route("/api/ajustes/<rut>", methods=["GET"])
+@login_required
 def api_ajustes_get(rut):
     clean = _clean_rut(rut)
     df = get_ajustes_tributarios(clean)
@@ -402,6 +464,7 @@ def api_ajustes_get(rut):
 
 
 @app.route("/api/ajustes/<rut>", methods=["POST"])
+@login_required
 def api_ajustes_post(rut):
     clean = _clean_rut(rut)
     data = request.get_json() or []
@@ -416,6 +479,7 @@ def api_ajustes_post(rut):
 # API - DJ1847
 # ============================================================
 @app.route("/api/dj1847/<rut>", methods=["GET"])
+@login_required
 def api_dj1847(rut):
     clean = _clean_rut(rut)
     fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
@@ -466,6 +530,7 @@ def api_dj1847(rut):
 
 
 @app.route("/api/exportar_dj1847/<rut>", methods=["GET"])
+@login_required
 def api_exportar_dj1847(rut):
     clean = _clean_rut(rut)
     fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
@@ -482,6 +547,7 @@ def api_exportar_dj1847(rut):
 # API - DJ1926
 # ============================================================
 @app.route("/api/dj1926/<rut>", methods=["GET"])
+@login_required
 def api_dj1926(rut):
     clean = _clean_rut(rut)
     fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
@@ -513,6 +579,7 @@ def api_dj1926(rut):
 
 
 @app.route("/api/exportar_dj1926/<rut>", methods=["GET"])
+@login_required
 def api_exportar_dj1926(rut):
     clean = _clean_rut(rut)
     fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
@@ -530,6 +597,7 @@ def api_exportar_dj1926(rut):
 # API - LEDGER (para detalle de cuenta)
 # ============================================================
 @app.route("/api/ledger/<rut>", methods=["GET"])
+@login_required
 def api_ledger(rut):
     clean = _clean_rut(rut)
     df = get_ledger(clean)
@@ -545,4 +613,12 @@ def api_ledger(rut):
 # MAIN
 # ============================================================
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    init_auth_db()
+    # Crear superusuario por defecto si no existe
+    try:
+        create_user("will", "anwi7784", is_superuser=True)
+        print("Superusuario 'will' creado/actualizado")
+    except Exception as e:
+        print("Nota:", e)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=os.environ.get("DEBUG", "True").lower() == "true")
