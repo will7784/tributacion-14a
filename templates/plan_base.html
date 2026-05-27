@@ -2,7 +2,7 @@
 {% block title %}Plan Base - Tributación 14A{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2><i class="bi bi-list-ol"></i> Plan Base KAME ONE</h2>
+    <h2><i class="bi bi-list-ol"></i> Plan de Cuentas Base</h2>
     <button id="btn-guardar" class="btn btn-success">
         <i class="bi bi-save"></i> Guardar cambios
     </button>
@@ -48,6 +48,19 @@ $(document).ready(function() {
         cargarPlan();
     });
 
+    function esCuentaPadre(cuenta) {
+        const partes = cuenta.split('.');
+        let cerosAlFinal = 0;
+        for (let i = partes.length - 1; i >= 0; i--) {
+            if (partes[i] === '00') {
+                cerosAlFinal++;
+            } else {
+                break;
+            }
+        }
+        return cerosAlFinal >= 2;
+    }
+
     function cargarPlan() {
         apiGet('/api/plan_base').then(data => {
             const tbody = $('#tabla-plan tbody');
@@ -58,6 +71,13 @@ $(document).ready(function() {
                     const selected = row.cuenta_sii === val ? 'selected' : '';
                     return `<option value="${val}" ${selected}>${opt}</option>`;
                 }).join('');
+                const esPadre = esCuentaPadre(row.Cuenta);
+                const siiCell = esPadre
+                    ? '<span class="text-muted">—</span>'
+                    : `<select class="form-select form-select-sm select-sii">
+                           <option value="">-- Sin asignar --</option>
+                           ${optHtml}
+                       </select>`;
                 tbody.append(`
                     <tr data-cuenta="${row.Cuenta}">
                         <td>${row.Cuenta}</td>
@@ -67,12 +87,7 @@ $(document).ready(function() {
                         <td contenteditable="true">${row['Un.Neg.'] || ''}</td>
                         <td contenteditable="true">${row.Concil || ''}</td>
                         <td contenteditable="true">${row.Estado || ''}</td>
-                        <td>
-                            <select class="form-select form-select-sm select-sii">
-                                <option value="">-- Sin asignar --</option>
-                                ${optHtml}
-                            </select>
-                        </td>
+                        <td>${siiCell}</td>
                     </tr>
                 `);
             });
