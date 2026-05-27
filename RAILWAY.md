@@ -12,21 +12,43 @@ En el dashboard de Railway, ve a tu servicio → **Variables** y agrega:
 
 | Variable | Valor (ejemplo) | Descripción |
 |----------|----------------|-------------|
-| `SECRET_KEY` | `cambia-esto-por-un-string-largo-y-aleatorio` | Clave para firmar sesiones de Flask |
+| `SECRET_KEY` | `${{ secret() }}` | Deja la función `secret()` de Railway para generar uno automático |
 | `DATA_DIR` | `/data` | Directorio donde se guardarán las bases de datos SQLite |
 | `DEBUG` | `False` | Modo producción (sin recarga automática) |
+| `ADMIN_USERNAME` | `will` | Tu usuario administrador (cámbialo si quieres) |
+| `ADMIN_PASSWORD` | `anwi7784` | **Tu contraseña de admin** (cámbiala por algo seguro) |
 
-> **Importante:** Genera un `SECRET_KEY` seguro con:  
-> `python -c "import secrets; print(secrets.token_urlsafe(32))"`
+> **Importante:** `ADMIN_PASSWORD` es obligatoria. Si no la configuras, la app no creará ningún usuario y no podrás iniciar sesión.
 
-## 3. Agregar Volumen Persistente
+## 3. Agregar Volumen Persistente (1 GB)
 
-Las bases de datos SQLite se guardan en archivos locales. En Railway el filesystem es efímero, así que necesitas un **volumen**:
+Las bases de datos SQLite se guardan en archivos locales. En Railway el filesystem es efímero, así que necesitas un **volumen** para que los datos no se borren en cada redeploy.
 
-1. En el dashboard de Railway, ve a tu servicio → **Volumes**.
-2. Clic en **New Volume**.
-3. Mount path: `/data`
-4. Tamaño: 1 GB (puedes aumentar luego).
+### Opción A: Desde el dashboard web
+
+1. En el canvas de Railway, haz **clic en el bloque de tu servicio** (`tributacion-14a`).
+2. En el panel derecho busca la sección **Volumes**.
+   - Si no la ves, prueba hacer **clic derecho** sobre el servicio en el canvas.
+3. Clic en **New Volume**.
+4. Completa:
+   - **Mount Path**: `/data` (debe coincidir exactamente con `DATA_DIR`)
+   - **Size**: `1` y selecciona la unidad `GB`
+5. Guarda.
+
+### Opción B: Desde la terminal (Railway CLI)
+
+Si no ves la opción en la web, instala el CLI y ejecuta:
+
+```bash
+# Login (solo la primera vez)
+railway login
+
+# Linka tu proyecto
+railway link
+
+# Crea el volumen de 1 GB en /data
+railway volume create -s tributacion-14a -m /data
+```
 
 Esto asegura que `auth.db` y los archivos `{RUT}_14a.db` persistan entre redeploys.
 
@@ -39,13 +61,12 @@ Railway detectará automáticamente:
 
 Solo haz push a `main` y Railway hará el deploy automáticamente.
 
-## 5. Primer acceso (Setup inicial)
+## 5. Primer acceso
 
-La primera vez que entres a la app:
+Una vez que la app esté online:
 
-1. Ve a `https://<tu-app>.up.railway.app/setup`
-2. Crea tu cuenta de administrador.
-3. Después de eso, el setup se desactiva automáticamente y puedes usar `/login` normalmente.
+1. Ve a `https://<tu-app>.up.railway.app/login`
+2. Ingresa con las credenciales que configuraste en `ADMIN_USERNAME` y `ADMIN_PASSWORD`.
 
 > Si ya tienes un `auth.db` local con usuarios, súbelo manualmente al volumen `/data` o recréalos desde cero.
 

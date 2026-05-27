@@ -28,6 +28,28 @@ app.secret_key = os.environ.get("SECRET_KEY", "tax14a-secret-key-change-in-produ
 init_auth_db()
 
 
+def _ensure_admin():
+    """Crea el usuario admin desde variables de entorno si no existe ninguno."""
+    from core.auth import _get_conn, create_user
+    try:
+        conn = _get_conn()
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM users")
+        count = cursor.fetchone()[0]
+        conn.close()
+        if count == 0:
+            admin_user = os.environ.get("ADMIN_USERNAME", "will")
+            admin_pass = os.environ.get("ADMIN_PASSWORD")
+            if admin_pass:
+                create_user(admin_user, admin_pass, is_superuser=True)
+                print(f"[INIT] Admin user '{admin_user}' created")
+    except Exception:
+        pass
+
+
+_ensure_admin()
+
+
 # ============================================================
 # HELPERS
 # ============================================================
@@ -42,37 +64,6 @@ def _get_db_path(rut: str) -> Path:
 # ============================================================
 # AUTH
 # ============================================================
-@app.route("/setup", methods=["GET", "POST"])
-def setup():
-    """Permite crear el primer usuario si auth.db está vacío."""
-    init_auth_db()
-    from core.auth import _get_conn
-    conn = _get_conn()
-    cursor = conn.cursor()
-    cursor.execute("SELECT COUNT(*) FROM users")
-    count = cursor.fetchone()[0]
-    conn.close()
-    if count > 0:
-        return redirect(url_for("login"))
-    if request.method == "POST":
-        if request.is_json:
-            data = request.get_json(silent=True) or {}
-        else:
-            data = request.form
-        username = str(data.get("username", "")).strip()
-        password = str(data.get("password", "")).strip()
-        if not username or not password:
-            if request.is_json:
-                return jsonify({"error": "Usuario y contraseña obligatorios"}), 400
-            return render_template("setup.html", error="Usuario y contraseña obligatorios")
-        create_user(username, password, is_superuser=True)
-        session["user"] = username
-        if request.is_json:
-            return jsonify({"ok": True})
-        return redirect(url_for("index"))
-    return render_template("setup.html", error=None)
-
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
