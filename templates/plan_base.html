@@ -15,8 +15,12 @@
 
 <div id="panel-plan">
     <div class="table-container">
-        <div class="mb-2 d-flex gap-2">
+        <div class="mb-2 d-flex gap-2 align-items-center">
             <input type="text" id="filtro-plan" class="form-control form-control-sm" placeholder="Buscar cuenta o nombre..." style="max-width: 300px;">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="chk-solo-nivel3">
+                <label class="form-check-label" for="chk-solo-nivel3">Solo cuentas clasificables (nivel 3)</label>
+            </div>
         </div>
         <table id="tabla-plan" class="table table-sm table-striped table-bordered" style="width:100%">
             <thead class="table-dark">
@@ -29,6 +33,7 @@
                     <th>Concil.</th>
                     <th>Estado</th>
                     <th>Cuenta SII</th>
+                    <th>Nivel</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -48,7 +53,7 @@ $(document).ready(function() {
         cargarPlan();
     });
 
-    function esCuentaPadre(cuenta) {
+    function obtenerNivel(cuenta) {
         const partes = cuenta.split('.');
         let cerosAlFinal = 0;
         for (let i = partes.length - 1; i >= 0; i--) {
@@ -58,7 +63,7 @@ $(document).ready(function() {
                 break;
             }
         }
-        return cerosAlFinal >= 2;
+        return 4 - cerosAlFinal; // 1, 2, 3 o 4
     }
 
     function cargarPlan() {
@@ -71,15 +76,16 @@ $(document).ready(function() {
                     const selected = row.cuenta_sii === val ? 'selected' : '';
                     return `<option value="${val}" ${selected}>${opt}</option>`;
                 }).join('');
-                const esPadre = esCuentaPadre(row.Cuenta);
-                const siiCell = esPadre
-                    ? '<span class="text-muted">—</span>'
-                    : `<select class="form-select form-select-sm select-sii">
+                const nivel = obtenerNivel(row.Cuenta);
+                const mostrarSii = (nivel === 3);
+                const siiCell = mostrarSii
+                    ? `<select class="form-select form-select-sm select-sii">
                            <option value="">-- Sin asignar --</option>
                            ${optHtml}
-                       </select>`;
+                       </select>`
+                    : '<span class="text-muted">—</span>';
                 tbody.append(`
-                    <tr data-cuenta="${row.Cuenta}">
+                    <tr data-cuenta="${row.Cuenta}" data-nivel="${nivel}">
                         <td>${row.Cuenta}</td>
                         <td contenteditable="true">${row.Nombre || ''}</td>
                         <td contenteditable="true">${row.Ficha || ''}</td>
@@ -88,19 +94,32 @@ $(document).ready(function() {
                         <td contenteditable="true">${row.Concil || ''}</td>
                         <td contenteditable="true">${row.Estado || ''}</td>
                         <td>${siiCell}</td>
+                        <td>${nivel}</td>
                     </tr>
                 `);
             });
 
             table = $('#tabla-plan').DataTable({
                 pageLength: 50,
-                language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' }
+                language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' },
+                columnDefs: [
+                    { targets: 8, visible: false } // ocultar columna nivel
+                ]
             });
         });
     }
 
     $('#filtro-plan').on('keyup', function() {
         if (table) table.search(this.value).draw();
+    });
+
+    $('#chk-solo-nivel3').on('change', function() {
+        if (!table) return;
+        if (this.checked) {
+            table.column(8).search('^3$', true, false).draw();
+        } else {
+            table.column(8).search('').draw();
+        }
     });
 
     $('#btn-guardar').on('click', function() {
