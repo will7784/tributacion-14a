@@ -4,7 +4,7 @@ from pathlib import Path
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 
-AUTH_DB = Path("auth.db")
+AUTH_DB = Path(os.environ.get("DATA_DIR", ".")) / "auth.db"
 
 
 def _get_conn():

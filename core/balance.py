@@ -1,6 +1,9 @@
+import os
 import pandas as pd
 import sqlite3
 from pathlib import Path
+
+DB_DIR = Path(os.environ.get("DATA_DIR", "."))
 
 
 def get_balance_data(rut: str, fecha_hasta: str, norma: str = "CONTABLE") -> pd.DataFrame:
@@ -9,7 +12,7 @@ def get_balance_data(rut: str, fecha_hasta: str, norma: str = "CONTABLE") -> pd.
     Retorna DataFrame con columnas del balance de 8 columnas por cuenta,
     incluyendo la fila de Resultado del Ejercicio para cuadrar.
     """
-    db_path = Path(f"{rut.replace('.', '').replace('-', '').upper()}_14a.db")
+    db_path = DB_DIR / f"{rut.replace('.', '').replace('-', '').upper()}_14a.db"
     if not db_path.exists():
         return pd.DataFrame()
 

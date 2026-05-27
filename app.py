@@ -13,7 +13,7 @@ from core.db import (
     get_ledger, limpiar_ledger, guardar_ledger,
     get_comprobantes, get_comprobante_lineas, guardar_comprobante,
     get_ajustes_tributarios, guardar_ajustes_tributarios,
-    get_clasificacion, guardar_clasificacion,
+    get_clasificacion, guardar_clasificacion, DB_DIR,
 )
 from core.balance import get_balance_data
 from core.plan_cuentas import homologar_plan, cargar_plan_sii, cargar_plan_base, buscar_cuentas_base
@@ -23,6 +23,9 @@ from parsers.excel_import import parse_excel
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "tax14a-secret-key-change-in-production")
+
+# Inicializar DB de auth al importar el módulo (Gunicorn no ejecuta __main__)
+init_auth_db()
 
 
 # ============================================================
@@ -39,6 +42,37 @@ def _get_db_path(rut: str) -> Path:
 # ============================================================
 # AUTH
 # ============================================================
+@app.route("/setup", methods=["GET", "POST"])
+def setup():
+    """Permite crear el primer usuario si auth.db está vacío."""
+    init_auth_db()
+    from core.auth import _get_conn
+    conn = _get_conn()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM users")
+    count = cursor.fetchone()[0]
+    conn.close()
+    if count > 0:
+        return redirect(url_for("login"))
+    if request.method == "POST":
+        if request.is_json:
+            data = request.get_json(silent=True) or {}
+        else:
+            data = request.form
+        username = str(data.get("username", "")).strip()
+        password = str(data.get("password", "")).strip()
+        if not username or not password:
+            if request.is_json:
+                return jsonify({"error": "Usuario y contraseña obligatorios"}), 400
+            return render_template("setup.html", error="Usuario y contraseña obligatorios")
+        create_user(username, password, is_superuser=True)
+        session["user"] = username
+        if request.is_json:
+            return jsonify({"ok": True})
+        return redirect(url_for("index"))
+    return render_template("setup.html", error=None)
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -134,7 +168,7 @@ def dj1926():
 @app.route("/api/empresas", methods=["GET"])
 @login_required
 def api_empresas():
-    db_files = sorted([f for f in os.listdir(".") if f.endswith("_14a.db")])
+    db_files = sorted([f for f in os.listdir(DB_DIR) if f.endswith("_14a.db")])
     empresas = []
     for db in db_files:
         rut_raw = db.replace("_14a.db", "")
@@ -614,11 +648,5 @@ def api_ledger(rut):
 # ============================================================
 if __name__ == "__main__":
     init_auth_db()
-    # Crear superusuario por defecto si no existe
-    try:
-        create_user("will", "anwi7784", is_superuser=True)
-        print("Superusuario 'will' creado/actualizado")
-    except Exception as e:
-        print("Nota:", e)
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=os.environ.get("DEBUG", "True").lower() == "true")

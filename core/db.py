@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from pathlib import Path
 
-DB_DIR = Path(".")
+DB_DIR = Path(os.environ.get("DATA_DIR", "."))
 
 
 def get_db_path(rut: str) -> Path:
