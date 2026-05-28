@@ -9,6 +9,12 @@ PLAN_BASE_PATH = DATA_DIR / "plan_cuentas_base.csv"
 
 def cargar_plan_base() -> pd.DataFrame:
     """Carga el plan de cuentas base (KAME ONE) desde CSV."""
+    # Si no existe en DATA_DIR, copiar desde el repo (Railway deploy)
+    if not PLAN_BASE_PATH.exists():
+        repo_path = Path("plan_cuentas_base.csv")
+        if repo_path.exists():
+            import shutil
+            shutil.copy(repo_path, PLAN_BASE_PATH)
     if not PLAN_BASE_PATH.exists():
         return pd.DataFrame(columns=["Cuenta", "Nombre", "Ficha", "Docum.", "Un.Neg.", "Concil.", "Estado", "cuenta_sii", "cod_f22"])
     df = pd.read_csv(PLAN_BASE_PATH, dtype=str)
