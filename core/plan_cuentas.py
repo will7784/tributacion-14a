@@ -7,12 +7,26 @@ DATA_DIR = Path(os.environ.get("DATA_DIR", "."))
 PLAN_BASE_PATH = DATA_DIR / "plan_cuentas_base.csv"
 
 
+def _repo_plan_base_path() -> Path:
+    """Encuentra el plan_cuentas_base.csv en el repo (varias rutas posibles)."""
+    candidates = [
+        Path(__file__).parent.parent / "plan_cuentas_base.csv",
+        Path("plan_cuentas_base.csv"),
+        Path("/app/plan_cuentas_base.csv"),
+        Path("/workspace/plan_cuentas_base.csv"),
+    ]
+    for c in candidates:
+        if c.exists():
+            return c
+    return candidates[1]  # default
+
+
 def cargar_plan_base() -> pd.DataFrame:
     """Carga el plan de cuentas base (KAME ONE) desde CSV."""
-    # Si no existe en DATA_DIR, copiar desde el repo (Railway deploy)
-    if not PLAN_BASE_PATH.exists():
-        repo_path = Path("plan_cuentas_base.csv")
-        if repo_path.exists():
+    # Si no existe en DATA_DIR o está vacío, copiar desde el repo (Railway deploy)
+    repo_path = _repo_plan_base_path()
+    if not PLAN_BASE_PATH.exists() or PLAN_BASE_PATH.stat().st_size == 0:
+        if repo_path.exists() and repo_path.stat().st_size > 0:
             import shutil
             shutil.copy(repo_path, PLAN_BASE_PATH)
     if not PLAN_BASE_PATH.exists():
