@@ -8,9 +8,12 @@ PLAN_BASE_PATH = Path("data/plan_cuentas_base.csv")
 def cargar_plan_base() -> pd.DataFrame:
     """Carga el plan de cuentas base (KAME ONE) desde CSV."""
     if not PLAN_BASE_PATH.exists():
-        return pd.DataFrame(columns=["Cuenta", "Nombre", "Ficha", "Docum.", "Un.Neg.", "Concil.", "Estado", "cuenta_sii"])
+        return pd.DataFrame(columns=["Cuenta", "Nombre", "Ficha", "Docum.", "Un.Neg.", "Concil.", "Estado", "cuenta_sii", "cod_f22"])
     df = pd.read_csv(PLAN_BASE_PATH, dtype=str)
     df.columns = [c.strip() for c in df.columns]
+    # Asegurar que exista la columna cod_f22
+    if "cod_f22" not in df.columns:
+        df["cod_f22"] = ""
     return df
 
 
@@ -23,6 +26,14 @@ def cargar_plan_sii() -> pd.DataFrame:
     path = Path("data/plan_cuentas_sii.csv")
     if not path.exists():
         return pd.DataFrame(columns=["cuenta_sii", "nombre", "seccion", "tipo"])
+    df = pd.read_csv(path, dtype=str)
+    return df
+
+
+def cargar_codigos_f22() -> pd.DataFrame:
+    path = Path("data/codigos_f22.csv")
+    if not path.exists():
+        return pd.DataFrame(columns=["codigo", "nombre"])
     df = pd.read_csv(path, dtype=str)
     return df
 

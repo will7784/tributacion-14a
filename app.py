@@ -16,7 +16,7 @@ from core.db import (
     get_clasificacion, guardar_clasificacion, DB_DIR,
 )
 from core.balance import get_balance_data
-from core.plan_cuentas import homologar_plan, cargar_plan_sii, cargar_plan_base, buscar_cuentas_base
+from core.plan_cuentas import homologar_plan, cargar_plan_sii, cargar_plan_base, buscar_cuentas_base, cargar_codigos_f22
 from core.auth import init_auth_db, create_user, verify_user, get_user, login_required
 from parsers.csv_import import parse_csv
 from parsers.excel_import import parse_excel
@@ -374,6 +374,13 @@ def api_plan_sii():
     return jsonify(df.fillna("").to_dict(orient="records"))
 
 
+@app.route("/api/codigos_f22", methods=["GET"])
+@login_required
+def api_codigos_f22():
+    df = cargar_codigos_f22()
+    return jsonify(df.fillna("").to_dict(orient="records"))
+
+
 # ============================================================
 # API - CLASIFICACIÓN (por empresa)
 # ============================================================
@@ -503,6 +510,14 @@ def api_ajustes_post(rut):
 # ============================================================
 # API - DJ1847
 # ============================================================
+def _padre_nivel3(cuenta: str) -> str:
+    partes = cuenta.split('.')
+    if len(partes) == 4:
+        partes[3] = '00'
+        return '.'.join(partes)
+    return cuenta
+
+
 @app.route("/api/dj1847/<rut>", methods=["GET"])
 @login_required
 def api_dj1847(rut):
@@ -511,32 +526,37 @@ def api_dj1847(rut):
     balance = get_balance_data(clean, fecha, "TRIBUTARIO")
     plan = get_plan_cuentas(clean)
     base = cargar_plan_base()
-    sii = cargar_plan_sii()
     if balance.empty:
         return jsonify({"filas": [], "totales": {}})
     bal = balance[~balance["_es_total"]].copy()
+    # Solo cuentas nivel 4 (detalle)
+    bal = bal[~bal["cuenta"].str.endswith(".00")].copy()
     # Merge con homologación para obtener cuenta_base
     if not plan.empty:
         hom_map = plan.set_index("cuenta_local")["cuenta_base"].to_dict()
         bal["cuenta_base"] = bal["cuenta"].map(hom_map).fillna("")
     else:
         bal["cuenta_base"] = ""
-    # Merge con plan base para obtener cuenta_sii
+    # Padre nivel 3 para buscar SII y F22
+    bal["padre_n3"] = bal["cuenta_base"].apply(_padre_nivel3)
+    # Merge con plan base para obtener cuenta_sii y cod_f22 del padre
     if not base.empty:
         base_sii_map = base.set_index("Cuenta")["cuenta_sii"].to_dict()
-        bal["cuenta_sii"] = bal["cuenta_base"].map(base_sii_map).fillna("")
-        base_tipo_map = base.set_index("Cuenta")["Estado"].to_dict()
-        bal["tipo"] = bal["cuenta_base"].map(base_tipo_map).fillna("OTRO")
+        bal["cuenta_sii"] = bal["padre_n3"].map(base_sii_map).fillna("")
+        base_f22_map = base.set_index("Cuenta")["cod_f22"].to_dict()
+        bal["cod_f22"] = bal["padre_n3"].map(base_f22_map).fillna("")
     else:
         bal["cuenta_sii"] = ""
-        bal["tipo"] = "OTRO"
-    bal["valor_tributario"] = bal.apply(lambda r: (r["activo"] - r["pasivo"]) if str(r["cuenta"]).startswith(("1","2")) else 0, axis=1)
-    concepto_map = {"INGRESO": "1657", "COSTO": "1661", "GASTO": "1662"}
-    bal["concepto"] = bal["tipo"].map(concepto_map).fillna("")
+        bal["cod_f22"] = ""
+    # Valor Tributario solo Activo/Pasivo
+    bal["valor_tributario"] = bal.apply(
+        lambda r: (r["activo"] - r["pasivo"]) if str(r["cuenta"]).startswith(("1", "2")) else 0,
+        axis=1,
+    )
     records = []
-    for _, r in bal.iterrows():
+    for i, (_, r) in enumerate(bal.iterrows(), start=1):
         records.append({
-            "n": int(r["n"]),
+            "n": i,
             "cuenta": r["cuenta"],
             "cuenta_sii": r["cuenta_sii"],
             "nombre": r["nombre_cuenta"],
@@ -548,7 +568,7 @@ def api_dj1847(rut):
             "pasivo": float(r["pasivo"]),
             "perdida": float(r["perdida"]),
             "ganancia": float(r["ganancia"]),
-            "concepto": r["concepto"],
+            "cod_f22": r["cod_f22"],
             "valor_tributario": float(r["valor_tributario"]),
         })
     return jsonify({"filas": records, "totales": {}})

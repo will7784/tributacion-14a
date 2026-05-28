@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Plan Base - Tributación 14A{% endblock %}
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+.select2-container .select2-selection--single { height: 31px; font-size: 0.875rem; }
+.select2-container--default .select2-selection--single .select2-selection__rendered { line-height: 29px; }
+.select2-container--default .select2-selection--single .select2-selection__arrow { height: 29px; }
+.select2-dropdown { font-size: 0.875rem; }
+</style>
+{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2><i class="bi bi-list-ol"></i> Plan de Cuentas Base</h2>
@@ -10,7 +19,8 @@
 
 <div class="alert alert-info">
     <i class="bi bi-info-circle"></i> Este es el plan de cuentas base global. Se usa para homologar los planes de todos los clientes.
-    La columna <strong>Cuenta SII</strong> vincula cada cuenta con el clasificador del SII.
+    <strong>Cuenta SII</strong> vincula con el clasificador del SII (nivel 3).
+    <strong>Cód. F22</strong> solo aplica a cuentas de resultado (3.x y 4.x).
 </div>
 
 <div id="panel-plan">
@@ -33,6 +43,7 @@
                     <th>Concil.</th>
                     <th>Estado</th>
                     <th>Cuenta SII</th>
+                    <th>Cód. F22</th>
                     <th>Nivel</th>
                 </tr>
             </thead>
@@ -42,14 +53,19 @@
 </div>
 {% endblock %}
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
     let siiOptions = [];
+    let f22Options = [];
     let table;
 
-    // Cargar plan SII para dropdown
-    apiGet('/api/plan_sii').then(sii => {
-        siiOptions = sii.map(r => `${r.cuenta_sii} - ${r.nombre}`);
+    Promise.all([
+        apiGet('/api/plan_sii'),
+        apiGet('/api/codigos_f22')
+    ]).then(([sii, f22]) => {
+        siiOptions = sii.map(r => ({ id: r.cuenta_sii, text: `${r.cuenta_sii} - ${r.nombre}` }));
+        f22Options = f22.map(r => ({ id: r.codigo, text: `${r.codigo} - ${r.nombre}` }));
         cargarPlan();
     });
 
@@ -63,7 +79,12 @@ $(document).ready(function() {
                 break;
             }
         }
-        return 4 - cerosAlFinal; // 1, 2, 3 o 4
+        return 4 - cerosAlFinal;
+    }
+
+    function esCuentaResultado(cuenta) {
+        const primer = String(cuenta).charAt(0);
+        return primer === '3' || primer === '4';
     }
 
     function cargarPlan() {
@@ -71,19 +92,24 @@ $(document).ready(function() {
             const tbody = $('#tabla-plan tbody');
             tbody.empty();
             data.forEach(row => {
-                const optHtml = siiOptions.map(opt => {
-                    const val = opt.split(' - ')[0];
-                    const selected = row.cuenta_sii === val ? 'selected' : '';
-                    return `<option value="${val}" ${selected}>${opt}</option>`;
-                }).join('');
                 const nivel = obtenerNivel(row.Cuenta);
                 const mostrarSii = (nivel === 3);
+                const mostrarF22 = (nivel === 3 && esCuentaResultado(row.Cuenta));
+
                 const siiCell = mostrarSii
-                    ? `<select class="form-select form-select-sm select-sii">
+                    ? `<select class="form-select form-select-sm select-sii" data-cuenta="${row.Cuenta}">
                            <option value="">-- Sin asignar --</option>
-                           ${optHtml}
+                           ${siiOptions.map(opt => `<option value="${opt.id}" ${row.cuenta_sii === opt.id ? 'selected' : ''}>${opt.text}</option>`).join('')}
                        </select>`
                     : '<span class="text-muted">—</span>';
+
+                const f22Cell = mostrarF22
+                    ? `<select class="form-select form-select-sm select-f22" data-cuenta="${row.Cuenta}">
+                           <option value="">-- Sin asignar --</option>
+                           ${f22Options.map(opt => `<option value="${opt.id}" ${row.cod_f22 === opt.id ? 'selected' : ''}>${opt.text}</option>`).join('')}
+                       </select>`
+                    : '<span class="text-muted">—</span>';
+
                 tbody.append(`
                     <tr data-cuenta="${row.Cuenta}" data-nivel="${nivel}">
                         <td>${row.Cuenta}</td>
@@ -94,6 +120,7 @@ $(document).ready(function() {
                         <td contenteditable="true">${row.Concil || ''}</td>
                         <td contenteditable="true">${row.Estado || ''}</td>
                         <td>${siiCell}</td>
+                        <td>${f22Cell}</td>
                         <td>${nivel}</td>
                     </tr>
                 `);
@@ -103,8 +130,16 @@ $(document).ready(function() {
                 pageLength: 50,
                 language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' },
                 columnDefs: [
-                    { targets: 8, visible: false } // ocultar columna nivel
+                    { targets: 9, visible: false } // ocultar columna nivel
                 ]
+            });
+
+            // Inicializar Select2 solo en las celdas visibles (nivel 3)
+            $('.select-sii, .select-f22').select2({
+                placeholder: 'Buscar...',
+                allowClear: true,
+                width: '100%',
+                dropdownParent: $('#panel-plan')
             });
         });
     }
@@ -116,9 +151,9 @@ $(document).ready(function() {
     $('#chk-solo-nivel3').on('change', function() {
         if (!table) return;
         if (this.checked) {
-            table.column(8).search('^3$', true, false).draw();
+            table.column(9).search('^3$', true, false).draw();
         } else {
-            table.column(8).search('').draw();
+            table.column(9).search('').draw();
         }
     });
 
@@ -127,6 +162,8 @@ $(document).ready(function() {
         $('#tabla-plan tbody tr').each(function() {
             const tr = $(this);
             const tds = tr.find('td');
+            const siiSel = tr.find('.select-sii');
+            const f22Sel = tr.find('.select-f22');
             rows.push({
                 Cuenta: tr.data('cuenta'),
                 Nombre: tds.eq(1).text(),
@@ -135,7 +172,8 @@ $(document).ready(function() {
                 'Un.Neg.': tds.eq(4).text(),
                 Concil: tds.eq(5).text(),
                 Estado: tds.eq(6).text(),
-                cuenta_sii: tr.find('.select-sii').val()
+                cuenta_sii: siiSel.length ? siiSel.val() : '',
+                cod_f22: f22Sel.length ? f22Sel.val() : ''
             });
         });
         apiPost('/api/plan_base', rows)
