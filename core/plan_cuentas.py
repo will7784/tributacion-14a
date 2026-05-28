@@ -1,8 +1,10 @@
+import os
 import pandas as pd
 from pathlib import Path
 from difflib import SequenceMatcher
 
-PLAN_BASE_PATH = Path("data/plan_cuentas_base.csv")
+DATA_DIR = Path(os.environ.get("DATA_DIR", "."))
+PLAN_BASE_PATH = DATA_DIR / "plan_cuentas_base.csv"
 
 
 def cargar_plan_base() -> pd.DataFrame:
