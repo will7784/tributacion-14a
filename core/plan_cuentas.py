@@ -23,10 +23,10 @@ def _repo_plan_base_path() -> Path:
 
 def cargar_plan_base() -> pd.DataFrame:
     """Carga el plan de cuentas base (KAME ONE) desde CSV."""
-    # Si no existe en DATA_DIR o está vacío, copiar desde el repo (Railway deploy)
+    # Copiar desde el repo si es más grande (Railway deploy actualizado)
     repo_path = _repo_plan_base_path()
-    if not PLAN_BASE_PATH.exists() or PLAN_BASE_PATH.stat().st_size == 0:
-        if repo_path.exists() and repo_path.stat().st_size > 0:
+    if repo_path.exists() and repo_path.stat().st_size > 0:
+        if not PLAN_BASE_PATH.exists() or repo_path.stat().st_size > PLAN_BASE_PATH.stat().st_size:
             import shutil
             shutil.copy(repo_path, PLAN_BASE_PATH)
     if not PLAN_BASE_PATH.exists():
