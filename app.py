@@ -381,6 +381,28 @@ def api_codigos_f22():
     return jsonify(df.fillna("").to_dict(orient="records"))
 
 
+@app.route("/api/debug/plan", methods=["GET"])
+@login_required
+def api_debug_plan():
+    import os
+    from core.plan_cuentas import PLAN_BASE_PATH, _repo_plan_base_path, DATA_DIR
+    repo = _repo_plan_base_path()
+    base = cargar_plan_base()
+    return jsonify({
+        "data_dir": str(DATA_DIR),
+        "data_dir_exists": DATA_DIR.exists(),
+        "plan_base_path": str(PLAN_BASE_PATH),
+        "plan_base_exists": PLAN_BASE_PATH.exists(),
+        "plan_base_size": PLAN_BASE_PATH.stat().st_size if PLAN_BASE_PATH.exists() else 0,
+        "repo_path": str(repo),
+        "repo_exists": repo.exists(),
+        "repo_size": repo.stat().st_size if repo.exists() else 0,
+        "plan_rows": len(base),
+        "plan_columns": list(base.columns),
+        "sample": base.head(5).fillna("").to_dict(orient="records"),
+    })
+
+
 # ============================================================
 # API - CLASIFICACIÓN (por empresa)
 # ============================================================
