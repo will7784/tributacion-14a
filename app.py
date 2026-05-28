@@ -531,14 +531,23 @@ def api_dj1847(rut):
     bal = balance[~balance["_es_total"]].copy()
     # Solo cuentas nivel 4 (detalle)
     bal = bal[~bal["cuenta"].str.endswith(".00")].copy()
-    # Merge con homologación para obtener cuenta_base
+    # Merge con homologación para obtener cuenta_base (si existe)
     if not plan.empty:
         hom_map = plan.set_index("cuenta_local")["cuenta_base"].to_dict()
         bal["cuenta_base"] = bal["cuenta"].map(hom_map).fillna("")
     else:
         bal["cuenta_base"] = ""
     # Padre nivel 3 para buscar SII y F22
-    bal["padre_n3"] = bal["cuenta_base"].apply(_padre_nivel3)
+    # Si no hay homologación, inferir directamente desde la cuenta (formato X.XX.XX.XX)
+    def _inferir_padre_n3(row):
+        if row["cuenta_base"]:
+            return _padre_nivel3(row["cuenta_base"])
+        partes = str(row["cuenta"]).strip().split('.')
+        if len(partes) == 4:
+            partes[3] = '00'
+            return '.'.join(partes)
+        return row["cuenta"]
+    bal["padre_n3"] = bal.apply(_inferir_padre_n3, axis=1)
     # Merge con plan base para obtener cuenta_sii y cod_f22 del padre
     if not base.empty:
         base_sii_map = base.set_index("Cuenta")["cuenta_sii"].to_dict()
