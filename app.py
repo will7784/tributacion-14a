@@ -815,20 +815,21 @@ def api_exportar_dj1847_csv(rut):
     output = io.StringIO()
     writer = csv.writer(output, delimiter=";", lineterminator="\n")
     
-    # Fila Sección B (indicador = 1)
-    sec_b = [
-        "1",
-        str(periodo_data.get("actividad_economica", "")),
-        str(periodo_data.get("entidad_supervisora", "NO APLICA")),
-        str(periodo_data.get("anio_ifrs", 0) or 0),
-        str(periodo_data.get("folio_ini", "")),
-        str(periodo_data.get("folio_fin", "")),
-        str(periodo_data.get("ajustes_rli", 2)),
-        "", "", "", "", "", ""
-    ]
-    writer.writerow(sec_b)
+    # Sección B: 1 fila por cada fila del balance (mismas N filas que Sección C)
+    for _ in filas:
+        sec_b = [
+            "1",  # indicador Sección B
+            str(periodo_data.get("actividad_economica", "")),
+            str(periodo_data.get("entidad_supervisora", "NO APLICA")),
+            str(periodo_data.get("anio_ifrs", 0) or 0),
+            str(periodo_data.get("folio_ini", "")),
+            str(periodo_data.get("folio_fin", "")),
+            str(periodo_data.get("ajustes_rli", 2)),
+            "", "", "", "", "", ""  # columnas de Sección C vacías
+        ]
+        writer.writerow(sec_b)
     
-    # Filas Sección C (indicador = 2)
+    # Sección C: 1 fila por cada cuenta del balance
     for row in filas:
         sec_c = [
             "2",
