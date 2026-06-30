@@ -770,9 +770,13 @@ def api_dj1847_periodo_get(rut):
 def api_dj1847_periodo_post(rut):
     clean = _clean_rut(rut)
     data = request.get_json() or {}
+    print(f"DEBUG: Guardando DJ1847 periodo para {clean}: {data}")
     periodo = str(data.get("periodo", datetime.now().strftime("%Y")))
     guardar_dj1847_periodo(clean, periodo, data)
-    return jsonify({"ok": True})
+    # Verificar que se guardó
+    verify = get_dj1847_periodo(clean, periodo)
+    print(f"DEBUG: Verificacion guardado: {verify}")
+    return jsonify({"ok": True, "saved": verify})
 
 
 @app.route("/api/folios/<rut>", methods=["GET"])
@@ -818,14 +822,15 @@ def api_exportar_dj1847_csv(rut):
     # Sección B: 1 fila por cada fila del balance (mismas N filas que Sección C)
     for _ in filas:
         sec_b = [
-            "1",  # indicador Sección B
-            str(periodo_data.get("actividad_economica") or ""),
-            str(periodo_data.get("entidad_supervisora") or "NO APLICA"),
-            str(periodo_data.get("anio_ifrs") or 0),
-            str(periodo_data.get("folio_ini") or ""),
-            str(periodo_data.get("folio_fin") or ""),
-            str(periodo_data.get("ajustes_rli") or 2),
-            "", "", "", "", "", "", "", "", "", "", "", "", ""  # columnas de Sección C vacías (13 columnas de Sección C)
+            "1",  # indicador Sección B (col 1)
+            str(periodo_data.get("actividad_economica") or ""),  # col 2
+            str(periodo_data.get("entidad_supervisora") or ""),  # col 3 - vacío si es NO APLICA
+            str(periodo_data.get("anio_ifrs") or 0),  # col 4
+            str(periodo_data.get("folio_ini") or ""),  # col 5
+            str(periodo_data.get("folio_fin") or ""),  # col 6
+            str(periodo_data.get("ajustes_rli") or 2),  # col 7
+            # columnas de Sección C vacías (cols 8-20 = 13 columnas vacías)
+            "", "", "", "", "", "", "", "", "", "", "", "", ""
         ]
         writer.writerow(sec_b)
     
