@@ -330,6 +330,7 @@ def guardar_clasificacion(rut: str, df: pd.DataFrame):
 
 
 def get_dj1847_overrides(rut: str) -> pd.DataFrame:
+    init_db(rut)
     conn = get_connection(rut)
     df = pd.read_sql("SELECT * FROM dj1847_overrides", conn)
     conn.close()
@@ -344,6 +345,7 @@ def guardar_dj1847_overrides(rut: str, df: pd.DataFrame):
 
 
 def get_dj1847_periodo(rut: str, periodo: str) -> dict:
+    init_db(rut)
     conn = get_connection(rut)
     df = pd.read_sql("SELECT * FROM dj1847_periodo WHERE rut = ? AND periodo = ?", conn, params=(rut, periodo))
     conn.close()
@@ -378,6 +380,7 @@ def guardar_dj1847_periodo(rut: str, periodo: str, data: dict):
 
 
 def get_folios_usados(rut: str) -> pd.DataFrame:
+    init_db(rut)
     conn = get_connection(rut)
     df = pd.read_sql("SELECT * FROM folios_usados WHERE rut = ? ORDER BY fecha_uso DESC", conn, params=(rut,))
     conn.close()
