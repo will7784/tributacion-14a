@@ -208,6 +208,8 @@ $(document).ready(function() {
         const anioTributario = parseInt($(this).val()) || 2026;
         const anioComercial = anioTributario - 1;
         $('#dj-fecha').val(anioComercial + '-12-31');
+        // Recargar datos del nuevo año comercial
+        cargarDatosDJ();
     });
 
     // Copiar al hacer clic
@@ -343,8 +345,10 @@ $(document).ready(function() {
     // Cargar datos de la DJ guardados
     // Cargar datos de la DJ guardados
     function cargarDatosDJ() {
-        const periodo = $('#dj-periodo').val();
-        apiGet(`/api/dj1847_periodo/${emp.rut}?periodo=${periodo}`)
+        // Obtener año comercial desde la fecha de cierre (YYYY-MM-DD)
+        const fechaCierre = $('#dj-fecha').val();
+        const anioComercial = fechaCierre ? fechaCierre.split('-')[0] : $('#dj-periodo').val();
+        apiGet(`/api/dj1847_periodo/${emp.rut}?periodo=${anioComercial}`)
             .then(data => {
                 $('#dj-actividad').val(data.actividad_economica || '');
                 $('#dj-supervisora').val(data.entidad_supervisora || 'NO APLICA');
@@ -364,8 +368,11 @@ $(document).ready(function() {
     // Guardar datos de la DJ (Sección B)
     $('#btn-guardar-dj').on('click', function(event) {
         event.preventDefault();
+        // Obtener año comercial desde la fecha de cierre (YYYY-MM-DD)
+        const fechaCierre = $('#dj-fecha').val();
+        const anioComercial = fechaCierre ? fechaCierre.split('-')[0] : $('#dj-periodo').val();
         const data = {
-            periodo: $('#dj-periodo').val(),
+            periodo: anioComercial,  // Guardar con año comercial, no año tributario
             actividad_economica: $('#dj-actividad').val().trim(),
             entidad_supervisora: $('#dj-supervisora').val(),
             anio_ifrs: parseInt($('#dj-anio-ifrs').val()) || 0,
