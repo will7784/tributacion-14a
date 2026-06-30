@@ -52,8 +52,57 @@
                     <li><strong>Comprobantes</strong> → crear ajustes tributarios</li>
                     <li><strong>Balance</strong> → verificar cuadre</li>
                     <li><strong>Ajustes</strong> → agregar deducciones/agregados DJ1926</li>
-                    <li><strong>DJ1847 / DJ1926</strong> → exportar a Excel</li>
+                    <li><strong>DJ1847 / DJ1926</strong> → exportar a Excel / CSV</li>
                 </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Empresa -->
+<div class="modal fade" id="modal-editar-empresa" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Empresa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-editar-empresa">
+                    <input type="hidden" id="edit-rut">
+                    <div class="mb-2">
+                        <label>Nombre o Razón Social</label>
+                        <input type="text" class="form-control" id="edit-nombre" required>
+                    </div>
+                    <div class="mb-2">
+                        <label>Actividad Económica Principal (6 dígitos)</label>
+                        <input type="text" class="form-control" id="edit-actividad" maxlength="6" placeholder="Ej: 681012">
+                    </div>
+                    <div class="mb-2">
+                        <label>Entidad Supervisora Directa</label>
+                        <select class="form-select" id="edit-supervisora">
+                            <option value="NO APLICA">NO APLICA</option>
+                            <option value="CMF">CMF</option>
+                            <option value="OTRA">OTRA</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label>Año Ajuste IRS 1ª Aplicación</label>
+                        <input type="number" class="form-control" id="edit-anio-ifrs" value="0">
+                    </div>
+                    <div class="mb-2">
+                        <label>Nombre Representante Legal</label>
+                        <input type="text" class="form-control" id="edit-rep-nombre">
+                    </div>
+                    <div class="mb-2">
+                        <label>RUT Representante Legal</label>
+                        <input type="text" class="form-control" id="edit-rep-rut">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btn-guardar-empresa">Guardar</button>
             </div>
         </div>
     </div>
@@ -81,6 +130,25 @@ $(document).ready(function() {
             })
             .catch(err => showToast('Error: ' + err, 'error'));
     });
+
+    $('#btn-guardar-empresa').on('click', function() {
+        const rut = $('#edit-rut').val();
+        const data = {
+            nombre: $('#edit-nombre').val().trim(),
+            actividad_principal: $('#edit-actividad').val().trim(),
+            entidad_supervisora: $('#edit-supervisora').val(),
+            anio_ifrs: parseInt($('#edit-anio-ifrs').val()) || 0,
+            rep_legal_nombre: $('#edit-rep-nombre').val().trim(),
+            rep_legal_rut: $('#edit-rep-rut').val().trim(),
+        };
+        apiPost('/api/empresa/' + rut, data)
+            .then(() => {
+                showToast('Empresa actualizada');
+                $('#modal-editar-empresa').modal('hide');
+                cargarEmpresas();
+            })
+            .catch(err => showToast('Error: ' + err, 'error'));
+    });
 });
 
 function cargarEmpresas() {
@@ -95,13 +163,18 @@ function cargarEmpresas() {
             data.forEach(emp => {
                 const empActiva = getEmpresa();
                 const activa = empActiva && empActiva.rut === emp.rut;
-                html += `<a href="#" class="list-group-item list-group-item-action ${activa ? 'active' : ''}" onclick="seleccionarEmpresa('${emp.rut}', '${emp.nombre}'); return false;">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">${emp.nombre}</h6>
-                        ${activa ? '<i class="bi bi-check-circle-fill"></i>' : ''}
-                    </div>
-                    <small>RUT: ${emp.rut}</small>
-                </a>`;
+                html += `<div class="list-group-item d-flex justify-content-between align-items-center ${activa ? 'active' : ''}">
+                    <a href="#" class="flex-grow-1 text-decoration-none ${activa ? 'text-white' : ''}" onclick="seleccionarEmpresa('${emp.rut}', '${emp.nombre}'); return false;">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">${emp.nombre}</h6>
+                            ${activa ? '<i class="bi bi-check-circle-fill"></i>' : ''}
+                        </div>
+                        <small>RUT: ${emp.rut}</small>
+                    </a>
+                    <button class="btn btn-sm ${activa ? 'btn-light' : 'btn-outline-primary'} ms-2" onclick="editarEmpresa('${emp.rut}')">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                </div>`;
             });
             container.html(html);
         })
@@ -114,6 +187,21 @@ function seleccionarEmpresa(rut, nombre) {
     setEmpresa({rut, nombre});
     showToast(`Empresa seleccionada: ${nombre}`);
     cargarEmpresas();
+}
+
+function editarEmpresa(rut) {
+    apiGet('/api/empresa/' + rut)
+        .then(emp => {
+            $('#edit-rut').val(rut);
+            $('#edit-nombre').val(emp.nombre || '');
+            $('#edit-actividad').val(emp.actividad_principal || '');
+            $('#edit-supervisora').val(emp.entidad_supervisora || 'NO APLICA');
+            $('#edit-anio-ifrs').val(emp.anio_ifrs || 0);
+            $('#edit-rep-nombre').val(emp.rep_legal_nombre || '');
+            $('#edit-rep-rut').val(emp.rep_legal_rut || '');
+            $('#modal-editar-empresa').modal('show');
+        })
+        .catch(err => showToast('Error cargando empresa: ' + err, 'error'));
 }
 </script>
 {% endblock %}

@@ -10,14 +10,27 @@
 .input-vt { width: 100%; text-align: right; font-size: 0.85rem; border: 1px solid #ced4da; padding: 2px 4px; border-radius: 3px; }
 .input-vt:focus { outline: none; border-color: #86b7fe; box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25); }
 #tabla-dj1847 td { vertical-align: middle; }
+.panel-datos { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 15px; margin-bottom: 15px; }
+.panel-datos h6 { font-size: 0.9rem; font-weight: 600; margin-bottom: 10px; }
+.dato-copiable { cursor: pointer; background: #e9ecef; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+.dato-copiable:hover { background: #dee2e6; }
 </style>
 {% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2><i class="bi bi-file-earmark-text"></i> Declaración Jurada 1847</h2>
     <div>
-        <button id="btn-guardar" class="btn btn-primary me-2">
+        <a id="btn-print" href="#" target="_blank" class="btn btn-secondary me-2">
+            <i class="bi bi-printer"></i> Imprimir Balance
+        </a>
+        <button id="btn-guardar-dj" class="btn btn-primary me-2">
+            <i class="bi bi-save"></i> Guardar Datos DJ
+        </button>
+        <button id="btn-guardar" class="btn btn-info me-2">
             <i class="bi bi-save"></i> Guardar Cambios
+        </button>
+        <button id="btn-exportar-csv" class="btn btn-warning me-2">
+            <i class="bi bi-filetype-csv"></i> Exportar CSV SII
         </button>
         <button id="btn-exportar" class="btn btn-success">
             <i class="bi bi-file-earmark-excel"></i> Exportar Excel
@@ -30,6 +43,78 @@
 </div>
 
 <div id="panel-dj1847">
+    <!-- Datos del Declarante (solo lectura) -->
+    <div class="panel-datos">
+        <h6><i class="bi bi-person-badge"></i> Datos del Declarante (copiar al SII)</h6>
+        <div class="row">
+            <div class="col-md-3">
+                <small class="text-muted">RUT Empresa</small>
+                <div id="decl-rut-empresa" class="dato-copiable"></div>
+            </div>
+            <div class="col-md-3">
+                <small class="text-muted">Razón Social</small>
+                <div id="decl-nombre" class="dato-copiable"></div>
+            </div>
+            <div class="col-md-3">
+                <small class="text-muted">Rep. Legal Nombre</small>
+                <div id="decl-rep-nombre" class="dato-copiable"></div>
+            </div>
+            <div class="col-md-3">
+                <small class="text-muted">Rep. Legal RUT</small>
+                <div id="decl-rep-rut" class="dato-copiable"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Datos de la Declaración (Sección B) -->
+    <div class="panel-datos">
+        <h6><i class="bi bi-file-earmark-text"></i> Datos de la Declaración (Sección B)</h6>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Periodo (Año)</label>
+                <input type="text" id="dj-periodo" class="form-control" value="2024" maxlength="4">
+            </div>
+            <div class="col-md-2">
+                <label>Actividad Económica</label>
+                <input type="text" id="dj-actividad" class="form-control" maxlength="6" placeholder="6 dígitos">
+            </div>
+            <div class="col-md-2">
+                <label>Entidad Supervisora</label>
+                <select class="form-select" id="dj-supervisora">
+                    <option value="NO APLICA">NO APLICA</option>
+                    <option value="CMF">CMF</option>
+                    <option value="OTRA">OTRA</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label>Año Ajuste IFRS</label>
+                <input type="number" id="dj-anio-ifrs" class="form-control" value="0">
+            </div>
+            <div class="col-md-2">
+                <label>Folio Inicio</label>
+                <input type="number" id="dj-folio-ini" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <label>Folio Final</label>
+                <input type="number" id="dj-folio-fin" class="form-control">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-2">
+                <label>Ajustes RLI</label>
+                <select class="form-select" id="dj-ajustes-rli">
+                    <option value="2">2 - NO</option>
+                    <option value="1">1 - SI</option>
+                </select>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button id="btn-cargar-dj" class="btn btn-outline-primary">
+                    <i class="bi bi-download"></i> Cargar datos guardados
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="row mb-3">
         <div class="col-md-3">
             <label>Fecha cierre</label>
@@ -79,10 +164,24 @@ $(document).ready(function() {
     }
 
     let table;
-    let codigosF22 = [];      // todos los códigos
-    let codigosIngreso = [];  // tipo = INGRESO
-    let codigosGasto = [];    // tipo = COSTO_GASTO
-    let filasData = [];       // datos de la tabla para guardar
+    let codigosF22 = [];
+    let codigosIngreso = [];
+    let codigosGasto = [];
+    let filasData = [];
+
+    // Cargar datos del declarante
+    apiGet('/api/empresa/' + emp.rut).then(data => {
+        $('#decl-rut-empresa').text(data.rut || emp.rut);
+        $('#decl-nombre').text(data.nombre || '');
+        $('#decl-rep-nombre').text(data.rep_legal_nombre || '');
+        $('#decl-rep-rut').text(data.rep_legal_rut || '');
+    }).catch(err => console.error('Error cargando empresa:', err));
+
+    // Copiar al hacer clic
+    $('.dato-copiable').on('click', function() {
+        const text = $(this).text();
+        navigator.clipboard.writeText(text).then(() => showToast('Copiado: ' + text));
+    });
 
     // Cargar códigos F22
     apiGet('/api/codigos_f22').then(data => {
@@ -159,7 +258,6 @@ $(document).ready(function() {
                     ordering: false,
                     language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' }
                 });
-                // Inicializar Select2 en los dropdowns
                 $('.select-f22').select2({
                     placeholder: 'Seleccione...',
                     allowClear: true,
@@ -170,6 +268,39 @@ $(document).ready(function() {
             .finally(() => $('#btn-generar').prop('disabled', false).html('<i class="bi bi-calculator"></i> Generar DJ1847'));
     });
 
+    // Cargar datos de la DJ guardados
+    $('#btn-cargar-dj').on('click', function() {
+        const periodo = $('#dj-periodo').val();
+        apiGet(`/api/dj1847_periodo/${emp.rut}?periodo=${periodo}`)
+            .then(data => {
+                $('#dj-actividad').val(data.actividad_economica || '');
+                $('#dj-supervisora').val(data.entidad_supervisora || 'NO APLICA');
+                $('#dj-anio-ifrs').val(data.anio_ifrs || 0);
+                $('#dj-folio-ini').val(data.folio_ini || '');
+                $('#dj-folio-fin').val(data.folio_fin || '');
+                $('#dj-ajustes-rli').val(data.ajustes_rli || 2);
+                showToast('Datos de la DJ cargados');
+            })
+            .catch(err => showToast('Error cargando datos DJ: ' + err, 'error'));
+    });
+
+    // Guardar datos de la DJ (Sección B)
+    $('#btn-guardar-dj').on('click', function() {
+        const data = {
+            periodo: $('#dj-periodo').val(),
+            actividad_economica: $('#dj-actividad').val().trim(),
+            entidad_supervisora: $('#dj-supervisora').val(),
+            anio_ifrs: parseInt($('#dj-anio-ifrs').val()) || 0,
+            folio_ini: $('#dj-folio-ini').val() ? parseInt($('#dj-folio-ini').val()) : null,
+            folio_fin: $('#dj-folio-fin').val() ? parseInt($('#dj-folio-fin').val()) : null,
+            ajustes_rli: parseInt($('#dj-ajustes-rli').val()) || 2,
+        };
+        apiPost(`/api/dj1847_periodo/${emp.rut}`, data)
+            .then(() => showToast('Datos de la DJ guardados', 'success'))
+            .catch(err => showToast('Error al guardar: ' + err, 'error'));
+    });
+
+    // Guardar overrides (Cód. F22 y Valor Tributario)
     $('#btn-guardar').on('click', function() {
         const overrides = [];
         $('#tabla-dj1847 tbody tr').each(function() {
@@ -193,6 +324,18 @@ $(document).ready(function() {
     $('#btn-exportar').on('click', function() {
         const fecha = $('#dj-fecha').val();
         window.open(`/api/exportar_dj1847/${emp.rut}?fecha=${fecha}`);
+    });
+
+    $('#btn-exportar-csv').on('click', function() {
+        const fecha = $('#dj-fecha').val();
+        const periodo = $('#dj-periodo').val();
+        window.open(`/api/exportar_dj1847_csv/${emp.rut}?fecha=${fecha}&periodo=${periodo}`);
+    });
+
+    // Actualizar link de impresión
+    $('#btn-print').attr('href', `/dj1847/print/${emp.rut}?periodo=${$('#dj-periodo').val()}`);
+    $('#dj-periodo').on('change', function() {
+        $('#btn-print').attr('href', `/dj1847/print/${emp.rut}?periodo=${$(this).val()}`);
     });
 });
 </script>

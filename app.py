@@ -15,6 +15,8 @@ from core.db import (
     get_ajustes_tributarios, guardar_ajustes_tributarios,
     get_clasificacion, guardar_clasificacion, DB_DIR,
     get_dj1847_overrides, guardar_dj1847_overrides,
+    get_dj1847_periodo, guardar_dj1847_periodo,
+    get_folios_usados, guardar_folio_usado,
 )
 from core.balance import get_balance_data
 from core.plan_cuentas import homologar_plan, cargar_plan_sii, cargar_plan_base, buscar_cuentas_base, cargar_codigos_f22
@@ -148,6 +150,26 @@ def dj1847():
     return render_template("dj1847.html")
 
 
+@app.route("/dj1847/print/<rut>")
+@login_required
+def dj1847_print(rut):
+    clean = _clean_rut(rut)
+    fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
+    periodo = request.args.get("periodo", datetime.now().strftime("%Y"))
+    emp = get_empresa(clean) or {}
+    data = api_dj1847(clean)
+    if hasattr(data, "get_json"):
+        data = data.get_json()
+    return render_template(
+        "dj1847_print.html",
+        rut=clean,
+        nombre=emp.get("nombre", ""),
+        periodo=periodo,
+        fecha=datetime.now().strftime("%d-%m-%Y"),
+        filas=data.get("filas", []),
+    )
+
+
 @app.route("/dj1926")
 @login_required
 def dj1926():
@@ -184,6 +206,9 @@ def api_empresas_post():
     guardar_empresa(
         clean,
         nombre,
+        actividad_principal=data.get("actividad_principal", ""),
+        entidad_supervisora=data.get("entidad_supervisora", "NO APLICA"),
+        anio_ifrs=data.get("anio_ifrs", 0),
         rep_legal_nombre=data.get("rep_legal_nombre", ""),
         rep_legal_rut=data.get("rep_legal_rut", ""),
     )
@@ -198,6 +223,26 @@ def api_empresa_get(rut):
     if not emp:
         return jsonify({"error": "No encontrada"}), 404
     return jsonify(emp)
+
+
+@app.route("/api/empresa/<rut>", methods=["POST"])
+@login_required
+def api_empresa_post(rut):
+    clean = _clean_rut(rut)
+    data = request.get_json() or {}
+    nombre = str(data.get("nombre", "")).strip()
+    if not nombre:
+        return jsonify({"error": "Nombre es obligatorio"}), 400
+    guardar_empresa(
+        clean,
+        nombre,
+        actividad_principal=data.get("actividad_principal", ""),
+        entidad_supervisora=data.get("entidad_supervisora", "NO APLICA"),
+        anio_ifrs=data.get("anio_ifrs", 0),
+        rep_legal_nombre=data.get("rep_legal_nombre", ""),
+        rep_legal_rut=data.get("rep_legal_rut", ""),
+    )
+    return jsonify({"ok": True})
 
 
 # ============================================================
@@ -688,6 +733,134 @@ def api_dj1847_overrides_post(rut):
     df = df[(df["cod_f22"].notna() & (df["cod_f22"] != "")) | df["valor_tributario_manual"].notna()]
     guardar_dj1847_overrides(clean, df)
     return jsonify({"ok": True})
+
+
+@app.route("/api/dj1847_periodo/<rut>", methods=["GET"])
+@login_required
+def api_dj1847_periodo_get(rut):
+    clean = _clean_rut(rut)
+    periodo = request.args.get("periodo", datetime.now().strftime("%Y"))
+    data = get_dj1847_periodo(clean, periodo)
+    if not data:
+        # Pre-llenar con datos de la empresa
+        emp = get_empresa(clean) or {}
+        data = {
+            "rut": clean,
+            "periodo": periodo,
+            "actividad_economica": emp.get("actividad_principal", ""),
+            "entidad_supervisora": emp.get("entidad_supervisora", "NO APLICA"),
+            "anio_ifrs": emp.get("anio_ifrs", 0) or 0,
+            "folio_ini": None,
+            "folio_fin": None,
+            "ajustes_rli": 2,
+        }
+    return jsonify(data)
+
+
+@app.route("/api/dj1847_periodo/<rut>", methods=["POST"])
+@login_required
+def api_dj1847_periodo_post(rut):
+    clean = _clean_rut(rut)
+    data = request.get_json() or {}
+    periodo = str(data.get("periodo", datetime.now().strftime("%Y")))
+    guardar_dj1847_periodo(clean, periodo, data)
+    return jsonify({"ok": True})
+
+
+@app.route("/api/folios/<rut>", methods=["GET"])
+@login_required
+def api_folios_get(rut):
+    clean = _clean_rut(rut)
+    df = get_folios_usados(clean)
+    if df.empty:
+        return jsonify([])
+    return jsonify(df.fillna("").to_dict(orient="records"))
+
+
+@app.route("/api/exportar_dj1847_csv/<rut>", methods=["GET"])
+@login_required
+def api_exportar_dj1847_csv(rut):
+    clean = _clean_rut(rut)
+    fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
+    periodo = request.args.get("periodo", datetime.now().strftime("%Y"))
+    
+    # Obtener datos de la Sección B
+    periodo_data = get_dj1847_periodo(clean, periodo)
+    if not periodo_data:
+        emp = get_empresa(clean) or {}
+        periodo_data = {
+            "actividad_economica": emp.get("actividad_principal", ""),
+            "entidad_supervisora": emp.get("entidad_supervisora", "NO APLICA"),
+            "anio_ifrs": emp.get("anio_ifrs", 0) or 0,
+            "folio_ini": "",
+            "folio_fin": "",
+            "ajustes_rli": 2,
+        }
+    
+    # Obtener datos de la Sección C
+    data = api_dj1847(clean)
+    if hasattr(data, "get_json"):
+        data = data.get_json()
+    filas = data.get("filas", [])
+    
+    # Generar CSV con separador ;
+    import csv
+    import io
+    output = io.StringIO()
+    writer = csv.writer(output, delimiter=";", lineterminator="\n")
+    
+    # Fila Sección B (indicador = 1)
+    sec_b = [
+        "1",
+        str(periodo_data.get("actividad_economica", "")),
+        str(periodo_data.get("entidad_supervisora", "NO APLICA")),
+        str(periodo_data.get("anio_ifrs", 0) or 0),
+        str(periodo_data.get("folio_ini", "")),
+        str(periodo_data.get("folio_fin", "")),
+        str(periodo_data.get("ajustes_rli", 2)),
+        "", "", "", "", "", ""
+    ]
+    writer.writerow(sec_b)
+    
+    # Filas Sección C (indicador = 2)
+    for row in filas:
+        sec_c = [
+            "2",
+            "", "", "", "", "", "",  # columnas de Sección B vacías
+            str(row.get("cuenta", "")),
+            str(row.get("cuenta_sii", "")),
+            str(row.get("nombre", "")),
+            str(int(row.get("debe", 0) or 0)),
+            str(int(row.get("haber", 0) or 0)),
+            str(int(row.get("saldo_deudor", 0) or 0)),
+            str(int(row.get("saldo_acreedor", 0) or 0)),
+            str(int(row.get("activo", 0) or 0)),
+            str(int(row.get("pasivo", 0) or 0)),
+            str(int(row.get("perdida", 0) or 0)),
+            str(int(row.get("ganancia", 0) or 0)),
+            str(row.get("cod_f22", "")),
+            str(int(row.get("valor_tributario", 0) or 0)),
+        ]
+        writer.writerow(sec_c)
+    
+    # Guardar folio como usado
+    folio_ini = periodo_data.get("folio_ini")
+    folio_fin = periodo_data.get("folio_fin")
+    if folio_ini and folio_fin:
+        try:
+            guardar_folio_usado(clean, "1847", periodo, int(folio_ini), int(folio_fin))
+        except Exception:
+            pass
+    
+    csv_content = output.getvalue()
+    output.close()
+    
+    return send_file(
+        io.BytesIO(csv_content.encode("utf-8")),
+        mimetype="text/csv",
+        as_attachment=True,
+        download_name=f"DJ1847_{clean}_{periodo}.csv"
+    )
 
 
 @app.route("/api/exportar_dj1847/<rut>", methods=["GET"])

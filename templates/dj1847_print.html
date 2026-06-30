@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Balance de 8 Columnas - DJ1847</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 10pt; margin: 20px; }
+        h2 { text-align: center; font-size: 14pt; margin-bottom: 5px; }
+        h3 { text-align: center; font-size: 11pt; font-weight: normal; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #333; padding: 4px 6px; text-align: right; font-size: 9pt; }
+        th { background: #ddd; font-weight: bold; text-align: center; }
+        td:first-child, td:nth-child(2), td:nth-child(3), td:nth-child(4) { text-align: left; }
+        .text-center { text-align: center; }
+        .footer { margin-top: 30px; font-size: 9pt; text-align: center; color: #666; }
+        @media print {
+            body { margin: 10mm; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print" style="text-align: center; margin-bottom: 20px;">
+        <button onclick="window.print()">Imprimir / Guardar como PDF</button>
+    </div>
+
+    <h2>BALANCE DE OCHO (8) COLUMNAS</h2>
+    <h3>RUT: {{ rut }} - {{ nombre }} - Periodo: {{ periodo }}</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Id. Plan Cuentas</th>
+                <th>Id. Cuenta SII</th>
+                <th>Nombre Cuenta</th>
+                <th>Débitos</th>
+                <th>Créditos</th>
+                <th>Saldo Deudor</th>
+                <th>Saldo Acreedor</th>
+                <th>Activo</th>
+                <th>Pasivo</th>
+                <th>Pérdidas</th>
+                <th>Ganancias</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in filas %}
+            <tr>
+                <td class="text-center">{{ row.n }}</td>
+                <td>{{ row.cuenta }}</td>
+                <td>{{ row.cuenta_sii }}</td>
+                <td>{{ row.nombre }}</td>
+                <td>{{ "{:,}".format(row.debe|int) if row.debe else "" }}</td>
+                <td>{{ "{:,}".format(row.haber|int) if row.haber else "" }}</td>
+                <td>{{ "{:,}".format(row.saldo_deudor|int) if row.saldo_deudor else "" }}</td>
+                <td>{{ "{:,}".format(row.saldo_acreedor|int) if row.saldo_acreedor else "" }}</td>
+                <td>{{ "{:,}".format(row.activo|int) if row.activo else "" }}</td>
+                <td>{{ "{:,}".format(row.pasivo|int) if row.pasivo else "" }}</td>
+                <td>{{ "{:,}".format(row.perdida|int) if row.perdida else "" }}</td>
+                <td>{{ "{:,}".format(row.ganancia|int) if row.ganancia else "" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        Generado el {{ fecha }} - Sistema Tributación 14A
+    </div>
+</body>
+</html>

@@ -154,6 +154,38 @@ def init_db(rut: str):
         """
     )
 
+    # DJ1847 periodo: datos de Sección B por empresa/periodo
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS dj1847_periodo (
+            rut TEXT,
+            periodo TEXT,
+            actividad_economica TEXT,
+            entidad_supervisora TEXT,
+            anio_ifrs INTEGER,
+            folio_ini INTEGER,
+            folio_fin INTEGER,
+            ajustes_rli INTEGER DEFAULT 2,
+            PRIMARY KEY (rut, periodo)
+        )
+        """
+    )
+
+    # Folios usados: tracking de folios por empresa para evitar reutilizar
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS folios_usados (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            rut TEXT,
+            tipo_dj TEXT,
+            periodo TEXT,
+            folio_ini INTEGER,
+            folio_fin INTEGER,
+            fecha_uso TEXT
+        )
+        """
+    )
+
     conn.commit()
     conn.close()
 
@@ -308,4 +340,60 @@ def guardar_dj1847_overrides(rut: str, df: pd.DataFrame):
     init_db(rut)
     conn = get_connection(rut)
     df.to_sql("dj1847_overrides", conn, if_exists="replace", index=False)
+    conn.close()
+
+
+def get_dj1847_periodo(rut: str, periodo: str) -> dict:
+    conn = get_connection(rut)
+    df = pd.read_sql("SELECT * FROM dj1847_periodo WHERE rut = ? AND periodo = ?", conn, params=(rut, periodo))
+    conn.close()
+    if df.empty:
+        return None
+    return df.iloc[0].to_dict()
+
+
+def guardar_dj1847_periodo(rut: str, periodo: str, data: dict):
+    init_db(rut)
+    conn = get_connection(rut)
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        INSERT OR REPLACE INTO dj1847_periodo
+        (rut, periodo, actividad_economica, entidad_supervisora, anio_ifrs, folio_ini, folio_fin, ajustes_rli)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            rut,
+            periodo,
+            data.get("actividad_economica", ""),
+            data.get("entidad_supervisora", "NO APLICA"),
+            data.get("anio_ifrs", 0),
+            data.get("folio_ini"),
+            data.get("folio_fin"),
+            data.get("ajustes_rli", 2),
+        ),
+    )
+    conn.commit()
+    conn.close()
+
+
+def get_folios_usados(rut: str) -> pd.DataFrame:
+    conn = get_connection(rut)
+    df = pd.read_sql("SELECT * FROM folios_usados WHERE rut = ? ORDER BY fecha_uso DESC", conn, params=(rut,))
+    conn.close()
+    return df
+
+
+def guardar_folio_usado(rut: str, tipo_dj: str, periodo: str, folio_ini: int, folio_fin: int):
+    init_db(rut)
+    conn = get_connection(rut)
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        INSERT INTO folios_usados (rut, tipo_dj, periodo, folio_ini, folio_fin, fecha_uso)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+        (rut, tipo_dj, periodo, folio_ini, folio_fin, datetime.now().strftime("%Y-%m-%d")),
+    )
+    conn.commit()
     conn.close()
