@@ -1,4 +1,7 @@
-{% extends "base.html" %}
+    // Cargar datos cuando cambia el periodo
+    $('#dj-periodo').on('change', function() {
+        cargarDatosDJ();
+    });{% extends "base.html" %}
 {% block title %}DJ1847 - Tributación 14A{% endblock %}
 {% block extra_css %}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -332,6 +335,13 @@ $(document).ready(function() {
 
     // Cargar datos de la DJ guardados
     $('#btn-cargar-dj').on('click', function() {
+        cargarDatosDJ();
+    });
+    
+    // Cargar datos automáticamente al iniciar
+    cargarDatosDJ();
+    
+    function cargarDatosDJ() {
         const periodo = $('#dj-periodo').val();
         apiGet(`/api/dj1847_periodo/${emp.rut}?periodo=${periodo}`)
             .then(data => {
@@ -344,7 +354,7 @@ $(document).ready(function() {
                 showToast('Datos de la DJ cargados');
             })
             .catch(err => showToast('Error cargando datos DJ: ' + err, 'error'));
-    });
+    }
 
     // Guardar datos de la DJ (Sección B)
     $('#btn-guardar-dj').on('click', function() {
