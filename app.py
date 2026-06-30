@@ -157,9 +157,7 @@ def dj1847_print(rut):
     fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
     periodo = request.args.get("periodo", datetime.now().strftime("%Y"))
     emp = get_empresa(clean) or {}
-    data = api_dj1847(clean)
-    if hasattr(data, "get_json"):
-        data = data.get_json()
+    data = _build_dj1847_data(clean, fecha)
     return render_template(
         "dj1847_print.html",
         rut=clean,
@@ -622,16 +620,15 @@ DJ1847_HEADERS = {
 }
 
 
-@app.route("/api/dj1847/<rut>", methods=["GET"])
-@login_required
-def api_dj1847(rut):
-    clean = _clean_rut(rut)
-    fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
-    balance = get_balance_data(clean, fecha, "TRIBUTARIO")
-    plan = get_plan_cuentas(clean)
+def _build_dj1847_data(clean_rut, fecha=None):
+    """Lógica pura de construcción de datos DJ1847, sin dependencia de Flask request."""
+    if fecha is None:
+        fecha = datetime.now().strftime("%Y-%m-%d")
+    balance = get_balance_data(clean_rut, fecha, "TRIBUTARIO")
+    plan = get_plan_cuentas(clean_rut)
     base = cargar_plan_base()
     if balance.empty:
-        return jsonify({"filas": [], "totales": {}})
+        return {"filas": [], "totales": {}}
     bal = balance[~balance["_es_total"]].copy()
     # Solo cuentas nivel 4 (detalle)
     bal = bal[~bal["cuenta"].str.endswith(".00")].copy()
@@ -642,7 +639,6 @@ def api_dj1847(rut):
     else:
         bal["cuenta_base"] = ""
     # Padre nivel 3 para buscar SII y F22
-    # Si no hay homologación, inferir directamente desde la cuenta (formato X.XX.XX.XX)
     def _inferir_padre_n3(row):
         if row["cuenta_base"]:
             return _padre_nivel3(row["cuenta_base"])
@@ -673,7 +669,7 @@ def api_dj1847(rut):
         return 0
     bal["valor_tributario"] = bal.apply(_calc_valor_tributario, axis=1)
     # Aplicar overrides guardados (cod_f22 y valor_tributario_manual)
-    overrides = get_dj1847_overrides(clean)
+    overrides = get_dj1847_overrides(clean_rut)
     if not overrides.empty:
         overrides = overrides.set_index("cuenta")
         # Override cod_f22
@@ -701,7 +697,15 @@ def api_dj1847(rut):
             "cod_f22": r["cod_f22"] if pd.notna(r["cod_f22"]) else "",
             "valor_tributario": float(r["valor_tributario"]),
         })
-    return jsonify({"filas": records, "totales": {}})
+    return {"filas": records, "totales": {}}
+
+
+@app.route("/api/dj1847/<rut>", methods=["GET"])
+@login_required
+def api_dj1847(rut):
+    clean = _clean_rut(rut)
+    fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
+    return jsonify(_build_dj1847_data(clean, fecha))
 
 
 @app.route("/api/dj1847_overrides/<rut>", methods=["GET"])
@@ -798,9 +802,7 @@ def api_exportar_dj1847_csv(rut):
         }
     
     # Obtener datos de la Sección C
-    data = api_dj1847(clean)
-    if hasattr(data, "get_json"):
-        data = data.get_json()
+    data = _build_dj1847_data(clean, fecha)
     filas = data.get("filas", [])
     
     # Generar CSV con separador ;
@@ -868,9 +870,7 @@ def api_exportar_dj1847_csv(rut):
 def api_exportar_dj1847(rut):
     clean = _clean_rut(rut)
     fecha = request.args.get("fecha", datetime.now().strftime("%Y-%m-%d"))
-    data = api_dj1847(clean)
-    if hasattr(data, "get_json"):
-        data = data.get_json()
+    data = _build_dj1847_data(clean, fecha)
     df = pd.DataFrame(data.get("filas", []), columns=DJ1847_COLUMNAS)
     df = df.rename(columns=DJ1847_HEADERS)
     output = f"DJ1847_{clean}_{fecha}.xlsx"
