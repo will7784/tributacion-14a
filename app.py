@@ -821,10 +821,19 @@ def api_exportar_dj1847_csv(rut):
     
     # Sección B: 1 fila por cada fila del balance (mismas N filas que Sección C)
     for _ in filas:
+        # Entidad supervisora: 2 = NO APLICA, según SII
+        supervisora = str(periodo_data.get("entidad_supervisora") or "")
+        if supervisora.upper() == "NO APLICA":
+            supervisora = "2"
+        elif supervisora.upper() == "CMF":
+            supervisora = "1"
+        else:
+            supervisora = "2"
+        
         sec_b = [
             "1",  # indicador Sección B (col 1)
             str(periodo_data.get("actividad_economica") or ""),  # col 2
-            str(periodo_data.get("entidad_supervisora") or ""),  # col 3 - vacío si es NO APLICA
+            supervisora,  # col 3 - código numérico
             str(periodo_data.get("anio_ifrs") or 0),  # col 4
             str(periodo_data.get("folio_ini") or ""),  # col 5
             str(periodo_data.get("folio_fin") or ""),  # col 6
@@ -836,11 +845,14 @@ def api_exportar_dj1847_csv(rut):
     
     # Sección C: 1 fila por cada cuenta del balance
     for row in filas:
+        # Quitar puntos de las cuentas (formato SII: 1.01.01.04 → 1010104)
+        cuenta = str(row.get("cuenta", "")).replace(".", "")
+        cuenta_sii = str(row.get("cuenta_sii", "")).replace(".", "")
         sec_c = [
             "2",
             "", "", "", "", "", "",  # columnas de Sección B vacías
-            str(row.get("cuenta", "")),
-            str(row.get("cuenta_sii", "")),
+            cuenta,
+            cuenta_sii,
             str(row.get("nombre", "")),
             str(int(row.get("debe", 0) or 0)),
             str(int(row.get("haber", 0) or 0)),
