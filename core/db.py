@@ -216,6 +216,7 @@ def guardar_empresa(rut: str, nombre: str, **kwargs):
 
 
 def get_empresa(rut: str):
+    init_db(rut)
     conn = get_connection(rut)
     df = pd.read_sql("SELECT * FROM empresa WHERE rut = ?", conn, params=(rut,))
     conn.close()

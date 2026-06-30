@@ -755,9 +755,9 @@ def api_dj1847_periodo_get(rut):
         data = {
             "rut": clean,
             "periodo": periodo,
-            "actividad_economica": emp.get("actividad_principal", ""),
-            "entidad_supervisora": emp.get("entidad_supervisora", "NO APLICA"),
-            "anio_ifrs": emp.get("anio_ifrs", 0) or 0,
+            "actividad_economica": emp.get("actividad_principal") or "",
+            "entidad_supervisora": emp.get("entidad_supervisora") or "NO APLICA",
+            "anio_ifrs": emp.get("anio_ifrs") or 0,
             "folio_ini": None,
             "folio_fin": None,
             "ajustes_rli": 2,
@@ -797,9 +797,9 @@ def api_exportar_dj1847_csv(rut):
     if not periodo_data:
         emp = get_empresa(clean) or {}
         periodo_data = {
-            "actividad_economica": emp.get("actividad_principal", ""),
-            "entidad_supervisora": emp.get("entidad_supervisora", "NO APLICA"),
-            "anio_ifrs": emp.get("anio_ifrs", 0) or 0,
+            "actividad_economica": emp.get("actividad_principal") or "",
+            "entidad_supervisora": emp.get("entidad_supervisora") or "NO APLICA",
+            "anio_ifrs": emp.get("anio_ifrs") or 0,
             "folio_ini": "",
             "folio_fin": "",
             "ajustes_rli": 2,
@@ -819,13 +819,13 @@ def api_exportar_dj1847_csv(rut):
     for _ in filas:
         sec_b = [
             "1",  # indicador Sección B
-            str(periodo_data.get("actividad_economica", "")),
-            str(periodo_data.get("entidad_supervisora", "NO APLICA")),
-            str(periodo_data.get("anio_ifrs", 0) or 0),
-            str(periodo_data.get("folio_ini", "")),
-            str(periodo_data.get("folio_fin", "")),
-            str(periodo_data.get("ajustes_rli", 2)),
-            "", "", "", "", "", ""  # columnas de Sección C vacías
+            str(periodo_data.get("actividad_economica") or ""),
+            str(periodo_data.get("entidad_supervisora") or "NO APLICA"),
+            str(periodo_data.get("anio_ifrs") or 0),
+            str(periodo_data.get("folio_ini") or ""),
+            str(periodo_data.get("folio_fin") or ""),
+            str(periodo_data.get("ajustes_rli") or 2),
+            "", "", "", "", "", "", "", "", "", "", "", "", ""  # columnas de Sección C vacías (13 columnas de Sección C)
         ]
         writer.writerow(sec_b)
     
