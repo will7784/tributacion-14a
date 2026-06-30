@@ -819,40 +819,37 @@ def api_exportar_dj1847_csv(rut):
     output = io.StringIO()
     writer = csv.writer(output, delimiter=";", lineterminator="\n")
     
-    # Sección B: 1 fila por cada fila del balance (mismas N filas que Sección C)
-    for _ in filas:
-        # Entidad supervisora: 2 = NO APLICA, según SII
-        supervisora = str(periodo_data.get("entidad_supervisora") or "")
-        if supervisora.upper() == "NO APLICA":
-            supervisora = "2"
-        elif supervisora.upper() == "CMF":
-            supervisora = "1"
-        else:
-            supervisora = "2"
-        
-        sec_b = [
-            "1",  # indicador Sección B (col 1)
-            str(periodo_data.get("actividad_economica") or ""),  # col 2
-            supervisora,  # col 3 - código numérico
-            str(periodo_data.get("anio_ifrs") or 0),  # col 4
-            str(periodo_data.get("folio_ini") or ""),  # col 5
-            str(periodo_data.get("folio_fin") or ""),  # col 6
-            str(periodo_data.get("ajustes_rli") or 2),  # col 7
-            # columnas de Sección C vacías (cols 8-20 = 13 columnas vacías)
-            "", "", "", "", "", "", "", "", "", "", "", "", ""
-        ]
-        writer.writerow(sec_b)
+    # Sección B: 1 sola fila (correlativo 1, indicador 1)
+    supervisora = str(periodo_data.get("entidad_supervisora") or "")
+    if supervisora.upper() == "NO APLICA":
+        supervisora = "2"
+    elif supervisora.upper() == "CMF":
+        supervisora = "1"
+    else:
+        supervisora = "2"
     
-    # Sección C: 1 fila por cada cuenta del balance
-    for row in filas:
-        # Quitar puntos de las cuentas (formato SII: 1.01.01.04 → 1010104)
-        cuenta = str(row.get("cuenta", "")).replace(".", "")
-        cuenta_sii = str(row.get("cuenta_sii", "")).replace(".", "")
+    sec_b = [
+        "1",  # correlativo
+        "1",  # indicador Sección B
+        str(periodo_data.get("actividad_economica") or ""),
+        supervisora,
+        str(periodo_data.get("anio_ifrs") or 0),
+        str(periodo_data.get("folio_ini") or ""),
+        str(periodo_data.get("folio_fin") or ""),
+        str(periodo_data.get("ajustes_rli") or 2),
+        # columnas de Sección C vacías (cols 9-21 = 13 columnas vacías)
+        "", "", "", "", "", "", "", "", "", "", "", "", ""
+    ]
+    writer.writerow(sec_b)
+    
+    # Sección C: 1 fila por cada cuenta del balance (correlativo reinicia desde 1)
+    for i, row in enumerate(filas, start=1):
         sec_c = [
-            "2",
-            "", "", "", "", "", "",  # columnas de Sección B vacías
-            cuenta,
-            cuenta_sii,
+            str(i),  # correlativo por sección (1, 2, 3...)
+            "2",     # indicador Sección C
+            "", "", "", "", "", "",  # columnas de Sección B vacías (7 columnas)
+            str(row.get("cuenta", "")),       # cuenta con puntos
+            str(row.get("cuenta_sii", "")),   # cuenta SII con puntos
             str(row.get("nombre", "")),
             str(int(row.get("debe", 0) or 0)),
             str(int(row.get("haber", 0) or 0)),
@@ -862,7 +859,7 @@ def api_exportar_dj1847_csv(rut):
             str(int(row.get("pasivo", 0) or 0)),
             str(int(row.get("perdida", 0) or 0)),
             str(int(row.get("ganancia", 0) or 0)),
-            str(row.get("cod_f22", "")),
+            "0",  # cod_f22 - 0 para formato importación SII (según tu v4)
             str(int(row.get("valor_tributario", 0) or 0)),
         ]
         writer.writerow(sec_c)
