@@ -540,6 +540,42 @@ def _padre_nivel3(cuenta: str) -> str:
     return cuenta
 
 
+# Orden oficial de columnas según instructivo SII DJ1847, Sección C
+DJ1847_COLUMNAS = [
+    "n",
+    "cuenta",
+    "cuenta_sii",
+    "nombre",
+    "debe",
+    "haber",
+    "saldo_deudor",
+    "saldo_acreedor",
+    "activo",
+    "pasivo",
+    "perdida",
+    "ganancia",
+    "cod_f22",
+    "valor_tributario",
+]
+
+DJ1847_HEADERS = {
+    "n": "N°",
+    "cuenta": "Id. plan de cuentas utilizado en registros contables",
+    "cuenta_sii": "Id. cuenta según clasificador de cuentas",
+    "nombre": "Nombre de la Cuenta según registros contables",
+    "debe": "Débitos",
+    "haber": "Créditos",
+    "saldo_deudor": "Saldo Deudor",
+    "saldo_acreedor": "Saldo Acreedor",
+    "activo": "Activo",
+    "pasivo": "Pasivo",
+    "perdida": "Pérdidas",
+    "ganancia": "Ganancias",
+    "cod_f22": "Conceptos y/o Partidas Que Componen el Resultado Financiero",
+    "valor_tributario": "Valor Tributario",
+}
+
+
 @app.route("/api/dj1847/<rut>", methods=["GET"])
 @login_required
 def api_dj1847(rut):
@@ -579,11 +615,17 @@ def api_dj1847(rut):
     else:
         bal["cuenta_sii"] = ""
         bal["cod_f22"] = ""
-    # Valor Tributario solo Activo/Pasivo
-    bal["valor_tributario"] = bal.apply(
-        lambda r: (r["activo"] - r["pasivo"]) if str(r["cuenta"]).startswith(("1", "2")) else 0,
-        axis=1,
-    )
+    # Valor Tributario: solo Activo/Pasivo; pasivos con signo negativo según instructivo SII
+    def _calc_valor_tributario(row):
+        cuenta = str(row["cuenta"])
+        if cuenta.startswith(("1", "2")):
+            activo = float(row.get("activo", 0) or 0)
+            pasivo = float(row.get("pasivo", 0) or 0)
+            if pasivo > 0:
+                return -pasivo
+            return activo
+        return 0
+    bal["valor_tributario"] = bal.apply(_calc_valor_tributario, axis=1)
     records = []
     for i, (_, r) in enumerate(bal.iterrows(), start=1):
         records.append({
@@ -613,7 +655,8 @@ def api_exportar_dj1847(rut):
     data = api_dj1847(clean)
     if hasattr(data, "get_json"):
         data = data.get_json()
-    df = pd.DataFrame(data.get("filas", []))
+    df = pd.DataFrame(data.get("filas", []), columns=DJ1847_COLUMNAS)
+    df = df.rename(columns=DJ1847_HEADERS)
     output = f"DJ1847_{clean}_{fecha}.xlsx"
     df.to_excel(output, index=False)
     return send_file(output, as_attachment=True)
