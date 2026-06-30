@@ -1,5 +1,8 @@
-    // Cargar datos cuando cambia el periodo
+    // Actualizar fecha de cierre cuando cambia el año tributario
     $('#dj-periodo').on('change', function() {
+        const anioTributario = parseInt($(this).val()) || 2026;
+        const anioComercial = anioTributario - 1;
+        $('#dj-fecha').val(`${anioComercial}-12-31`);
         cargarDatosDJ();
     });{% extends "base.html" %}
 {% block title %}DJ1847 - Tributación 14A{% endblock %}
@@ -74,8 +77,8 @@
         <h6><i class="bi bi-file-earmark-text"></i> Datos de la Declaración (Sección B)</h6>
         <div class="row">
             <div class="col-md-2">
-                <label>Periodo (Año)</label>
-                <input type="text" id="dj-periodo" class="form-control" value="2024" maxlength="4">
+                <label>Año Tributario (DJ)</label>
+                <input type="text" id="dj-periodo" class="form-control" value="2026" maxlength="4">
             </div>
             <div class="col-md-2">
                 <label>Actividad Económica</label>
@@ -120,8 +123,8 @@
 
     <div class="row mb-3">
         <div class="col-md-3">
-            <label>Fecha cierre</label>
-            <input type="date" id="dj-fecha" class="form-control" value="2024-12-31">
+            <label>Fecha cierre (Año Comercial)</label>
+            <input type="date" id="dj-fecha" class="form-control" value="2025-12-31">
         </div>
         <div class="col-md-3 d-flex align-items-end">
             <button id="btn-generar" class="btn btn-primary w-100">
