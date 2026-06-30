@@ -357,9 +357,16 @@ $(document).ready(function() {
             folio_fin: $('#dj-folio-fin').val() ? parseInt($('#dj-folio-fin').val()) : null,
             ajustes_rli: parseInt($('#dj-ajustes-rli').val()) || 2,
         };
+        console.log('Guardando datos DJ:', data);
         apiPost(`/api/dj1847_periodo/${emp.rut}`, data)
-            .then(() => showToast('Datos de la DJ guardados', 'success'))
-            .catch(err => showToast('Error al guardar: ' + err, 'error'));
+            .then((response) => {
+                console.log('Respuesta guardar:', response);
+                showToast('Datos de la DJ guardados', 'success');
+            })
+            .catch(err => {
+                console.error('Error al guardar:', err);
+                showToast('Error al guardar: ' + err, 'error');
+            });
     });
 
     // Guardar overrides (Cód. F22 y Valor Tributario)
