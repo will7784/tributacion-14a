@@ -14,6 +14,7 @@ from core.db import (
     get_comprobantes, get_comprobante_lineas, guardar_comprobante,
     get_ajustes_tributarios, guardar_ajustes_tributarios,
     get_clasificacion, guardar_clasificacion, DB_DIR,
+    get_dj1847_overrides, guardar_dj1847_overrides,
 )
 from core.balance import get_balance_data
 from core.plan_cuentas import homologar_plan, cargar_plan_sii, cargar_plan_base, buscar_cuentas_base, cargar_codigos_f22
@@ -626,6 +627,17 @@ def api_dj1847(rut):
             return activo
         return 0
     bal["valor_tributario"] = bal.apply(_calc_valor_tributario, axis=1)
+    # Aplicar overrides guardados (cod_f22 y valor_tributario_manual)
+    overrides = get_dj1847_overrides(clean)
+    if not overrides.empty:
+        overrides = overrides.set_index("cuenta")
+        # Override cod_f22
+        if "cod_f22" in overrides.columns:
+            bal["cod_f22"] = bal["cuenta"].map(overrides["cod_f22"]).fillna(bal["cod_f22"])
+        # Override valor_tributario_manual (solo si no es null)
+        if "valor_tributario_manual" in overrides.columns:
+            vt_manual = overrides["valor_tributario_manual"].dropna()
+            bal["valor_tributario"] = bal["cuenta"].map(vt_manual).fillna(bal["valor_tributario"])
     records = []
     for i, (_, r) in enumerate(bal.iterrows(), start=1):
         records.append({
@@ -641,10 +653,41 @@ def api_dj1847(rut):
             "pasivo": float(r["pasivo"]),
             "perdida": float(r["perdida"]),
             "ganancia": float(r["ganancia"]),
-            "cod_f22": r["cod_f22"],
+            "cod_f22": r["cod_f22"] if pd.notna(r["cod_f22"]) else "",
             "valor_tributario": float(r["valor_tributario"]),
         })
     return jsonify({"filas": records, "totales": {}})
+
+
+@app.route("/api/dj1847_overrides/<rut>", methods=["GET"])
+@login_required
+def api_dj1847_overrides_get(rut):
+    clean = _clean_rut(rut)
+    df = get_dj1847_overrides(clean)
+    if df.empty:
+        return jsonify([])
+    return jsonify(df.fillna("").to_dict(orient="records"))
+
+
+@app.route("/api/dj1847_overrides/<rut>", methods=["POST"])
+@login_required
+def api_dj1847_overrides_post(rut):
+    clean = _clean_rut(rut)
+    data = request.get_json() or []
+    if not data:
+        return jsonify({"error": "Datos vacíos"}), 400
+    df = pd.DataFrame(data)
+    # Asegurar columnas correctas
+    for col in ["cuenta", "cod_f22", "valor_tributario_manual"]:
+        if col not in df.columns:
+            df[col] = None
+    df = df[["cuenta", "cod_f22", "valor_tributario_manual"]]
+    # Convertir valor_tributario_manual a numérico, dejar vacío como NaN
+    df["valor_tributario_manual"] = pd.to_numeric(df["valor_tributario_manual"], errors="coerce")
+    # Filtrar filas vacías (sin cod_f22 ni valor_tributario_manual)
+    df = df[(df["cod_f22"].notna() & (df["cod_f22"] != "")) | df["valor_tributario_manual"].notna()]
+    guardar_dj1847_overrides(clean, df)
+    return jsonify({"ok": True})
 
 
 @app.route("/api/exportar_dj1847/<rut>", methods=["GET"])

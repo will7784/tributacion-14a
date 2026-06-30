@@ -1,11 +1,28 @@
 {% extends "base.html" %}
 {% block title %}DJ1847 - Tributación 14A{% endblock %}
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+.select2-container { width: 100% !important; }
+.select2-selection { height: 28px !important; font-size: 0.85rem; }
+.select2-selection__rendered { line-height: 26px !important; padding-left: 4px !important; }
+.select2-selection__arrow { height: 26px !important; }
+.input-vt { width: 100%; text-align: right; font-size: 0.85rem; border: 1px solid #ced4da; padding: 2px 4px; border-radius: 3px; }
+.input-vt:focus { outline: none; border-color: #86b7fe; box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25); }
+#tabla-dj1847 td { vertical-align: middle; }
+</style>
+{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2><i class="bi bi-file-earmark-text"></i> Declaración Jurada 1847</h2>
-    <button id="btn-exportar" class="btn btn-success">
-        <i class="bi bi-file-earmark-excel"></i> Exportar Excel
-    </button>
+    <div>
+        <button id="btn-guardar" class="btn btn-primary me-2">
+            <i class="bi bi-save"></i> Guardar Cambios
+        </button>
+        <button id="btn-exportar" class="btn btn-success">
+            <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+        </button>
+    </div>
 </div>
 
 <div id="alert-no-empresa" class="alert alert-warning d-none">
@@ -51,6 +68,7 @@
 </div>
 {% endblock %}
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
     const emp = getEmpresa();
@@ -61,6 +79,50 @@ $(document).ready(function() {
     }
 
     let table;
+    let codigosF22 = [];      // todos los códigos
+    let codigosIngreso = [];  // tipo = INGRESO
+    let codigosGasto = [];    // tipo = COSTO_GASTO
+    let filasData = [];       // datos de la tabla para guardar
+
+    // Cargar códigos F22
+    apiGet('/api/codigos_f22').then(data => {
+        codigosF22 = data;
+        codigosIngreso = data.filter(c => c.tipo === 'INGRESO');
+        codigosGasto = data.filter(c => c.tipo === 'COSTO_GASTO');
+    }).catch(err => console.error('Error cargando códigos F22:', err));
+
+    function buildSelectOptions(codigos, selected) {
+        let opts = '<option value=""></option>';
+        codigos.forEach(c => {
+            const sel = c.codigo === selected ? 'selected' : '';
+            opts += `<option value="${c.codigo}" ${sel}>${c.codigo} - ${c.nombre}</option>`;
+        });
+        return opts;
+    }
+
+    function renderCodF22Cell(row) {
+        const ganancia = parseFloat(row.ganancia) || 0;
+        const perdida = parseFloat(row.perdida) || 0;
+        let tipo = '';
+        let codigos = [];
+        if (ganancia > 0) {
+            tipo = 'INGRESO';
+            codigos = codigosIngreso;
+        } else if (perdida > 0) {
+            tipo = 'COSTO_GASTO';
+            codigos = codigosGasto;
+        }
+        if (!tipo) return '<span class="text-muted">—</span>';
+        const selected = row.cod_f22 || '';
+        return `<select class="select-f22" data-cuenta="${row.cuenta}" data-tipo="${tipo}">${buildSelectOptions(codigos, selected)}</select>`;
+    }
+
+    function renderValorTributarioCell(row) {
+        const vt = parseFloat(row.valor_tributario) || 0;
+        const editable = row.cuenta.startsWith('1') || row.cuenta.startsWith('2');
+        if (!editable) return '<span class="text-muted">—</span>';
+        return `<input type="number" class="input-vt" data-cuenta="${row.cuenta}" value="${vt}" step="any">`;
+    }
 
     $('#btn-generar').on('click', function() {
         const fecha = $('#dj-fecha').val();
@@ -68,9 +130,10 @@ $(document).ready(function() {
 
         apiGet(`/api/dj1847/${emp.rut}?fecha=${fecha}`)
             .then(data => {
+                filasData = data.filas || [];
                 const tbody = $('#tabla-dj1847 tbody');
                 tbody.empty();
-                data.filas.forEach(row => {
+                filasData.forEach(row => {
                     tbody.append(`
                         <tr>
                             <td>${row.n}</td>
@@ -85,8 +148,8 @@ $(document).ready(function() {
                             <td class="text-end">${formatNumber(row.pasivo)}</td>
                             <td class="text-end">${formatNumber(row.perdida)}</td>
                             <td class="text-end">${formatNumber(row.ganancia)}</td>
-                            <td>${row.cod_f22}</td>
-                            <td class="text-end">${formatNumber(row.valor_tributario)}</td>
+                            <td>${renderCodF22Cell(row)}</td>
+                            <td class="text-end">${renderValorTributarioCell(row)}</td>
                         </tr>
                     `);
                 });
@@ -96,9 +159,35 @@ $(document).ready(function() {
                     ordering: false,
                     language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json' }
                 });
+                // Inicializar Select2 en los dropdowns
+                $('.select-f22').select2({
+                    placeholder: 'Seleccione...',
+                    allowClear: true,
+                    width: 'resolve'
+                });
             })
             .catch(err => showToast('Error: ' + err, 'error'))
             .finally(() => $('#btn-generar').prop('disabled', false).html('<i class="bi bi-calculator"></i> Generar DJ1847'));
+    });
+
+    $('#btn-guardar').on('click', function() {
+        const overrides = [];
+        $('#tabla-dj1847 tbody tr').each(function() {
+            const $row = $(this);
+            const cuenta = $row.find('td:eq(1)').text().trim();
+            const $select = $row.find('.select-f22');
+            const $input = $row.find('.input-vt');
+            const cod_f22 = $select.length ? $select.val() : '';
+            const valor_tributario_manual = $input.length ? $input.val() : null;
+            overrides.push({
+                cuenta: cuenta,
+                cod_f22: cod_f22 || '',
+                valor_tributario_manual: valor_tributario_manual
+            });
+        });
+        apiPost(`/api/dj1847_overrides/${emp.rut}`, overrides)
+            .then(() => showToast('Cambios guardados correctamente', 'success'))
+            .catch(err => showToast('Error al guardar: ' + err, 'error'));
     });
 
     $('#btn-exportar').on('click', function() {

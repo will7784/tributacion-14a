@@ -55,7 +55,7 @@ def cargar_plan_sii() -> pd.DataFrame:
 def cargar_codigos_f22() -> pd.DataFrame:
     path = Path("data/codigos_f22.csv")
     if not path.exists():
-        return pd.DataFrame(columns=["codigo", "nombre"])
+        return pd.DataFrame(columns=["codigo", "nombre", "tipo"])
     df = pd.read_csv(path, dtype=str)
     return df
 

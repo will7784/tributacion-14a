@@ -143,6 +143,17 @@ def init_db(rut: str):
         """
     )
 
+    # DJ1847 overrides: cod_f22 y valor_tributario_manual por cuenta
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS dj1847_overrides (
+            cuenta TEXT PRIMARY KEY,
+            cod_f22 TEXT,
+            valor_tributario_manual REAL
+        )
+        """
+    )
+
     conn.commit()
     conn.close()
 
@@ -283,4 +294,18 @@ def guardar_clasificacion(rut: str, df: pd.DataFrame):
     init_db(rut)
     conn = get_connection(rut)
     df.to_sql("clasificacion", conn, if_exists="replace", index=False)
+    conn.close()
+
+
+def get_dj1847_overrides(rut: str) -> pd.DataFrame:
+    conn = get_connection(rut)
+    df = pd.read_sql("SELECT * FROM dj1847_overrides", conn)
+    conn.close()
+    return df
+
+
+def guardar_dj1847_overrides(rut: str, df: pd.DataFrame):
+    init_db(rut)
+    conn = get_connection(rut)
+    df.to_sql("dj1847_overrides", conn, if_exists="replace", index=False)
     conn.close()
