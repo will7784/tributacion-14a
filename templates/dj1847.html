@@ -1,10 +1,4 @@
-    // Actualizar fecha de cierre cuando cambia el año tributario
-    $('#dj-periodo').on('change', function() {
-        const anioTributario = parseInt($(this).val()) || 2026;
-        const anioComercial = anioTributario - 1;
-        $('#dj-fecha').val(`${anioComercial}-12-31`);
-        // NO recargar datos automáticamente - solo al iniciar o al hacer clic en "Cargar datos guardados"
-    });{% extends "base.html" %}
+{% extends "base.html" %}
 {% block title %}DJ1847 - Tributación 14A{% endblock %}
 {% block extra_css %}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -123,7 +117,7 @@
 
     <div class="row mb-3">
         <div class="col-md-3">
-            <label>Fecha cierre (Año Comercial)</label>
+            <label>Fecha cierre</label>
             <input type="date" id="dj-fecha" class="form-control" value="2025-12-31">
         </div>
         <div class="col-md-3 d-flex align-items-end">
@@ -205,6 +199,16 @@ $(document).ready(function() {
         $('#decl-rep-nombre').text(data.rep_legal_nombre || '');
         $('#decl-rep-rut').text(data.rep_legal_rut || '');
     }).catch(err => console.error('Error cargando empresa:', err));
+
+    // Cargar datos de la DJ guardados al iniciar
+    cargarDatosDJ();
+
+    // Actualizar fecha de cierre cuando cambia el año tributario
+    $('#dj-periodo').on('change', function() {
+        const anioTributario = parseInt($(this).val()) || 2026;
+        const anioComercial = anioTributario - 1;
+        $('#dj-fecha').val(anioComercial + '-12-31');
+    });
 
     // Copiar al hacer clic
     $('.dato-copiable').on('click', function() {
@@ -337,13 +341,7 @@ $(document).ready(function() {
     });
 
     // Cargar datos de la DJ guardados
-    $('#btn-cargar-dj').on('click', function() {
-        cargarDatosDJ();
-    });
-    
-    // Cargar datos automáticamente al iniciar
-    cargarDatosDJ();
-    
+    // Cargar datos de la DJ guardados
     function cargarDatosDJ() {
         const periodo = $('#dj-periodo').val();
         apiGet(`/api/dj1847_periodo/${emp.rut}?periodo=${periodo}`)
@@ -354,10 +352,14 @@ $(document).ready(function() {
                 $('#dj-folio-ini').val(data.folio_ini || '');
                 $('#dj-folio-fin').val(data.folio_fin || '');
                 $('#dj-ajustes-rli').val(data.ajustes_rli || 2);
-                showToast('Datos de la DJ cargados');
             })
-            .catch(err => showToast('Error cargando datos DJ: ' + err, 'error'));
+            .catch(err => console.error('Error cargando datos DJ:', err));
     }
+
+    $('#btn-cargar-dj').on('click', function() {
+        cargarDatosDJ();
+        showToast('Datos de la DJ cargados');
+    });
 
     // Guardar datos de la DJ (Sección B)
     $('#btn-guardar-dj').on('click', function(event) {
@@ -371,17 +373,9 @@ $(document).ready(function() {
             folio_fin: $('#dj-folio-fin').val() ? parseInt($('#dj-folio-fin').val()) : null,
             ajustes_rli: parseInt($('#dj-ajustes-rli').val()) || 2,
         };
-        console.log('Guardando datos DJ:', data);
         apiPost(`/api/dj1847_periodo/${emp.rut}`, data)
-            .then((response) => {
-                console.log('Respuesta guardar:', response);
-                showToast('Datos de la DJ guardados', 'success');
-                // NO recargar datos - mantener los valores actuales del usuario
-            })
-            .catch(err => {
-                console.error('Error al guardar:', err);
-                showToast('Error al guardar: ' + err, 'error');
-            });
+            .then(() => showToast('Datos de la DJ guardados', 'success'))
+            .catch(err => showToast('Error al guardar: ' + err, 'error'));
     });
 
     // Guardar overrides (Cód. F22 y Valor Tributario)
