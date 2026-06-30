@@ -150,6 +150,29 @@
             <tbody></tbody>
         </table>
     </div>
+
+    <!-- Totales Valor Tributario -->
+    <div class="panel-datos mt-3">
+        <h6><i class="bi bi-calculator"></i> Resumen Valor Tributario (Capital Propio)</h6>
+        <div class="row">
+            <div class="col-md-3">
+                <small class="text-muted">Total Activos</small>
+                <div id="vt-total-activos" class="fw-bold text-success">0</div>
+            </div>
+            <div class="col-md-3">
+                <small class="text-muted">Total Pasivos</small>
+                <div id="vt-total-pasivos" class="fw-bold text-danger">0</div>
+            </div>
+            <div class="col-md-3">
+                <small class="text-muted">Valor Tributario Neto</small>
+                <div id="vt-total-neto" class="fw-bold">0</div>
+            </div>
+            <div class="col-md-3">
+                <small class="text-muted">Diferencia (cuadre)</small>
+                <div id="vt-diferencia" class="fw-bold">0</div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 {% block extra_js %}
@@ -218,9 +241,47 @@ $(document).ready(function() {
 
     function renderValorTributarioCell(row) {
         const vt = parseFloat(row.valor_tributario) || 0;
-        const editable = row.cuenta.startsWith('1') || row.cuenta.startsWith('2');
+        // Solo editable para Activo (1.x) y Pasivo (2.x) EXCEPTO capital propio (2.03)
+        const editable = (row.cuenta.startsWith('1') || row.cuenta.startsWith('2')) && !row.cuenta.startsWith('2.03');
         if (!editable) return '<span class="text-muted">—</span>';
         return `<input type="number" class="input-vt" data-cuenta="${row.cuenta}" value="${vt}" step="any">`;
+    }
+
+    function actualizarTotalesVT() {
+        let totalActivos = 0;
+        let totalPasivos = 0;
+        filasData.forEach(row => {
+            const vt = parseFloat(row.valor_tributario) || 0;
+            if (vt > 0) totalActivos += vt;
+            if (vt < 0) totalPasivos += vt; // negativo
+        });
+        const neto = totalActivos + totalPasivos; // pasivos son negativos
+        // Capital propio del balance = Activo total - Pasivo total (excluyendo 2.03)
+        let capitalPropio = 0;
+        filasData.forEach(row => {
+            const activo = parseFloat(row.activo) || 0;
+            const pasivo = parseFloat(row.pasivo) || 0;
+            const cuenta = row.cuenta || '';
+            // No sumar capital propio (2.03) al pasivo para este cálculo
+            if (!cuenta.startsWith('2.03')) {
+                capitalPropio += activo - pasivo;
+            }
+        });
+        const diferencia = neto - capitalPropio;
+
+        $('#vt-total-activos').text(formatNumber(totalActivos));
+        $('#vt-total-pasivos').text(formatNumber(Math.abs(totalPasivos)));
+        $('#vt-total-neto').text(formatNumber(neto));
+        $('#vt-diferencia').text(formatNumber(diferencia));
+
+        // Color según cuadre
+        if (Math.abs(diferencia) < 1) {
+            $('#vt-diferencia').removeClass('text-danger text-warning').addClass('text-success');
+        } else if (Math.abs(diferencia) < 1000) {
+            $('#vt-diferencia').removeClass('text-success text-danger').addClass('text-warning');
+        } else {
+            $('#vt-diferencia').removeClass('text-success text-warning').addClass('text-danger');
+        }
     }
 
     $('#btn-generar').on('click', function() {
@@ -252,6 +313,7 @@ $(document).ready(function() {
                         </tr>
                     `);
                 });
+                actualizarTotalesVT(); // Calcular totales
                 if (table) table.destroy();
                 table = $('#tabla-dj1847').DataTable({
                     pageLength: 50,
@@ -317,7 +379,11 @@ $(document).ready(function() {
             });
         });
         apiPost(`/api/dj1847_overrides/${emp.rut}`, overrides)
-            .then(() => showToast('Cambios guardados correctamente', 'success'))
+            .then(() => {
+                showToast('Cambios guardados correctamente', 'success');
+                // Actualizar totales después de guardar
+                setTimeout(() => $('#btn-generar').trigger('click'), 500);
+            })
             .catch(err => showToast('Error al guardar: ' + err, 'error'));
     });
 

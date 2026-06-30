@@ -657,9 +657,13 @@ def _build_dj1847_data(clean_rut, fecha=None):
     else:
         bal["cuenta_sii"] = ""
         bal["cod_f22"] = ""
-    # Valor Tributario: solo Activo/Pasivo; pasivos con signo negativo según instructivo SII
+    # Valor Tributario: solo Activo/Pasivo EXCEPTO capital propio (2.03);
+    # pasivos con signo negativo según instructivo SII
     def _calc_valor_tributario(row):
         cuenta = str(row["cuenta"])
+        # Excluir capital propio (2.03.x.x) del valor tributario
+        if cuenta.startswith("2.03"):
+            return 0
         if cuenta.startswith(("1", "2")):
             activo = float(row.get("activo", 0) or 0)
             pasivo = float(row.get("pasivo", 0) or 0)
