@@ -3,7 +3,7 @@
         const anioTributario = parseInt($(this).val()) || 2026;
         const anioComercial = anioTributario - 1;
         $('#dj-fecha').val(`${anioComercial}-12-31`);
-        cargarDatosDJ();
+        // NO recargar datos automáticamente - solo al iniciar o al hacer clic en "Cargar datos guardados"
     });{% extends "base.html" %}
 {% block title %}DJ1847 - Tributación 14A{% endblock %}
 {% block extra_css %}
@@ -360,7 +360,8 @@ $(document).ready(function() {
     }
 
     // Guardar datos de la DJ (Sección B)
-    $('#btn-guardar-dj').on('click', function() {
+    $('#btn-guardar-dj').on('click', function(event) {
+        event.preventDefault();
         const data = {
             periodo: $('#dj-periodo').val(),
             actividad_economica: $('#dj-actividad').val().trim(),
@@ -375,6 +376,7 @@ $(document).ready(function() {
             .then((response) => {
                 console.log('Respuesta guardar:', response);
                 showToast('Datos de la DJ guardados', 'success');
+                // NO recargar datos - mantener los valores actuales del usuario
             })
             .catch(err => {
                 console.error('Error al guardar:', err);
