@@ -783,6 +783,29 @@ def api_dj1847_periodo_post(rut):
     return jsonify({"ok": True, "saved": verify})
 
 
+@app.route("/api/debug/save_dj/<rut>", methods=["POST"])
+@login_required
+def api_debug_save_dj(rut):
+    """Endpoint de debug para guardar datos DJ directamente."""
+    clean = _clean_rut(rut)
+    data = request.get_json() or {}
+    print(f"DEBUG SAVE: rut={rut}, clean={clean}, data={data}")
+    
+    from core.db import guardar_dj1847_periodo, get_dj1847_periodo
+    
+    periodo = str(data.get("periodo", datetime.now().strftime("%Y")))
+    try:
+        guardar_dj1847_periodo(clean, periodo, data)
+        verify = get_dj1847_periodo(clean, periodo)
+        print(f"DEBUG SAVE: verify={verify}")
+        return jsonify({"ok": True, "saved": verify})
+    except Exception as e:
+        print(f"DEBUG SAVE ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
 @app.route("/api/debug/db/<rut>")
 @login_required
 def api_debug_db(rut):
