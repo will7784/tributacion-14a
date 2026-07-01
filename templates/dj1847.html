@@ -201,6 +201,8 @@ $(document).ready(function() {
     }).catch(err => console.error('Error cargando empresa:', err));
 
     // Cargar datos de la DJ guardados al iniciar
+    console.log('Iniciando carga de datos DJ...');
+    console.log('Empresa:', emp);
     cargarDatosDJ();
 
     // Actualizar fecha de cierre cuando cambia el año tributario
@@ -208,6 +210,7 @@ $(document).ready(function() {
         const anioTributario = parseInt($(this).val()) || 2026;
         const anioComercial = anioTributario - 1;
         $('#dj-fecha').val(anioComercial + '-12-31');
+        console.log('Año cambiado a', anioTributario, '- comercial:', anioComercial);
         // Recargar datos del nuevo año comercial
         cargarDatosDJ();
     });
@@ -348,8 +351,10 @@ $(document).ready(function() {
         // Obtener año comercial desde la fecha de cierre (YYYY-MM-DD)
         const fechaCierre = $('#dj-fecha').val();
         const anioComercial = fechaCierre ? fechaCierre.split('-')[0] : $('#dj-periodo').val();
+        console.log('Cargando datos DJ para periodo:', anioComercial);
         apiGet(`/api/dj1847_periodo/${emp.rut}?periodo=${anioComercial}`)
             .then(data => {
+                console.log('Datos recibidos:', data);
                 $('#dj-actividad').val(data.actividad_economica || '');
                 $('#dj-supervisora').val(data.entidad_supervisora || 'NO APLICA');
                 $('#dj-anio-ifrs').val(data.anio_ifrs || 0);

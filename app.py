@@ -821,18 +821,12 @@ def api_exportar_dj1847_csv(rut):
     
     # Sección B: 1 sola fila (correlativo 1, indicador 1)
     supervisora = str(periodo_data.get("entidad_supervisora") or "")
-    if supervisora.upper() == "NO APLICA":
-        supervisora = "2"
-    elif supervisora.upper() == "CMF":
-        supervisora = "1"
-    else:
-        supervisora = "2"
     
     sec_b = [
         "1",  # correlativo
         "1",  # indicador Sección B
         str(periodo_data.get("actividad_economica") or ""),
-        supervisora,
+        supervisora,  # texto literal: NO APLICA, CMF, OTRA
         str(periodo_data.get("anio_ifrs") or 0),
         str(periodo_data.get("folio_ini") or ""),
         str(periodo_data.get("folio_fin") or ""),
