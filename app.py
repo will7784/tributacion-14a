@@ -748,10 +748,13 @@ def api_dj1847_overrides_post(rut):
 def api_dj1847_periodo_get(rut):
     clean = _clean_rut(rut)
     periodo = request.args.get("periodo", datetime.now().strftime("%Y"))
+    print(f"DEBUG GET: rut={rut}, clean={clean}, periodo={periodo}")
     data = get_dj1847_periodo(clean, periodo)
+    print(f"DEBUG GET: data from DB={data}")
     if not data:
         # Pre-llenar con datos de la empresa
         emp = get_empresa(clean) or {}
+        print(f"DEBUG GET: fallback emp={emp}")
         data = {
             "rut": clean,
             "periodo": periodo,
@@ -762,6 +765,7 @@ def api_dj1847_periodo_get(rut):
             "folio_fin": None,
             "ajustes_rli": 2,
         }
+    print(f"DEBUG GET: returning={data}")
     return jsonify(data)
 
 
