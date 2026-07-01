@@ -783,6 +783,45 @@ def api_dj1847_periodo_post(rut):
     return jsonify({"ok": True, "saved": verify})
 
 
+@app.route("/api/debug/db/<rut>")
+@login_required
+def api_debug_db(rut):
+    """Endpoint de debug para verificar la base de datos."""
+    clean = _clean_rut(rut)
+    from core.db import get_db_path, init_db, get_connection
+    import sqlite3
+    
+    db_path = get_db_path(clean)
+    init_db(clean)
+    
+    conn = get_connection(clean)
+    cursor = conn.cursor()
+    
+    # Verificar tabla dj1847_periodo
+    cursor.execute("SELECT * FROM dj1847_periodo WHERE rut = ?", (clean,))
+    periodo_rows = cursor.fetchall()
+    
+    # Verificar tabla empresa
+    cursor.execute("SELECT * FROM empresa WHERE rut = ?", (clean,))
+    empresa_rows = cursor.fetchall()
+    
+    # Verificar todas las tablas
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+    tables = [t[0] for t in cursor.fetchall()]
+    
+    conn.close()
+    
+    return jsonify({
+        "rut": rut,
+        "clean": clean,
+        "db_path": str(db_path),
+        "db_exists": db_path.exists(),
+        "tables": tables,
+        "dj1847_periodo": periodo_rows,
+        "empresa": empresa_rows,
+    })
+
+
 @app.route("/api/folios/<rut>", methods=["GET"])
 @login_required
 def api_folios_get(rut):
