@@ -1,144 +1,182 @@
 # Log de Sesión - Tributación 14A
 
-> Fecha: 2026-05-27
-> Último commit: `92afa00`
+> Fecha: 2026-06-30 (Sesión actual)
+> Último commit: `8abc354`
+> URL Producción: https://tributacion-14a-production.up.railway.app/
 
 ---
 
-## 1. Deploy en Railway
+## Historial de Cambios (Resumen Completo)
 
-### Estado
-- ✅ Proyecto deployado en Railway: `tributacion-14a-production.up.railway.app`
-- ✅ Volumen persistente creado en `/data` (1 GB)
-- ✅ Variables de entorno configuradas:
-  - `SECRET_KEY` = `${{ secret() }}`
-  - `DATA_DIR` = `/data`
-  - `DEBUG` = `false`
-  - `ADMIN_USERNAME` = `will`
-  - `ADMIN_PASSWORD` = `anwi7784`
+### 1. Deploy en Railway (Sesión anterior)
+- ✅ Proyecto deployado en Railway
+- ✅ Volumen persistente en `/data` (1 GB)
+- ✅ Variables de entorno configuradas
+- ✅ Superusuario desde variables de entorno
+- ✅ SQLite persistente en volumen
 
-### Problemas encontrados y soluciones
-1. **Superusuario hardcodeado removido**: Se reemplazó por creación automática desde variables de entorno (`ADMIN_USERNAME`/`ADMIN_PASSWORD`).
-2. **SQLite efímero**: Las bases de datos SQLite se guardan ahora en `DATA_DIR` (volumen persistente) para que no se borren en cada redeploy.
-3. **Plan de Cuentas Base se perdía en cada deploy**: El CSV `plan_cuentas_base.csv` estaba en el directorio del proyecto (se sobrescribía con cada deploy). Solución: ahora se guarda en `DATA_DIR` y se copia desde el repo si el repo tiene una versión más reciente/más grande.
+### 2. Plan de Cuentas Base
+- ✅ Clasificación automática SII para 86/87 cuentas nivel 3
+- ✅ Columna Cód. F22 agregada (visible para cuentas 3.x y 4.x)
+- ✅ Select2 para búsqueda inteligente
+- ✅ Filtro "Solo cuentas clasificables"
+- ⚠️ Cód. F22 aún vacío para la mayoría de cuentas (pendiente asignación manual)
 
----
+### 3. DJ 1847 — Progreso Extensivo
 
-## 2. Plan de Cuentas Base
+#### ✅ Completado:
+- Estructura de tabla con columnas oficiales SII
+- Inferencia automática de cuenta padre nivel 3
+- Exportación Excel con orden oficial de columnas
+- Exportación CSV con formato SII (Sección B + Sección C)
+- Valor Tributario: pasivos con signo negativo según instructivo
+- Cód. F22 en tabla (cuando está disponible en plan base)
+- localStorage como respaldo ante pérdida de datos Railway
+- Auto-carga de datos al abrir la página
+- Manejo de arrays vacíos en "Guardar Cambios"
+- localStorage key unificada con año comercial
 
-### Cambios realizados
-- **Título**: "Plan Base KAME ONE" → "Plan de Cuentas Base"
-- **Cuenta SII**: Solo editable para cuentas **nivel 3** (`X.XX.XX.00` donde los primeros 3 grupos no son `.00`)
-- **Cód. F22**: Nueva columna, solo visible para cuentas de **resultado** nivel 3 (empiezan con `3` o `4`)
-- **Búsqueda inteligente**: Ambas columnas usan Select2 (librería agregada vía CDN)
-- **Filtro**: Checkbox "Solo cuentas clasificables (nivel 3)" oculta niveles 1, 2 y 4
+#### ⚠️ Problemas Activos (CRÍTICO):
 
-### Clasificación automática SII
-- Se clasificaron **86 de 87 cuentas nivel 3** automáticamente usando fuzzy matching + mapeos forzados.
-- La única cuenta sin clasificar: `1.03.11.00` — Contratos de leasing largo plazo (neto) (score muy bajo)
-- Archivo de códigos F22 creado: `data/codigos_f22.csv`
+**PROBLEMA #1: Datos Sección B no persisten visualmente**
+- Código de actividad económica, folios inicio/fin no aparecen al recargar
+- Posibles causas:
+  a) Inconsistencia entre año tributario (2026) y año comercial (2025) en clave localStorage
+  b) El auto-load no está ejecutándose correctamente
+  c) Los datos se guardan en servidor pero no se recuperan correctamente
+  d) Conflicto entre localStorage y datos del servidor
 
-### Pendiente para mañana
-- [ ] Revisar si la clasificación automática SII es correcta para todas las cuentas
-- [ ] Completar columna **Cód. F22** para las cuentas de resultado (3.x y 4.x)
-- [ ] Asignar manualmente `1.03.11.00` si es necesario
+**PROBLEMA #2: Railway ephemeral storage**
+- SQLite pierde datos en cada restart del servidor
+- localStorage implementado como workaround temporal
+- Se necesita migración a PostgreSQL o volumen persistente configurado correctamente
 
----
-
-## 3. DJ 1847
-
-### Cambios realizados
-- Ahora muestra **solo cuentas nivel 4** (sin totalizadores)
-- **Columnas** según formato SII:
-  - N°
-  - Id. Plan Cuentas (código nivel 4 del balance)
-  - Id. Cuenta SII (código SII del **padre nivel 3**)
-  - Nombre Cuenta
-  - Débitos, Créditos, Saldo Deudor, Saldo Acreedor
-  - Activo, Pasivo, Pérdidas, Ganancias
-  - **Cód. F22** (solo resultado)
-  - **Valor Tributario** (solo Activo/Pasivo = Activo - Pasivo)
-
-### Lógica de inferencia automática
-- Si la cuenta del balance está **homologada manualmente**, usa la homologación.
-- Si **NO está homologada**, infiere el padre nivel 3 directamente desde el código de cuenta (ej. `1.01.01.04` → `1.01.01.00`).
-
-### Pendiente para mañana
-- [ ] Validar que el Cód. F22 se muestre correctamente cuando se complete en el Plan Base
-- [ ] Revisar si el formato de exportación Excel cumple con lo que pide el SII
-- [ ] Verificar si se necesita exportar a CSV también (formato múltiple del SII)
+**PROBLEMA #3: Códigos F22 vacíos**
+- Plan base tiene `cod_f22` vacío para la mayoría de cuentas
+- Solo 52 de 258 cuentas tienen código SII válido después de verificación
+- Necesita asignación manual o importación desde clasificación oficial SII
 
 ---
 
-## 4. Archivos nuevos/modificados clave
+## Estado Actual de la Sesión (2026-06-30)
 
-| Archivo | Cambio |
-|---------|--------|
-| `data/codigos_f22.csv` | Nuevo: lista de códigos F22 del SII |
-| `plan_cuentas_base.csv` | Movido a raíz (se copia a `DATA_DIR` en Railway) |
-| `core/plan_cuentas.py` | Ahora usa `DATA_DIR`; carga/guarda `cod_f22` |
-| `core/db.py` | Rutas SQLite ahora usan `DATA_DIR` |
-| `core/auth.py` | `auth.db` ahora usa `DATA_DIR` |
-| `core/balance.py` | Rutas de balance ahora usan `DATA_DIR` |
-| `templates/plan_base.html` | Dos columnas (SII + F22) con Select2 |
-| `templates/dj1847.html` | Estructura completa SII |
-| `app.py` | APIs de DJ 1847, codigos_f22, debug |
-| `railway.toml` | Configuración de deploy |
-| `RAILWAY.md` | Instrucciones de deploy |
+### Últimos cambios realizados (commit `8abc354`):
+1. **Fix año comercial**: `getCommercialYear()` extrae año desde fecha de cierre
+2. **Fix Guardar Cambios**: maneja tabla vacía sin error 400
+3. **Fix backend**: acepta arrays vacíos en overrides
+4. **Auto-load**: `cargarDatosDJ()` se ejecuta automáticamente al abrir página
+
+### Situación actual:
+- El usuario reporta que **sigue sin aparecer** el código de actividad económica y los folios
+- El botón "Guardar Cambios" ya no da error (fix aplicado correctamente)
+- Los datos parecen guardarse pero no se recuperan visualmente
 
 ---
 
-## 5. Notas técnicas importantes
+## Diagnóstico del Problema de Persistencia
 
-- **Gunicorn**: `__main__` no se ejecuta en producción; `init_auth_db()` y `_ensure_admin()` se llaman al importar el módulo `app.py`.
-- **Select2**: Se carga solo en `plan_base.html` vía CDN. DataTables puede tener conflictos con Select2 en filas ocultas; se inicializa Select2 después de crear DataTables.
-- **DataTables columna oculta**: La columna "Nivel" (índice 9) se usa para filtrar cuentas nivel 3 con el checkbox.
-- **Formato de cuentas**: El plan base usa formato `X.XX.XX.XX` (4 grupos). Los códigos SII también usan 4 grupos.
+### Hipótesis principales:
+
+1. **Desfase año comercial vs tributario**:
+   - Año tributario DJ: 2026
+   - Año comercial (fecha cierre): 2025 (31-12-2025)
+   - localStorage key: `dj1847_{rut}_{año}` — ¿cuál año se usa?
+   - El fix unificó a año comercial, pero puede haber datos guardados con año tributario anteriormente
+
+2. **localStorage vs Servidor**:
+   - El auto-load primero busca localStorage, luego servidor
+   - Si hay datos stale en localStorage, nunca llega al servidor
+   - Recomendación: limpiar localStorage y probar flujo limpio
+
+3. **Fecha de cierre dinámica**:
+   - `$('#dj-fecha').val()` puede estar vacío al momento del auto-load
+   - Si está vacío, fallback a `$('#dj-periodo').val()` (2026)
+   - Esto crearía inconsistencia en la clave
+
+4. **Railway data loss**:
+   - Si el servidor se reinició, los datos SQLite se perdieron
+   - localStorage debería ser el fallback, pero la clave puede ser incorrecta
+
+### Próximos pasos de diagnóstico:
+1. Abrir DevTools → Application → LocalStorage → ver claves `dj1847_*`
+2. Verificar si hay datos guardados con clave 2025 vs 2026
+3. Probar flujo: limpiar localStorage → ingresar datos → guardar → recargar
+4. Verificar en servidor (si es posible) si los datos llegan a SQLite
 
 ---
 
-## 6. Próximos pasos sugeridos (post-sesión)
+## Pendientes para Próxima Sesión
 
-1. ✅ **Corregir orden de columnas en exportación Excel DJ1847** — Ahora usa `columns=` explícito con orden oficial SII
-2. ✅ **Usar nombres oficiales del SII como headers del Excel** — `DJ1847_HEADERS` con nombres del instructivo
-3. ✅ **Corregir Valor Tributario: pasivos con signo negativo** — Según instructivo SII, pasivos van negativos
-4. [ ] Validar DJ 1847 con datos reales (exportar Excel y verificar)
-5. [ ] Implementar exportación CSV según formato SII (Sección B + Sección C)
-6. [ ] Revisar DJ 1926 para ver si necesita ajustes similares
-7. [ ] Completar columna **Cód. F22** para cuentas de resultado (3.x y 4.x) en Plan Base
-8. [ ] Revisar si la clasificación automática SII es correcta para todas las cuentas
-9. [ ] Agregar tests si el usuario quiere robustecer la app
+### CRÍTICO (Bloqueante):
+1. [ ] **Resolver persistencia de datos Sección B** — Los datos no aparecen al recargar
+   - Opciones: a) Debug localStorage, b) Cambiar a año tributario consistente, c) Implementar PostgreSQL
+   
+2. [ ] **Migrar a PostgreSQL** — Railway ofrece PostgreSQL como addon; SQLite no es viable en producción
+   - Crear addon PostgreSQL en Railway
+   - Migrar esquema de tablas existentes
+   - Actualizar `get_connection()` para usar PostgreSQL cuando esté disponible
+
+3. [ ] **Completar Códigos F22** — Necesario para CSV SII válido
+   - Asignar manualmente desde `clasificacion_sii_dj1847.xlsx`
+   - O importar automáticamente si el archivo tiene los códigos
+
+### IMPORTANTE:
+4. [ ] **Validar CSV SII** — El CSV generado debe ser aceptado por el importador del SII
+   - Verificar formato exacto: 21 columnas, separador `;`, codificación UTF-8
+   - Verificar correlativo reinicia por sección
+   - Probar importación en sitio de pruebas SII
+
+5. [ ] **Folios usados** — Implementar tracking de folios para evitar duplicados
+
+### MEJORAS:
+6. [ ] **Tests automáticos** — Agregar tests para DJ1847, especialmente CSV export
+7. [ ] **Documentación** — Actualizar instrucciones para usuario final
+8. [ ] **DJ 1926** — Revisar si necesita ajustes similares a DJ 1847
 
 ---
 
-## 7. Pendiente NUEVO (2026-06-30)
+## Notas Técnicas para Continuación
 
-### Exportación Excel DJ1847 — Columnas desordenadas
+### Estructura de claves localStorage:
+```
+dj1847_{rut}_{periodo}  → datos Sección B (actividad, folios, etc.)
+```
 
-**Problema reportado**: El Excel exportado tenía las columnas en orden alfabético (`activo`, `cod_f22`, `cuenta`, `cuenta_sii`, `debe`...) en lugar del orden oficial del SII.
+### Endpoints API relevantes:
+- `GET /api/dj1847_periodo/{rut}?periodo={año}` — Cargar datos Sección B
+- `POST /api/dj1847_periodo/{rut}` — Guardar datos Sección B
+- `POST /api/dj1847_overrides/{rut}` — Guardar Cód. F22 y Valor Tributario
+- `GET /api/exportar_dj1847_csv/{rut}?fecha={fecha}&periodo={periodo}` — Exportar CSV SII
 
-**Causa**: `pd.DataFrame(data.get("filas", []))` sin parámetro `columns=` → pandas ordena alfabéticamente cuando deserializa JSON.
+### Archivos clave modificados recientemente:
+- `templates/dj1847.html` — Frontend con localStorage
+- `app.py` — Endpoints API y lógica CSV
+- `core/db.py` — Funciones de base de datos
 
-**Solución aplicada**:
-- Se agregó `DJ1847_COLUMNAS` con el orden oficial del instructivo SII, Sección C
-- Se agregó `DJ1847_HEADERS` con los nombres oficiales de cada columna
-- Se corrigió `api_exportar_dj1847` para usar `columns=DJ1847_COLUMNAS` y `rename(columns=DJ1847_HEADERS)`
-- Se corrigió el cálculo de **Valor Tributario**: ahora los pasivos van con signo negativo según el instructivo
+### Comando útil para debug:
+```javascript
+// En consola del navegador:
+// Ver todas las claves DJ1847 en localStorage
+Object.keys(localStorage).filter(k => k.startsWith('dj1847_'))
 
-**Orden oficial SII DJ1847 Sección C**:
-1. N°
-2. Id. plan de cuentas utilizado en registros contables
-3. Id. cuenta según clasificador de cuentas
-4. Nombre de la Cuenta según registros contables
-5. Débitos
-6. Créditos
-7. Saldo Deudor
-8. Saldo Acreedor
-9. Activo
-10. Pasivo
-11. Pérdidas
-12. Ganancias
-13. Conceptos y/o Partidas Que Componen el Resultado Financiero (Cód. F22)
-14. Valor Tributario
+// Ver contenido específico
+localStorage.getItem('dj1847_799171805_2025')
+localStorage.getItem('dj1847_799171805_2026')
 
-**Estado**: ✅ Corregido en `app.py` — pendiente validación con datos reales.
+// Limpiar todo
+localStorage.clear()
+```
+
+---
+
+## Contexto del Usuario
+
+- Empresa: PUBLICIDAD LOCUCION EVENTOS Y SERVICIOS (RUT 799171805)
+- Año Tributario: 2026
+- Fecha Cierre: 31-12-2025
+- Actividad Económica: (código de 6 dígitos, pendiente)
+- Supervisor: NO APLICA
+- Ajustes RLI: 2-NO
+- Folios: (pendientes)
+
+El usuario tiene un CSV `DJ1847_799171805_2026_v4.csv` que fue aceptado por SII después de fixes manuales. Este es el benchmark a replicar automáticamente.
