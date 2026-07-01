@@ -352,9 +352,30 @@ $(document).ready(function() {
         const fechaCierre = $('#dj-fecha').val();
         const anioComercial = fechaCierre ? fechaCierre.split('-')[0] : $('#dj-periodo').val();
         console.log('Cargando datos DJ para periodo:', anioComercial);
+        
+        // Intentar cargar desde localStorage primero
+        const localKey = 'dj1847_' + emp.rut + '_' + anioComercial;
+        const localData = localStorage.getItem(localKey);
+        if (localData) {
+            try {
+                const data = JSON.parse(localData);
+                console.log('Datos cargados desde localStorage:', data);
+                $('#dj-actividad').val(data.actividad_economica || '');
+                $('#dj-supervisora').val(data.entidad_supervisora || 'NO APLICA');
+                $('#dj-anio-ifrs').val(data.anio_ifrs || 0);
+                $('#dj-folio-ini').val(data.folio_ini || '');
+                $('#dj-folio-fin').val(data.folio_fin || '');
+                $('#dj-ajustes-rli').val(data.ajustes_rli || 2);
+                return;
+            } catch (e) {
+                console.error('Error parsing localStorage:', e);
+            }
+        }
+        
+        // Si no hay localStorage, intentar cargar desde el servidor
         apiGet(`/api/dj1847_periodo/${emp.rut}?periodo=${anioComercial}`)
             .then(data => {
-                console.log('Datos recibidos:', data);
+                console.log('Datos recibidos del servidor:', data);
                 $('#dj-actividad').val(data.actividad_economica || '');
                 $('#dj-supervisora').val(data.entidad_supervisora || 'NO APLICA');
                 $('#dj-anio-ifrs').val(data.anio_ifrs || 0);
@@ -373,11 +394,8 @@ $(document).ready(function() {
     // Guardar datos de la DJ (Sección B)
     $('#btn-guardar-dj').on('click', function(event) {
         event.preventDefault();
-        // Obtener año comercial desde la fecha de cierre (YYYY-MM-DD)
-        const fechaCierre = $('#dj-fecha').val();
-        const anioComercial = fechaCierre ? fechaCierre.split('-')[0] : $('#dj-periodo').val();
         const data = {
-            periodo: anioComercial,  // Guardar con año comercial, no año tributario
+            periodo: $('#dj-periodo').val(),
             actividad_economica: $('#dj-actividad').val().trim(),
             entidad_supervisora: $('#dj-supervisora').val(),
             anio_ifrs: parseInt($('#dj-anio-ifrs').val()) || 0,
@@ -385,9 +403,18 @@ $(document).ready(function() {
             folio_fin: $('#dj-folio-fin').val() ? parseInt($('#dj-folio-fin').val()) : null,
             ajustes_rli: parseInt($('#dj-ajustes-rli').val()) || 2,
         };
+        
+        // Guardar en localStorage como respaldo
+        const key = 'dj1847_' + emp.rut + '_' + data.periodo;
+        localStorage.setItem(key, JSON.stringify(data));
+        console.log('Guardado en localStorage:', key, data);
+        
         apiPost(`/api/dj1847_periodo/${emp.rut}`, data)
             .then(() => showToast('Datos de la DJ guardados', 'success'))
-            .catch(err => showToast('Error al guardar: ' + err, 'error'));
+            .catch(err => {
+                console.error('Error al guardar en servidor:', err);
+                showToast('Datos guardados localmente (error servidor: ' + err + ')', 'warning');
+            });
     });
 
     // Guardar overrides (Cód. F22 y Valor Tributario)
