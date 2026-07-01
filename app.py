@@ -728,7 +728,8 @@ def api_dj1847_overrides_post(rut):
     clean = _clean_rut(rut)
     data = request.get_json() or []
     if not data:
-        return jsonify({"error": "Datos vacíos"}), 400
+        # No hay overrides que guardar, simplemente retornar éxito
+        return jsonify({"ok": True, "message": "Sin cambios para guardar"})
     df = pd.DataFrame(data)
     # Asegurar columnas correctas
     for col in ["cuenta", "cod_f22", "valor_tributario_manual"]:

@@ -345,12 +345,15 @@ $(document).ready(function() {
             .finally(() => $('#btn-generar').prop('disabled', false).html('<i class="bi bi-calculator"></i> Generar DJ1847'));
     });
 
-    // Cargar datos de la DJ guardados
+    // Obtener año comercial desde la fecha de cierre (YYYY-MM-DD)
+    function getCommercialYear() {
+        const fechaCierre = $('#dj-fecha').val();
+        return fechaCierre ? fechaCierre.split('-')[0] : $('#dj-periodo').val();
+    }
+
     // Cargar datos de la DJ guardados
     function cargarDatosDJ() {
-        // Obtener año comercial desde la fecha de cierre (YYYY-MM-DD)
-        const fechaCierre = $('#dj-fecha').val();
-        const anioComercial = fechaCierre ? fechaCierre.split('-')[0] : $('#dj-periodo').val();
+        const anioComercial = getCommercialYear();
         console.log('Cargando datos DJ para periodo:', anioComercial);
         
         // Intentar cargar desde localStorage primero
@@ -394,8 +397,9 @@ $(document).ready(function() {
     // Guardar datos de la DJ (Sección B)
     $('#btn-guardar-dj').on('click', function(event) {
         event.preventDefault();
+        const anioComercial = getCommercialYear();
         const data = {
-            periodo: $('#dj-periodo').val(),
+            periodo: anioComercial,
             actividad_economica: $('#dj-actividad').val().trim(),
             entidad_supervisora: $('#dj-supervisora').val(),
             anio_ifrs: parseInt($('#dj-anio-ifrs').val()) || 0,
@@ -405,7 +409,7 @@ $(document).ready(function() {
         };
         
         // Guardar en localStorage como respaldo
-        const key = 'dj1847_' + emp.rut + '_' + data.periodo;
+        const key = 'dj1847_' + emp.rut + '_' + anioComercial;
         localStorage.setItem(key, JSON.stringify(data));
         console.log('Guardado en localStorage:', key, data);
         
@@ -433,6 +437,13 @@ $(document).ready(function() {
                 valor_tributario_manual: valor_tributario_manual
             });
         });
+        
+        // Si no hay filas en la tabla, no hay nada que guardar
+        if (overrides.length === 0) {
+            showToast('No hay datos para guardar. Genere la DJ1847 primero.', 'info');
+            return;
+        }
+        
         apiPost(`/api/dj1847_overrides/${emp.rut}`, overrides)
             .then(() => {
                 showToast('Cambios guardados correctamente', 'success');
@@ -458,6 +469,13 @@ $(document).ready(function() {
     $('#dj-periodo').on('change', function() {
         $('#btn-print').attr('href', `/dj1847/print/${emp.rut}?periodo=${$(this).val()}`);
     });
+
+    // Auto-cargar datos guardados al iniciar (con delay para asegurar que emp está cargado)
+    setTimeout(() => {
+        if (typeof emp !== 'undefined' && emp.rut) {
+            cargarDatosDJ();
+        }
+    }, 500);
 });
 </script>
 {% endblock %}
